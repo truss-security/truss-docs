@@ -1,0 +1,23 @@
+<svg viewBox="165.09 262.37 216.7 217.22" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style type="text/css">
+	.st0{fill:#939598;}
+	.st1{fill:#FFFFFF;}
+	.st2{fill:none;stroke:#000000;stroke-width:4.5;stroke-miterlimit:10;}
+	.st3{fill:none;stroke:#000000;stroke-width:5;stroke-miterlimit:10;}
+	.st4{font-family:'HelveticaNeue-Medium';}
+	.st5{font-size:37.6508px;}
+	.st6{letter-spacing:27.62;}
+	.st7{font-family:'BodoniSvtyTwoSCITCTT-Book';}
+	.st8{font-size:14.4101px;}
+</style>
+  </defs>
+  <polygon class="st0" points="273.63,265.41 168.5,474.78 273.63,397.03 "/>
+  <polyline class="st1" points="274.49,262.37 381.79,475.22 273.63,397.03 274.49,262.37 "/>
+  <polygon points="166.77,476.95 380.92,476.95 273.63,397.03 "/>
+  <polygon class="st1" points="380.35,476.98 272.18,398.79 273.05,264.13 "/>
+  <polygon class="st2" points="165.09,478.94 381.09,478.94 273.09,262.94 "/>
+  <polyline class="st3" points="165.09,478.94 273.09,397.94 381.09,478.94 "/>
+  <polyline class="st2" points="165.09,479.59 273.09,398.59 381.09,479.59 "/>
+  <line class="st2" x1="273.09" y1="263.59" x2="273.09" y2="398.59"/>
+</svg>
