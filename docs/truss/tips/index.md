@@ -3,21 +3,21 @@ sidebar_position: 2
 title: TIPs
 ---
 
-# Truss Improvements Proposals (TIPs)
+# Truss Improvement Proposals (TIPs)
 TIPs describe proposed changes to the Truss Protocol.
 
 ## TIPs
 |TIP|Title|Status|
 |---|---|---|
-|[TIP-1](TIP-0001.md)|Truss Token|Draft|
-|[TIP-2](TIP-0002.md)|Truss Security NFT|Draft|
+|[TIP-1](tip-0001.md)|Truss Token|Draft|
+|[TIP-2](tip-0002.md)|Truss Security NFT|Draft|
 
 ## Contributing
 ### Review TIPs
 Everyone is encouraged to review existing TIPs and provide feedback.
 ### New TIP Process
 * If you're not yet sure if your idea should a TIP, start by opening a Github issue and create your TIP draft there first to ask for feedback from the community.
-* To propose a TIP, fork this repository and create a pull request for your TIP with status *Draft*. The TIP number can remain undetermined at this stage. Use the [TIP-TEMPLATE.md](TIP-TEMPLATE.md) file as your starting point and see [Successful TIP includes](TIPs#successful-TIP-includes) for what a TIP should contain. Also, use existing TIPs as examples.
+* To propose a TIP, fork this repository and create a pull request for your TIP with status *Draft*. The TIP number can remain undetermined at this stage. Use the [TIP-TEMPLATE.md](tip-TEMPLATE.md) file as your starting point and see Successful TIP includes for what a TIP should contain. Also, use existing TIPs as examples.
 * Repo custodians will review the TIP PR and comment. Once comments have been addressed, the TIP will be merged to Master with the status *Draft*.
 * Reach out to the community and solicit feedback on your TIP.
 * Continue to update your TIP based on community feedback and submit pull requests as needed. Once you feel the community has contributed and the TIP is ready, creare a pull request to update the status to *Accepted*.

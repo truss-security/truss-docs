@@ -86,7 +86,7 @@ Describe what exactly is happening once request is being processed. Example:
 
 |Error condition|Trigger|Type|fields:name|fields:value|Error message|
 |---|---|---|---|---|---|
-|Name the error condition, so it can be referenced|Describe what triggers the error|What is the HTTP error code which should be returned. Follow [400](https://developers.Trussprotocol.io/api/api-spec/models/error-400), [403](https://developers.Trussprotocol.io/api/api-spec/models/error-403), [404](https://developers.Trussprotocol.io/api/api-spec/models/error-404) conventions.|For 400 type only, specify which field triggered this error.|For 400 type only, specify which value triggered this error.|Provide descriptive error message.|
+|Name the error condition, so it can be referenced|Describe what triggers the error|What is the HTTP error code which should be returned. Follow 400, 403, 404 conventions.|For 400 type only, specify which field triggered this error.|For 400 type only, specify which value triggered this error.|Provide descriptive error message.|
 |Invalid fee value|max_fee format is not valid|400|"max_fee"|Value sent in, e.g. "-100"|"Invalid fee value"|
 |Insufficient funds to cover fee|Account does not have enough funds to cover fee|400|"max_fee"|Value sent in, e.g. "1000000000"|"Insufficient funds to cover fee"|
 |Invalid TPID|tpid format is not valid|400|"tpid"|Value sent in, e.g. "notvalidTrussaddress"|"TPID must be empty or valid Truss address"|

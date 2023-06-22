@@ -5,4 +5,4 @@ title: Truss API
 
 # Truss Protocol API
 
-Overview of API
+Overview of Truss API
