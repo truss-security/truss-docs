@@ -1,5 +1,5 @@
 ---
-sidebar_position: 2
+sidebar_position: 3
 title: TIPs
 ---
 
@@ -9,8 +9,7 @@ TIPs describe proposed changes to the Truss Protocol.
 ## TIPs
 |TIP|Title|Status|
 |---|---|---|
-|[TIP-1](tip-0001.md)|Truss Token|Draft|
-|[TIP-2](tip-0002.md)|Truss Security NFT|Draft|
+|[TIP-1](tip-0001.md)|Truss Initial Contracts|Draft|
 
 ## Contributing
 ### Review TIPs

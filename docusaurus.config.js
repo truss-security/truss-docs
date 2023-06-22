@@ -51,6 +51,23 @@ const config = {
         },
       }),
     ],
+    [
+      'redocusaurus',
+      {
+        // Plugin Options for loading OpenAPI files
+        specs: [
+          {
+            spec: 'openapi/trussapi.yaml',
+            route: '/api/',
+          },
+        ],
+        // Theme Options for modifying how redoc renders them
+        theme: {
+          // Change with your site colors
+          primaryColor: '#1890ff',
+        },
+      },
+    ],
   ],
 
   themeConfig:
@@ -70,6 +87,11 @@ const config = {
             sidebarId: 'trussSidebar',
             position: 'left',
             label: 'Truss Protocol',
+          },
+          {
+            to: '/api',
+            position: 'left',
+            label: 'API',
           },
           {
             type: 'docSidebar',
