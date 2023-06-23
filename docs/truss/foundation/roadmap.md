@@ -1,7 +1,7 @@
 ---
-sidebar_position: 5
+sidebar_position: 6
 ---
 
-# Roadmap
+# Protocol Roadmap
 
 Truss Protocol enhancements are tracked in [Truss Improvements Proposals](../tips).

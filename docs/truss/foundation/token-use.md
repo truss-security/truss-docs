@@ -2,7 +2,7 @@
 sidebar_position: 4
 ---
 
-# Foundation Token Use Roadmap
+# Token Use Roadmap
 
 The purpose of this document is to provide transparency to the community on how the Truss Foundation plans to use its Truss Token Treasury.
 
