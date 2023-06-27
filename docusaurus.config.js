@@ -88,11 +88,11 @@ const config = {
             position: 'left',
             label: 'Truss Protocol',
           },
-          {
-            to: '/api',
-            position: 'left',
-            label: 'API',
-          },
+          //{
+          //  to: '/api',
+          //  position: 'left',
+          //  label: 'API',
+          //},
           {
             type: 'docSidebar',
             sidebarId: 'marketplaceSidebar',
