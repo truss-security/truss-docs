@@ -1,1181 +1,1313 @@
-openapi: 3.0.0
-servers:
-  - url: //mainnet.trussprotocol.io/v2
-    description: Mainnet server
-  - url: //testnet.trussprotocol.io/v2
-    description: Testnet server
+swagger: '2.0'
 info:
+  version: "2.0"
+  title: TAXII 2.0 
   description: |
-
-    # Introduction
-    The Truss API helps developers build new experiences using Truss Security NFTs and our marketplace data. We provide a set of endpoints that enable you to fetch ERC721 and ERC1155 token metadata as well as other core elements of our marketplace, including events, collections, security productlistings, offers, and more. We offer these endpoints because we believe in composability in web3 and want to extend access to this data to anyone that wishes to build on top of it.
-
-    # OpenAPI Specification
-    This API is documented in **OpenAPI format** and is based on
-    [Petstore sample](http://petstore.swagger.io/) provided by [swagger.io](http://swagger.io) team.
-    It was **extended** to illustrate features of [generator-openapi-repo](https://github.com/Rebilly/generator-openapi-repo)
-    tool and [ReDoc](https://github.com/Redocly/redoc) documentation. In addition to standard
-    OpenAPI syntax we use a few [vendor extensions](https://github.com/Redocly/redoc/blob/master/docs/redoc-vendor-extensions.md).
-
-    # Cross-Origin Resource Sharing
-    This API features Cross-Origin Resource Sharing (CORS) implemented in compliance with  [W3C spec](https://www.w3.org/TR/cors/).
-    And that allows cross-domain communication from the browser.
-    All responses have a wildcard same-origin which makes them completely public and accessible to everyone, including any code on any site.
-
-  version: 1.0.0
-  title: Swagger Petstore [Automatic Page From File]
-  termsOfService: 'http://swagger.io/terms/'
+    Trusted Automated Exchange of Intelligence Information (TAXII™) is an application protocol for exchanging CTI over
+    HTTPS. ​TAXII defines a RESTful API (a set of services and message exchanges) and a set of requirements for TAXII
+    Clients and Servers.
+  termsOfService: terms
   contact:
-    name: API Support
-    email: apiteam@truss-security.com
-    url: https://github.com/truss-security/truss-docs
+    name: "Richard Struse"
+    url: "https://oasis-open.github.io/cti-documentation/taxii/intro"
+    email: "rjs@mitre.org" 
   license:
-    name: Apache 2.0
-    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
-tags:
-  - name: pet
-    description: Everything about your Pets
-  - name: store
-    description: Access to Petstore orders
-  - name: user
-    description: Operations about user
-  - name: pet_model
-    x-displayName: The Pet Model
+    name: MIT
+    url: http://opensource.org/licenses/MIT
+produces: 
+  - "application/vnd.oasis.taxii+json"
+  - "application/vnd.oasis.taxii+json; version=2.0"
+  - "application/vnd.oasis.stix+json"
+  - "application/vnd.oasis.stix+json; version=2.0"
+consumes: 
+  - "application/vnd.oasis.taxii+json"
+  - "application/vnd.oasis.taxii+json; version=2.0"
+  - "application/vnd.oasis.stix+json"
+  - "application/vnd.oasis.stix+json; version=2.0"
+securityDefinitions:
+  BasicAuth:
+    type: basic
+
+tags: 
+  - name: "Server Information"
+    description: ""
+  - name: "API Root"
+    description: ""
+  - name: "Status Information"
+    description: ""
+  - name: "Collections"
     description: |
-      <SchemaDefinition schemaRef="#/components/schemas/Pet" />
-  - name: store_model
-    x-displayName: The Order Model
-    description: |
-      <SchemaDefinition schemaRef="#/components/schemas/Order" exampleRef="#/components/examples/Order" showReadOnly={true} showWriteOnly={true} />
-x-tagGroups:
-  - name: General
-    tags:
-      - pet
-      - store
-  - name: User Management
-    tags:
-      - user
-  - name: Models
-    tags:
-      - pet_model
-      - store_model
+      A TAXII Collection is a logical grouping of threat intelligence that enables the exchange of information between a
+      TAXII Client and a TAXII Server in a request-response manner. Collections are hosted in the context of an API
+      Root. Each API Root MAY have zero or more Collections. As with other TAXII Endpoints, the ability of TAXII Clients
+      to read from and write to Collections can be restricted depending on their permissions level.
+  - name: "Objects"
+    description: ""
+
 paths:
-  /pet:
-    parameters:
-      - name: Accept-Language
-        in: header
-        description: "The language you prefer for messages. Supported values are en-AU, en-CA, en-GB, en-US"
-        example: en-US
-        required: false
-        schema:
-          type: string
-          default: en-AU
-      - name: cookieParam
-        in: cookie
-        description: Some cookie
-        required: true
-        schema:
-          type: integer
-          format: int64
-    post:
-      tags:
-        - pet
-      summary: Add a new pet to the store
-      description: Add new pet to the store inventory.
-      operationId: addPet
-      responses:
-        '405':
-          description: Invalid input
-      security:
-        - petstore_auth:
-            - 'write:pets'
-            - 'read:pets'
-      x-codeSamples:
-        - lang: 'C#'
-          source: |
-            PetStore.v1.Pet pet = new PetStore.v1.Pet();
-            pet.setApiKey("your api key");
-            pet.petType = PetStore.v1.Pet.TYPE_DOG;
-            pet.name = "Rex";
-            // set other fields
-            PetStoreResponse response = pet.create();
-            if (response.statusCode == HttpStatusCode.Created)
-            {
-              // Successfully created
-            }
-            else
-            {
-              // Something wrong -- check response for errors
-              Console.WriteLine(response.getRawResponse());
-            }
-        - lang: PHP
-          source: |
-            $form = new \PetStore\Entities\Pet();
-            $form->setPetType("Dog");
-            $form->setName("Rex");
-            // set other fields
-            try {
-                $pet = $client->pets()->create($form);
-            } catch (UnprocessableEntityException $e) {
-                var_dump($e->getErrors());
-            }
-      requestBody:
-        $ref: '#/components/requestBodies/Pet'
-    put:
-      tags:
-        - pet
-      summary: Update an existing pet
-      description: ''
-      operationId: updatePet
-      responses:
-        '400':
-          description: Invalid ID supplied
-        '404':
-          description: Pet not found
-        '405':
-          description: Validation exception
-      security:
-        - petstore_auth:
-            - 'write:pets'
-            - 'read:pets'
-      x-codeSamples:
-        - lang: PHP
-          source: |
-            $form = new \PetStore\Entities\Pet();
-            $form->setPetId(1);
-            $form->setPetType("Dog");
-            $form->setName("Rex");
-            // set other fields
-            try {
-                $pet = $client->pets()->update($form);
-            } catch (UnprocessableEntityException $e) {
-                var_dump($e->getErrors());
-            }
-      requestBody:
-        $ref: '#/components/requestBodies/Pet'
-  '/pet/{petId}':
+  '/taxii/':
     get:
-      tags:
-        - pet
-      summary: Find pet by ID
-      description: Returns a single pet
-      operationId: getPetById
-      parameters:
-        - name: petId
-          in: path
-          description: ID of pet to return
-          required: true
-          deprecated: true
-          schema:
-            type: integer
-            format: int64
-      responses:
-        '200':
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Pet'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Pet'
-        '400':
-          description: Invalid ID supplied
-        '404':
-          description: Pet not found
-      security:
-        - api_key: []
-    post:
-      tags:
-        - pet
-      summary: Updates a pet in the store with form data
-      description: ''
-      operationId: updatePetWithForm
-      parameters:
-        - name: petId
-          in: path
-          description: ID of pet that needs to be updated
-          required: true
-          schema:
-            type: integer
-            format: int64
-      responses:
-        '405':
-          description: Invalid input
-      security:
-        - petstore_auth:
-            - 'write:pets'
-            - 'read:pets'
-      requestBody:
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              type: object
-              properties:
-                name:
-                  description: Updated name of the pet
-                  type: string
-                status:
-                  description: Updated status of the pet
-                  type: string
-    delete:
-      tags:
-        - pet
-      summary: Deletes a pet
-      description: ''
-      operationId: deletePet
-      parameters:
-        - name: api_key
-          in: header
-          required: false
-          schema:
-            type: string
-          example: "Bearer <TOKEN>"
-        - name: petId
-          in: path
-          description: Pet id to delete
-          required: true
-          schema:
-            type: integer
-            format: int64
-      responses:
-        '400':
-          description: Invalid pet value
-      security:
-        - petstore_auth:
-            - 'write:pets'
-            - 'read:pets'
-  '/pet/{petId}/uploadImage':
-    post:
-      tags:
-        - pet
-      summary: uploads an image
-      description: ''
-      operationId: uploadFile
-      parameters:
-        - name: petId
-          in: path
-          description: ID of pet to update
-          required: true
-          schema:
-            type: integer
-            format: int64
-      responses:
-        '200':
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiResponse'
-      security:
-        - petstore_auth:
-            - 'write:pets'
-            - 'read:pets'
-      requestBody:
-        content:
-          application/octet-stream:
-            schema:
-              type: string
-              format: binary
-  /pet/findByStatus:
-    get:
-      tags:
-        - pet
-      summary: Finds Pets by status
-      description: Multiple status values can be provided with comma separated strings
-      operationId: findPetsByStatus
-      parameters:
-        - name: status
-          in: query
-          description: Status values that need to be considered for filter
-          required: true
-          style: form
-          schema:
-            type: array
-            minItems: 1
-            maxItems: 3
-            items:
-              type: string
-              enum:
-                - available
-                - pending
-                - sold
-              default: available
-      responses:
-        '200':
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Pet'
-            application/xml:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Pet'
-        '400':
-          description: Invalid status value
-      security:
-        - petstore_auth:
-            - 'write:pets'
-            - 'read:pets'
-  /pet/findByTags:
-    get:
-      tags:
-        - pet
-      summary: Finds Pets by tags
-      description: >-
-        Multiple tags can be provided with comma separated strings. Use tag1,
-        tag2, tag3 for testing.
-      operationId: findPetsByTags
-      deprecated: true
-      parameters:
-        - name: tags
-          in: query
-          description: Tags to filter by
-          required: true
-          style: form
-          schema:
-            type: array
-            items:
-              type: string
-      responses:
-        '200':
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Pet'
-            application/xml:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Pet'
-        '400':
-          description: Invalid tag value
-      security:
-        - petstore_auth:
-            - 'write:pets'
-            - 'read:pets'
-  /store/inventory:
-    get:
-      tags:
-        - store
-      summary: Returns pet inventories by status
-      description: Returns a map of status codes to quantities
-      operationId: getInventory
-      responses:
-        '200':
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                type: object
-                additionalProperties:
-                  type: integer
-                  format: int32
-      security:
-        - api_key: []
-  /store/order:
-    post:
-      tags:
-        - store
-      summary: Place an order for a pet
-      description: ''
-      operationId: placeOrder
-      responses:
-        '200':
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Order'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Order'
-        '400':
-          description: Invalid Order
-          content:
-            application/json:
-              example:
-                status: 400
-                message: "Invalid Order"
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Order'
-        description: order placed for purchasing the pet
-        required: true
-  '/store/order/{orderId}':
-    get:
-      tags:
-        - store
-      summary: Find purchase order by ID
-      description: >-
-        For valid response try integer IDs with value <= 5 or > 10. Other values
-        will generated exceptions
-      operationId: getOrderById
-      parameters:
-        - name: orderId
-          in: path
-          description: ID of pet that needs to be fetched
-          required: true
-          schema:
-            type: integer
-            format: int64
-            minimum: 1
-            maximum: 5
-      responses:
-        '200':
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Order'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Order'
-        '400':
-          description: Invalid ID supplied
-        '404':
-          description: Order not found
-    delete:
-      tags:
-        - store
-      summary: Delete purchase order by ID
-      description: >-
-        For valid response try integer IDs with value < 1000. Anything above
-        1000 or nonintegers will generate API errors
-      operationId: deleteOrder
-      parameters:
-        - name: orderId
-          in: path
-          description: ID of the order that needs to be deleted
-          required: true
-          schema:
-            type: string
-            minimum: 1
-      responses:
-        '400':
-          description: Invalid ID supplied
-        '404':
-          description: Order not found
-  /store/subscribe:
-    post:
-      tags:
-        - store
-      summary: Subscribe to the Store events
-      description: Add subscription for a store events
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                callbackUrl:
-                  type: string
-                  format: uri
-                  description: This URL will be called by the server when the desired event will occur
-                  example: https://myserver.com/send/callback/here
-                eventName:
-                  type: string
-                  description: Event name for the subscription
-                  enum:
-                    - orderInProgress
-                    - orderShipped
-                    - orderDelivered
-                  example: orderInProgress
-              required:
-                - callbackUrl
-                - eventName
-      responses:
-        '201':
-          description: Subscription added
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  subscriptionId:
-                    type: string
-                    example: AAA-123-BBB-456
-      callbacks:
-        orderInProgress:
-          '{$request.body#/callbackUrl}?event={$request.body#/eventName}':
-            servers:
-              - url: //callback-url.path-level/v1
-                description: Path level server 1
-              - url: //callback-url.path-level/v2
-                description: Path level server 2
-            post:
-              summary: Order in Progress (Summary)
-              description: A callback triggered every time an Order is updated status to "inProgress" (Description)
-              externalDocs:
-                description: Find out more
-                url: 'https://more-details.com/demo'
-              requestBody:
-                content:
-                  application/json:
-                    schema:
-                      type: object
-                      properties:
-                        orderId:
-                          type: string
-                          example: '123'
-                        timestamp:
-                          type: string
-                          format: date-time
-                          example: '2018-10-19T16:46:45Z'
-                        status:
-                          type: string
-                          example: 'inProgress'
-                  application/xml:
-                    schema:
-                      type: object
-                      properties:
-                        orderId:
-                          type: string
-                          example: '123'
-                    example: |
-                      <?xml version="1.0" encoding="UTF-8"?>
-                      <root>
-                        <orderId>123</orderId>
-                        <status>inProgress</status>
-                        <timestamp>2018-10-19T16:46:45Z</timestamp>
-                      </root>
-              responses:
-                '200':
-                  description: Callback successfully processed and no retries will be performed
-                  content:
-                    application/json:
-                      schema:
-                        type: object
-                        properties:
-                          someProp:
-                            type: string
-                            example: '123'
-                '299':
-                  description: Response for cancelling subscription
-                '500':
-                  description: Callback processing failed and retries will be performed
-              x-codeSamples:
-                - lang: 'C#'
-                  source: |
-                    PetStore.v1.Pet pet = new PetStore.v1.Pet();
-                    pet.setApiKey("your api key");
-                    pet.petType = PetStore.v1.Pet.TYPE_DOG;
-                    pet.name = "Rex";
-                    // set other fields
-                    PetStoreResponse response = pet.create();
-                    if (response.statusCode == HttpStatusCode.Created)
-                    {
-                      // Successfully created
-                    }
-                    else
-                    {
-                      // Something wrong -- check response for errors
-                      Console.WriteLine(response.getRawResponse());
-                    }
-                - lang: PHP
-                  source: |
-                    $form = new \PetStore\Entities\Pet();
-                    $form->setPetType("Dog");
-                    $form->setName("Rex");
-                    // set other fields
-                    try {
-                        $pet = $client->pets()->create($form);
-                    } catch (UnprocessableEntityException $e) {
-                        var_dump($e->getErrors());
-                    }
-            put:
-              description: Order in Progress (Only Description)
-              servers:
-                - url: //callback-url.operation-level/v1
-                  description: Operation level server 1 (Operation override)
-                - url: //callback-url.operation-level/v2
-                  description: Operation level server 2 (Operation override)
-              requestBody:
-                content:
-                  application/json:
-                    schema:
-                      type: object
-                      properties:
-                        orderId:
-                          type: string
-                          example: '123'
-                        timestamp:
-                          type: string
-                          format: date-time
-                          example: '2018-10-19T16:46:45Z'
-                        status:
-                          type: string
-                          example: 'inProgress'
-                  application/xml:
-                    schema:
-                      type: object
-                      properties:
-                        orderId:
-                          type: string
-                          example: '123'
-                    example: |
-                      <?xml version="1.0" encoding="UTF-8"?>
-                      <root>
-                        <orderId>123</orderId>
-                        <status>inProgress</status>
-                        <timestamp>2018-10-19T16:46:45Z</timestamp>
-                      </root>
-              responses:
-                '200':
-                  description: Callback successfully processed and no retries will be performed
-                  content:
-                    application/json:
-                      schema:
-                        type: object
-                        properties:
-                          someProp:
-                            type: string
-                            example: '123'
-        orderShipped:
-          '{$request.body#/callbackUrl}?event={$request.body#/eventName}':
-            post:
-              description: |
-                Very long description
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-                culpa qui officia deserunt mollit anim id est laborum.
-              requestBody:
-                content:
-                  application/json:
-                    schema:
-                      type: object
-                      properties:
-                        orderId:
-                          type: string
-                          example: '123'
-                        timestamp:
-                          type: string
-                          format: date-time
-                          example: '2018-10-19T16:46:45Z'
-                        estimatedDeliveryDate:
-                          type: string
-                          format: date-time
-                          example: '2018-11-11T16:00:00Z'
-              responses:
-                '200':
-                  description: Callback successfully processed and no retries will be performed
-        orderDelivered:
-          'http://notificationServer.com?url={$request.body#/callbackUrl}&event={$request.body#/eventName}':
-            post:
-              deprecated: true
-              summary: Order delivered
-              description: A callback triggered every time an Order is delivered to the recipient
-              requestBody:
-                content:
-                  application/json:
-                    schema:
-                      type: object
-                      properties:
-                        orderId:
-                          type: string
-                          example: '123'
-                        timestamp:
-                          type: string
-                          format: date-time
-                          example: '2018-10-19T16:46:45Z'
-              responses:
-                '200':
-                  description: Callback successfully processed and no retries will be performed
-  /user:
-    post:
-      tags:
-        - user
-      summary: Create user
-      description: This can only be done by the logged in user.
-      operationId: createUser
-      responses:
-        default:
-          description: successful operation
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/User'
-        description: Created user object
-        required: true
-  '/user/{username}':
-    get:
-      tags:
-        - user
-      summary: Get user by user name
-      description: ''
-      operationId: getUserByName
-      parameters:
-        - name: username
-          in: path
-          description: 'The name that needs to be fetched. Use user1 for testing. '
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/User'
-        '400':
-          description: Invalid username supplied
-        '404':
-          description: User not found
-    put:
-      tags:
-        - user
-      summary: Updated user
-      description: This can only be done by the logged in user.
-      operationId: updateUser
-      parameters:
-        - name: username
-          in: path
-          description: name that need to be deleted
-          required: true
-          schema:
-            type: string
-      responses:
-        '400':
-          description: Invalid user supplied
-        '404':
-          description: User not found
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/User'
-        description: Updated user object
-        required: true
-    delete:
-      tags:
-        - user
-      summary: Delete user
-      description: This can only be done by the logged in user.
-      operationId: deleteUser
-      parameters:
-        - name: username
-          in: path
-          description: The name that needs to be deleted
-          required: true
-          schema:
-            type: string
-      responses:
-        '400':
-          description: Invalid username supplied
-        '404':
-          description: User not found
-  /user/createWithArray:
-    post:
-      tags:
-        - user
-      summary: Creates list of users with given input array
-      description: ''
-      operationId: createUsersWithArrayInput
-      responses:
-        default:
-          description: successful operation
-      requestBody:
-        $ref: '#/components/requestBodies/UserArray'
-  /user/createWithList:
-    post:
-      tags:
-        - user
-      summary: Creates list of users with given input array
-      description: ''
-      operationId: createUsersWithListInput
-      responses:
-        default:
-          description: successful operation
-      requestBody:
-        $ref: '#/components/requestBodies/UserArray'
-  /user/login:
-    get:
-      tags:
-        - user
-      summary: Logs user into the system
-      description: ''
-      operationId: loginUser
-      parameters:
-        - name: username
-          in: query
-          description: The user name for login
-          required: true
-          schema:
-            type: string
-        - name: password
-          in: query
-          description: The password for login in clear text
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: successful operation
-          headers:
-            X-Rate-Limit:
-              description: calls per hour allowed by the user
-              schema:
-                type: integer
-                format: int32
-            X-Expires-After:
-              description: date in UTC when token expires
-              schema:
-                type: string
-                format: date-time
-          content:
-            application/json:
-              schema:
-                type: string
-              examples:
-                response:
-                  value: OK
-            application/xml:
-              schema:
-                type: string
-              examples:
-                response:
-                  value:  <Message> OK </Message>
-            text/plain:
-              examples:
-                response:
-                  value:  OK
-        '400':
-          description: Invalid username/password supplied
-  /user/logout:
-    get:
-      tags:
-        - user
-      summary: Logs out current logged in user session
-      description: ''
-      operationId: logoutUser
-      responses:
-        default:
-          description: successful operation
-components:
-  schemas:
-    ApiResponse:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        type:
-          type: string
-        message:
-          type: string
-    Cat:
-      description: A representation of a cat
-      allOf:
-        - $ref: '#/components/schemas/Pet'
-        - type: object
-          properties:
-            huntingSkill:
-              type: string
-              description: The measured skill for hunting
-              default: lazy
-              example: adventurous
-              enum:
-                - clueless
-                - lazy
-                - adventurous
-                - aggressive
-          required:
-            - huntingSkill
-    Category:
-      type: object
-      properties:
-        id:
-          description: Category ID
-          allOf:
-            - $ref: '#/components/schemas/Id'
-        name:
-          description: Category name
-          type: string
-          minLength: 1
-        sub:
-          description: Test Sub Category
-          type: object
-          properties:
-            prop1:
-              type: string
-              description: Dumb Property
-      xml:
-        name: Category
-    Dog:
-      description: A representation of a dog
-      allOf:
-        - $ref: '#/components/schemas/Pet'
-        - type: object
-          properties:
-            packSize:
-              type: integer
-              format: int32
-              description: The size of the pack the dog is from
-              default: 1
-              minimum: 1
-          required:
-            - packSize
-    HoneyBee:
-      description: A representation of a honey bee
-      allOf:
-        - $ref: '#/components/schemas/Pet'
-        - type: object
-          properties:
-            honeyPerDay:
-              type: number
-              description: Average amount of honey produced per day in ounces
-              example: 3.14
-              multipleOf: .01
-          required:
-            - honeyPerDay
-    Id:
-      type: integer
-      format: int64
-      readOnly: true
-    Order:
-      type: object
-      properties:
-        id:
-          description: Order ID
-          allOf:
-            - $ref: '#/components/schemas/Id'
-        petId:
-          description: Pet ID
-          allOf:
-            - $ref: '#/components/schemas/Id'
-        quantity:
-          type: integer
-          format: int32
-          minimum: 1
-          default: 1
-        shipDate:
-          description: Estimated ship date
-          type: string
-          format: date-time
-        status:
-          type: string
-          description: Order Status
-          enum:
-            - placed
-            - approved
-            - delivered
-        complete:
-          description: Indicates whenever order was completed or not
-          type: boolean
-          default: false
-          readOnly: true
-        requestId:
-          description: Unique Request Id
-          type: string
-          writeOnly: true
-      xml:
-        name: Order
-    Pet:
-      type: object
-      required:
-        - name
-        - photoUrls
-      discriminator:
-        propertyName: petType
-        mapping:
-          cat: '#/components/schemas/Cat'
-          dog: '#/components/schemas/Dog'
-          bee: '#/components/schemas/HoneyBee'
-      properties:
-        id:
-          externalDocs:
-            description: "Find more info here"
-            url: "https://example.com"
-          description: Pet ID
-          allOf:
-            - $ref: '#/components/schemas/Id'
-        category:
-          description: Categories this pet belongs to
-          allOf:
-            - $ref: '#/components/schemas/Category'
-        name:
-          description: The name given to a pet
-          type: string
-          example: Guru
-        photoUrls:
-          description: The list of URL to a cute photos featuring pet
-          type: array
-          maxItems: 20
-          xml:
-            name: photoUrl
-            wrapped: true
-          items:
-            type: string
-            format: url
-        friend:
-          allOf:
-            - $ref: '#/components/schemas/Pet'
-        tags:
-          description: Tags attached to the pet
-          type: array
-          minItems: 1
-          xml:
-            name: tag
-            wrapped: true
-          items:
-            $ref: '#/components/schemas/Tag'
-        status:
-          type: string
-          description: Pet status in the store
-          enum:
-            - available
-            - pending
-            - sold
-        petType:
-          description: Type of a pet
-          type: string
-      xml:
-        name: Pet
-    Tag:
-      type: object
-      properties:
-        id:
-          description: Tag ID
-          allOf:
-            - $ref: '#/components/schemas/Id'
-        name:
-          description: Tag name
-          type: string
-          minLength: 1
-      xml:
-        name: Tag
-    User:
-      type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/Id'
-        pet:
-          oneOf:
-            - $ref: '#/components/schemas/Pet'
-            - $ref: '#/components/schemas/Tag'
-        username:
-          description: User supplied username
-          type: string
-          minLength: 4
-          example: John78
-        firstName:
-          description: User first name
-          type: string
-          minLength: 1
-          example: John
-        lastName:
-          description: User last name
-          type: string
-          minLength: 1
-          example: Smith
-        email:
-          description: User email address
-          type: string
-          format: email
-          example: john.smith@example.com
-        password:
-          type: string
-          description: >-
-            User password, MUST contain a mix of upper and lower case letters,
-            as well as digits
-          format: password
-          minLength: 8
-          pattern: '/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])/'
-          example: drowssaP123
-        phone:
-          description: User phone number in international format
-          type: string
-          pattern: '/^\+(?:[0-9]-?){6,14}[0-9]$/'
-          example: +1-202-555-0192
-        userStatus:
-          description: User status
-          type: integer
-          format: int32
-      xml:
-        name: User
-  requestBodies:
-    Pet:
-      content:
-        application/json:
-          schema:
-            allOf:
-              - description: My Pet
-                title: Pettie
-              - $ref: '#/components/schemas/Pet'
-        application/xml:
-          schema:
-            type: 'object'
-            properties:
-              name:
-                type: string
-                description: hooray
-      description: Pet object that needs to be added to the store
-      required: true
-    UserArray:
-      content:
-        application/json:
-          schema:
-            type: array
-            items:
-              $ref: '#/components/schemas/User'
-      description: List of user object
-      required: true
-  securitySchemes:
-    petstore_auth:
+      tags: 
+        - Server Information
+      summary: Provides general information about a TAXII Server
+      operationId: getServerInformation
+      consumes:
+        - "application/vnd.oasis.taxii+json; version=2.0"
+      produces: 
+        - "application/vnd.oasis.taxii+json; version=2.0"
       description: |
-        Get access to data while protecting your account credentials.
-        OAuth2 is also a safer and more secure way to give you access.
-      type: oauth2
-      flows:
-        implicit:
-          authorizationUrl: 'http://petstore.swagger.io/api/oauth/dialog'
-          scopes:
-            'write:pets': modify pets in your account
-            'read:pets': read your pets
-    api_key:
-      description: >
-        For this sample, you can use the api key `special-key` to test the
-        authorization filters.
-      type: apiKey
-      name: api_key
-      in: header
-  examples:
-    Order:
-      value:
-        quantity: 1
-        shipDate: '2018-10-19T16:46:45Z'
-        status: placed
-        complete: false
-x-webhooks:
-  newPet:
-    post:
-      summary: New pet
-      description: Information about a new pet in the systems
-      operationId: newPet
-      tags:
-        - pet
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Pet"
+        This Endpoint provides general information about a TAXII Server, including the advertised API Roots.
+        It's a common entry point for TAXII Clients into the data and services provided by a TAXII Server.
+        For example, clients auto-discovering TAXII Servers via the DNS SRV record defined in section ​1.4.1​ will be able
+        to automatically retrieve a discovery response for that server by requesting the ​/taxii/​ path on that domain.
+        Discovery API responses ​MAY ​advertise any TAXII API Root that they have permission to advertise, included
+        those hosted on other servers.
       responses:
-        "200":
-          description: Return a 200 status to indicate that the data was received successfully
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/discovery'
+            example: |
+              {
+                "title": "Some TAXII Server",
+                "description": "This TAXII Server contains a listing of...",
+                "contact": "string containing contact information",
+                "default": "https://example.com/api2/",
+                "api_roots": [
+                  "https://example.com/api1/",
+                  "https://example.com/api2/",
+                  "https://example.net/trustgroup1/"
+                ]
+              }
+        404:
+          description: No discovery information could be found or the requester does not haveaccess to get discovery information.
+          schema:
+            $ref: '#/definitions/error'
+            example: |
+              {
+                "title": "Error condition XYZ",
+                "description": "This error is caused when the application tries to access data...",
+                "error_id": "1234",
+                "error_code": "581234",
+                "http_status": "409",
+                "external_details": "http://example.com/ticketnumber1/errorid-1234",
+                "details": {
+                  "somekey1": "somevalue",
+                  "somekey2": "some other value"
+                }
+              }
+  '/{api-root}/':
+    get:
+      summary: Provides general information about an API Root
+      operationId: getAPIRoot
+      parameters: 
+        - in: path
+          name: api-root
+          description: The Human-Readable API root
+          required: true
+      consumes:
+        - "application/vnd.oasis.taxii+json; version=2.0"
+      produces:
+        - "application/vnd.oasis.taxii+json; version=2.0"
+      tags: 
+        - API Root
+      description: |
+        This Endpoint provides general information about an API Root, which can be used to help users and clients decide
+        whether and how they want to interact with it. Multiple API Roots MAY be hosted on a single TAXII Server. Often,
+        an API Root represents a single trust group.
+
+        - Each API Root MUST have a unique URL.
+        - Each API Root MAY have different authentication and authorization schemes.
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/api-root'
+            example: |
+              {
+                "title": "Malware Research Group",
+                "description": "A trust group setup for malware researchers",
+                "versions": ["taxii-2.0"],
+                "max_content_length": 9765625
+              }
+        404:
+          description: No API Root could be found or the requester does not have access to get API Root information.
+          schema:
+            $ref: '#/definitions/error'
+            example: |
+              {
+                "title": "Error condition XYZ",
+                "description": "This error is caused when the application tries to access data...",
+                "error_id": "1234",
+                "error_code": "581234",
+                "http_status": "409",
+                "external_details": "http://example.com/ticketnumber1/errorid-1234",
+                "details": {
+                  "somekey1": "somevalue",
+                  "somekey2": "some other value"
+                }
+              }
+        401:
+          description: The client either needs to authenticate or does not have access to get API Root information.
+          schema:
+            $ref: '#/definitions/error'
+            example: |
+              {
+                "title": "Error condition XYZ",
+                "description": "This error is caused when the application tries to access data...",
+                "error_id": "1234",
+                "error_code": "581234",
+                "http_status": "409",
+                "external_details": "http://example.com/ticketnumber1/errorid-1234",
+                "details": {
+                  "somekey1": "somevalue",
+                  "somekey2": "some other value"
+                }
+              }
+        403:
+          description: The client either needs to authenticate or does not have access to get API Root information.
+          schema:
+            $ref: '#/definitions/error'
+            example: |
+              {
+                "title": "Error condition XYZ",
+                "description": "This error is caused when the application tries to access data...",
+                "error_id": "1234",
+                "error_code": "581234",
+                "http_status": "409",
+                "external_details": "http://example.com/ticketnumber1/errorid-1234",
+                "details": {
+                  "somekey1": "somevalue",
+                  "somekey2": "some other value"
+                }
+              }
+  '/{api-root}/status/{status-id}/':
+    get:
+      summary: Provides general information about the status of a previous request
+      operationId: getStatus
+      parameters: 
+        - in: path
+          name: api-root
+          description: The Human-Readable API root
+          required: true
+        - in: path
+          description: The status ID
+          name: status-id
+          schema:
+            $ref: '#/definitions/identifier'
+          required: true
+      tags: 
+        - Status Information
+      consumes:
+        - "application/vnd.oasis.taxii+json; version=2.0"
+      produces:
+        - "application/vnd.oasis.taxii+json; version=2.0"
+      description: |
+        This Endpoint provides information about the status of a previous request. In TAXII 2.0, the only request that
+        can be monitored is one to add objects to a Collection (see section 5.4). It is typically used by TAXII Clients
+        to monitor a request that they made in order to take action when it is complete.
+
+        TAXII Servers SHOULD provide status messages at this Endpoint while the request is in progress until at least 24
+        hours after it has been marked completed.
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/status'
+            example: |
+              {
+                "id": "2d086da7-4bdc-4f91-900e-d77486753710",
+                "status": "pending",
+                "request_timestamp": "2016-11-02T12:34:34.12345Z",
+                "total_objects": 4,
+                "success_count": 1,
+                "successes": [
+                  "indicator--c410e480-e42b-47d1-9476-85307c12bcbf"
+                ],
+                "failure_count": 1,
+                "failures": [
+                  {
+                    "id": "malware--664fa29d-bf65-4f28-a667-bdb76f29ec98",
+                    "message": "Unable to process object"
+                  }
+                ],
+                "pending_count": 2,
+                "pendings": [
+                  "indicator--252c7c11-daf2-42bd-843b-be65edca9f61",
+                  "relationship--045585ad-a22f-4333-af33-bfd503a683b5"
+                ]
+              }
+        404:
+          description: No status could be found or the requester does not have access to get status information.
+          schema:
+            $ref: '#/definitions/error'
+            example: |
+              {
+                "title": "Error condition XYZ",
+                "description": "This error is caused when the application tries to access data...",
+                "error_id": "1234",
+                "error_code": "581234",
+                "http_status": "409",
+                "external_details": "http://example.com/ticketnumber1/errorid-1234",
+                "details": {
+                  "somekey1": "somevalue",
+                  "somekey2": "some other value"
+                }
+              }
+        401:
+          description: The client either needs to authenticate or does not have access to get status information
+          schema:
+            $ref: '#/definitions/error'
+            example: |
+              {
+                "title": "Error condition XYZ",
+                "description": "This error is caused when the application tries to access data...",
+                "error_id": "1234",
+                "error_code": "581234",
+                "http_status": "409",
+                "external_details": "http://example.com/ticketnumber1/errorid-1234",
+                "details": {
+                  "somekey1": "somevalue",
+                  "somekey2": "some other value"
+                }
+              }
+        403:
+          description: The client either needs to authenticate or does not have access to get status information
+          schema:
+            $ref: '#/definitions/error'
+            example: |
+              {
+                "title": "Error condition XYZ",
+                "description": "This error is caused when the application tries to access data...",
+                "error_id": "1234",
+                "error_code": "581234",
+                "http_status": "409",
+                "external_details": "http://example.com/ticketnumber1/errorid-1234",
+                "details": {
+                  "somekey1": "somevalue",
+                  "somekey2": "some other value"
+                }
+              }
+  '/{api-root}/collections/':
+    get:
+      summary: Provides information about the Collections hosted under this API Root
+      operationId: getCollections
+      tags:
+        - Collections
+      consumes:
+        - "application/vnd.oasis.taxii+json; version=2.0"
+      produces:
+        - "application/vnd.oasis.taxii+json; version=2.0"
+      description: |
+        This Endpoint provides information about the Collections hosted under this API Root. This is similar to the
+        response to get a Collection (see section 5.2), but rather than providing information about one Collection it
+        provides information about all of the Collections. Most importantly, it provides the Collection's id, which is
+        used to request objects or manifest entries from the Collection.
+      parameters:
+        - in: path
+          name: api-root
+          description: the base URL of the API Root containing the Collections
+          required: true
+        - in:  header
+          name: Range
+          type: string
+          description: ""
+          schema:
+            pattern: "^items [\\d]+-[\\d]+$"
+            example: "items 0-49"
+      responses:
+        200:
+          description: OK
+          headers:
+            Content-Range:
+              description: ""
+              type: string
+              pattern: "^items [\\d]+-[\\d]+\\/[\\d]+$"
+          schema:
+            $ref: '#/definitions/collections'
+            example: |
+              {
+                "collections": [
+                  {
+                    "id": "91a7b528-80eb-42ed-a74d-c6fbd5a26116",
+                    "title": "High Value Indicator Collection",
+                    "description": "This data collection is for collecting high value IOCs",
+                    "can_read": true,
+                    "can_write": false,
+                    "media_types": [
+                      "application/vnd.oasis.stix+json; version=2.0"
+                    ]
+                  },
+                  {
+                    "id": "52892447-4d7e-4f70-b94d-d7f22742ff63",
+                    "title": "Indicators from the past 24-hours",
+                    "description": "This data collection is for collecting current IOCs",
+                    "can_read": true,
+                    "can_write": false,
+                    "media_types": [
+                      "application/vnd.oasis.stix+json; version=2.0"
+                    ]
+                  }
+                ]
+              }
+        404:
+          description: The Collections resource does not exist or the client does not have access to the Collections resource.
+          schema:
+            $ref: '#/definitions/error'
+            example: |
+              {
+                "title": "Error condition XYZ",
+                "description": "This error is caused when the application tries to access data...",
+                "error_id": "1234",
+                "error_code": "581234",
+                "http_status": "409",
+                "external_details": "http://example.com/ticketnumber1/errorid-1234",
+                "details": {
+                  "somekey1": "somevalue",
+                  "somekey2": "some other value"
+                }
+              }
+        401:
+          description: The client either needs to authenticate or does not have access to get Collection information.
+          schema:
+            $ref: '#/definitions/error'
+            example: |
+              {
+                "title": "Error condition XYZ",
+                "description": "This error is caused when the application tries to access data...",
+                "error_id": "1234",
+                "error_code": "581234",
+                "http_status": "409",
+                "external_details": "http://example.com/ticketnumber1/errorid-1234",
+                "details": {
+                  "somekey1": "somevalue",
+                  "somekey2": "some other value"
+                }
+              }
+        403:
+          description: The client either needs to authenticate or does not have access to get Collection information.
+          schema:
+            $ref: '#/definitions/error'
+            example: |
+              {
+                "title": "Error condition XYZ",
+                "description": "This error is caused when the application tries to access data...",
+                "error_id": "1234",
+                "error_code": "581234",
+                "http_status": "409",
+                "external_details": "http://example.com/ticketnumber1/errorid-1234",
+                "details": {
+                  "somekey1": "somevalue",
+                  "somekey2": "some other value"
+                }
+              }
+  '/{api-root}/collections/{collection-id}/':
+    get:
+      summary: Provides general information about a Collection
+      tags:
+        - Collections
+      description: |
+        This Endpoint provides general information about a Collection, which can be used to help users and clients
+        decide whether and how they want to interact with it. For example, it will tell clients what it's called and
+        what permissions they have to it.
+      operationId: getCollection
+      consumes:
+        - "application/vnd.oasis.taxii+json; version=2.0"
+      produces:
+        - "application/vnd.oasis.taxii+json; version=2.0"
+      parameters:
+        - in: path
+          name: api-root
+          description: the base URL of the API Root containing the Collection
+          required: true
+        - in: path
+          name: collection-id
+          description: the ​identifier​ of the Collection being requested
+          schema:
+            $ref: '#/definitions/identifier'
+          required: true
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/collection'
+            example: |
+              {
+                "id": "91a7b528-80eb-42ed-a74d-c6fbd5a26116",
+                "title": "High Value Indicator Collection",
+                "description": "This data collection is for collecting high value IOCs",
+                "can_read": true,
+                "can_write": false,
+                "media_types": [
+                  "application/vnd.oasis.stix+json; version=2.0"
+                ]
+              }
+        404:
+          description: The Collection could not be found or the requester does not have access to get Collection information.
+          schema:
+            $ref: '#/definitions/error'
+            example: |
+              {
+                "title": "Error condition XYZ",
+                "description": "This error is caused when the application tries to access data...",
+                "error_id": "1234",
+                "error_code": "581234",
+                "http_status": "409",
+                "external_details": "http://example.com/ticketnumber1/errorid-1234",
+                "details": {
+                  "somekey1": "somevalue",
+                  "somekey2": "some other value"
+                }
+              }
+        401:
+          description: The client either needs to authenticate or does not have access to get Collection information
+          schema:
+            $ref: '#/definitions/error'
+            example: |
+              {
+                "title": "Error condition XYZ",
+                "description": "This error is caused when the application tries to access data...",
+                "error_id": "1234",
+                "error_code": "581234",
+                "http_status": "409",
+                "external_details": "http://example.com/ticketnumber1/errorid-1234",
+                "details": {
+                  "somekey1": "somevalue",
+                  "somekey2": "some other value"
+                }
+              }
+        403:
+          description: The client either needs to authenticate or does not have access to get Collection information
+          schema:
+            $ref: '#/definitions/error'
+            example: |
+              {
+                "title": "Error condition XYZ",
+                "description": "This error is caused when the application tries to access data...",
+                "error_id": "1234",
+                "error_code": "581234",
+                "http_status": "409",
+                "external_details": "http://example.com/ticketnumber1/errorid-1234",
+                "details": {
+                  "somekey1": "somevalue",
+                  "somekey2": "some other value"
+                }
+              }
+  '/{api-root}/collections/{collection-id}/objects/':
+    get:
+      description: |
+        This Endpoint retrieves objects from a Collection. Clients can search for objects in the Collection, retrieve
+        all objects in a Collection, or paginate through objects in the Collection.
+
+        To support searching the Collection, the Endpoint supports filtering as defined in section 3.5. Clients can
+        provide one or more filter parameters to get objects with a specific ID, of a specific type, or with a specific
+        version. Future versions of TAXII will add more advanced filtering capabilities.
+
+        To support requesting a large number of objects, the Endpoint supports pagination as defined in section 3.4.
+        Clients can optionally provide their desired number of items per page and which page they want and servers will
+        return that result set. Servers can also override client-provided pagination parameters, including requiring
+        pagination when it isn't requested. As such, all clients should be aware that responses to this Endpoint may be
+        paginated and be prepared to properly handle that.
+
+        When requesting STIX 2.0 content, the content will always be delivered in a STIX bundle (even if there's only
+        zero or one objects, in which case the bundle will be empty or only contain one object). Other content types can
+        be requested by using a different Accept header, however the specific representation of other content types is
+        not defined.
+      summary: Retreives objects from a collection
+      operationId: getCollectionObjects
+      consumes:
+        - "application/vnd.oasis.stix+json; version=2.0"
+      produces:
+        - "application/vnd.oasis.stix+json; version=2.0"
+      tags:
+        - Objects
+      parameters:
+        - in: path
+          name: api-root
+          description: the base URL of the API Root containing the Collection
+          required: true
+        - in: path
+          name: collection-id
+          description: the identifier of the Collection from which objects are being requested
+          schema:
+            $ref: '#/definitions/identifier'
+          required: true
+        - in: query
+          name: match[id]
+          description: The identifier of the object(s) that are being requested. When searching for a STIX Object, this is a STIX ID.
+          type: array
+          collectionFormat: csv
+        - in: query
+          name: match[type]
+          description: |
+            The type of the object(s) that are being requested. Only the types listed in this parameter are permitted in
+            the response.
+
+            Requests for types defined in [STIX™ Version 2.0. Part 2: STIX ObjectsSTIX 2.0] MUST NOT result in an error
+            due to an invalid type.
+
+            Requests for other types not defined in [STIX™ Version 2.0. Part 2: STIX ObjectsSTIX 2.0] MAY be fulfilled.
+          type: array
+          collectionFormat: csv
+        - in: query
+          name: match[version]
+          type: string
+          description: |
+            The version of the object(s) that are being requested. If no version parameter is provided, the server MUST
+            return the latest version of the object.
+
+            Valid values for the version parameter are:
+              - `last`: requests the latest version of an object. This is the default parameter value.
+              - `first`: requests the earliest version of an object
+              - `all`: requests all versions of an object
+              - `<value>`: requests a specific version of an object.
+                - For STIX objects this requests objects whose modified time matches exactly the provided value. This
+                value MUST follow the rules for timestamp as defined in [STIX™ Version 2.0. Part 1: STIX Core Concepts].
+                - For example: "2016-01-01T01:01:01.000Z" tells the server to give you the exact STIX object with a
+                modified time of "2016-01-01T01:01:01.000Z".
+                - For non-STIX objects this value MAY be any string that represents the version of that object type. If
+                the target format does not support object versions, this parameter MUST be ignored.
+        - in:  header
+          name: Range
+          type: string
+          description: ""
+          schema:
+            pattern: "^items [\\d]+-[\\d]+$"
+            example: "items 0-49"
+      responses:
+        200:
+          description: OK
+          headers:
+            Content-Range:
+              description: ""
+              type: string
+              pattern: "^items [\\d]+-[\\d]+\\/[\\d]+$"
+          schema:
+            $ref: '#/definitions/bundle'
+            example: |
+              {
+                "type": "bundle",
+                ...
+                "objects": [
+                  {
+                    "type": "indicator",
+                    ...
+                  }
+                ]
+              }
+        404:
+          description: The Objects resource does not exist or the client does not have access to the Objects resource.
+          schema:
+            $ref: '#/definitions/error'
+            example: |
+              {
+                "title": "Error condition XYZ",
+                "description": "This error is caused when the application tries to access data...",
+                "error_id": "1234",
+                "error_code": "581234",
+                "http_status": "409",
+                "external_details": "http://example.com/ticketnumber1/errorid-1234",
+                "details": {
+                  "somekey1": "somevalue",
+                  "somekey2": "some other value"
+                }
+              }
+        401:
+          description: The client either needs to authenticate or does not have access to get objects in the Collection.
+          schema:
+            $ref: '#/definitions/error'
+            example: |
+              {
+                "title": "Error condition XYZ",
+                "description": "This error is caused when the application tries to access data...",
+                "error_id": "1234",
+                "error_code": "581234",
+                "http_status": "409",
+                "external_details": "http://example.com/ticketnumber1/errorid-1234",
+                "details": {
+                  "somekey1": "somevalue",
+                  "somekey2": "some other value"
+                }
+              }
+        403:
+          description: The client either needs to authenticate or does not have access to get objects in the Collection.
+          schema:
+            $ref: '#/definitions/error'
+            example: |
+              {
+                "title": "Error condition XYZ",
+                "description": "This error is caused when the application tries to access data...",
+                "error_id": "1234",
+                "error_code": "581234",
+                "http_status": "409",
+                "external_details": "http://example.com/ticketnumber1/errorid-1234",
+                "details": {
+                  "somekey1": "somevalue",
+                  "somekey2": "some other value"
+                }
+              }
+    post:
+      summary: Adds objects to a collection
+      tags:
+        - Objects
+      operationId: postCollectionObjects
+      consumes:
+        - "application/vnd.oasis.stix+json; version=2.0"
+      produces:
+        - "application/vnd.oasis.taxii+json; version=2.0"
+      description: |
+        This Endpoint adds objects to a Collection.
+
+        Successful responses to this Endpoint will contain a status resource describing the status of the request. The
+        status resource contains an id, which can be used to make requests to the get status Endpoint (see section 4.3),
+        a status flag to indicate whether the request is completed or still being processed, and information about the
+        status of the particular objects in the request.
+
+        If the request is marked pending in the status field, the client SHOULD periodically poll the get status
+        Endpoint to get an updated status until such a time that the status property returns a value of complete.
+        At that point, the request can be considered complete.
+
+        When adding STIX 2.0 content, clients MUST deliver all objects in a STIX bundle. Other content types MAY be
+        added (if the Collection supports it) by using a different Content-Type header, however the specific
+        representation of other content types is not defined.
+      parameters:
+        - in: path
+          name: api-root
+          description: the base URL of the API Root containing the Collection
+          required: true
+        - in: path
+          name: collection-id
+          description: the identifier of the Collection to which objects are being added
+          schema:
+            $ref: '#/definitions/identifier'
+          required: true
+        - in: body
+          required: true
+          schema:
+            $ref: '#/definitions/bundle'
+            example: |
+              {
+                "type": "bundle",
+                ...
+                "objects": [
+                  {
+                    "type": "indicator",
+                    "id": "indicator--c410e480-e42b-47d1-9476-85307c12bcbf",
+                    ...
+                  }
+                ]
+              }
+      responses:
+        202:
+          description: Accepted
+          schema:
+            $ref: '#/definitions/status'
+            example: |
+              {
+                "id": "2d086da7-4bdc-4f91-900e-d77486753710",
+                "status": "pending",
+                "request_timestamp": "2016-11-02T12:34:34.12345Z",
+                "total_count": 4,
+                "success_count": 1,
+                "successes": [
+                  "indicator--c410e480-e42b-47d1-9476-85307c12bcbf"
+                ],
+                "failure_count": 0,
+                "pending_count": 3
+              }
+        422:
+          description: |
+            The object type or version is not supported or could not be processed. This can happen, for example, when
+            sending a version of STIX that this TAXII Server does not support and cannot process, when sending a
+            malformed body, or other unprocessable content.
+          schema:
+            $ref: '#/definitions/error'
+            example: |
+              {
+                "title": "Error condition XYZ",
+                "description": "This error is caused when the application tries to access data...",
+                "error_id": "1234",
+                "error_code": "581234",
+                "http_status": "409",
+                "external_details": "http://example.com/ticketnumber1/errorid-1234",
+                "details": {
+                  "somekey1": "somevalue",
+                  "somekey2": "some other value"
+                }
+              }
+        401:
+          description: The client either needs to authenticate or does not have access to get Collection information
+          schema:
+            $ref: '#/definitions/error'
+            example: |
+              {
+                "title": "Error condition XYZ",
+                "description": "This error is caused when the application tries to access data...",
+                "error_id": "1234",
+                "error_code": "581234",
+                "http_status": "409",
+                "external_details": "http://example.com/ticketnumber1/errorid-1234",
+                "details": {
+                  "somekey1": "somevalue",
+                  "somekey2": "some other value"
+                }
+              }
+        403:
+          description: The client either needs to authenticate or does not have access to get Collection information
+          schema:
+            $ref: '#/definitions/error'
+            example: |
+              {
+                "title": "Error condition XYZ",
+                "description": "This error is caused when the application tries to access data...",
+                "error_id": "1234",
+                "error_code": "581234",
+                "http_status": "409",
+                "external_details": "http://example.com/ticketnumber1/errorid-1234",
+                "details": {
+                  "somekey1": "somevalue",
+                  "somekey2": "some other value"
+                }
+              }
+
+  '/{api-root}/collections/{collection-id}/objects/{object-id}/':
+    get:
+      summary: Gets an object from a Collection by it's `id`
+      tags:
+        - Objects
+      description: |
+        This Endpoint gets an object from a Collection by its id. It can be thought of as a search where the match[id]
+        parameter is set to the <object-id> in the path. For STIX 2.0 objects, the <object-id> MUST be the STIX id.
+
+        To support getting a particular version of an object, this Endpoint supports filtering as defined in section
+        3.5. The only valid match parameter is version.
+
+        When requesting STIX 2.0 content, the content will always be delivered in a STIX bundle (even if there's only
+        zero or one objects, in which case the bundle will be empty or only contain one object). Other content types MAY
+        be requested by using a different Accept header, however the specific representation of other content types is
+        not defined.
+      operationId: getCollectionObject
+      consumes:
+        - "application/vnd.oasis.stix+json; version=2.0"
+      produces:
+        - "application/vnd.oasis.stix+json; version=2.0"
+      parameters:
+        - in: path
+          name: api-root
+          description: the base URL of the API Root containing the Collection
+          required: true
+        - in: path
+          name: collection-id
+          description: the ​identifier​ of the Collection being requested
+          schema:
+            $ref: '#/definitions/identifier'
+          required: true
+        - in: path
+          name: object-id
+          description: the ID of the object being requested
+          schema:
+            $ref: '#/definitions/identifier'
+          required: true
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/bundle'
+            example: |
+              {
+                "type": "bundle",
+                ...,
+                "indicators": [
+                  {
+                    "type": "indicator",
+                    "id": "indicator--252c7c11-daf2-42bd-843b-be65edca9f61",
+                    ...,
+                  }
+                ]
+              }
+        404:
+          description: The object could not be found or the requester does not have access to get the object.
+          schema:
+            $ref: '#/definitions/error'
+            example: |
+              {
+                "title": "Error condition XYZ",
+                "description": "This error is caused when the application tries to access data...",
+                "error_id": "1234",
+                "error_code": "581234",
+                "http_status": "409",
+                "external_details": "http://example.com/ticketnumber1/errorid-1234",
+                "details": {
+                  "somekey1": "somevalue",
+                  "somekey2": "some other value"
+                }
+              }
+        401:
+          description: The client either needs to authenticate or does not have access to get the object.
+          schema:
+            $ref: '#/definitions/error'
+            example: |
+              {
+                "title": "Error condition XYZ",
+                "description": "This error is caused when the application tries to access data...",
+                "error_id": "1234",
+                "error_code": "581234",
+                "http_status": "409",
+                "external_details": "http://example.com/ticketnumber1/errorid-1234",
+                "details": {
+                  "somekey1": "somevalue",
+                  "somekey2": "some other value"
+                }
+              }
+        403:
+          description: The client either needs to authenticate or does not have access to get the object.
+          schema:
+            $ref: '#/definitions/error'
+            example: |
+              {
+                "title": "Error condition XYZ",
+                "description": "This error is caused when the application tries to access data...",
+                "error_id": "1234",
+                "error_code": "581234",
+                "http_status": "409",
+                "external_details": "http://example.com/ticketnumber1/errorid-1234",
+                "details": {
+                  "somekey1": "somevalue",
+                  "somekey2": "some other value"
+                }
+              }
+  '/{api-root}/collections/{collection-id}/manifest/':
+    get:
+      summary: Retrieves a manifest about objects from a Collection
+      tags:
+        - Objects
+      operationId: getCollectionManifest
+      consumes:
+        - "application/vnd.oasis.taxii+json; version=2.0"
+      produces:
+        - "application/vnd.oasis.taxii+json; version=2.0"
+      description: |
+        This Endpoint retrieves a manifest about objects from a Collection. It supports filtering and pagination
+        identical to the get objects Endpoint (see section 5.3) but rather than returning the object itself it returns
+        metadata about the object. It can be used to retrieve metadata to decide whether it's worth retrieving the
+        actual objects.
+
+        This Endpoint supports filtering, which is applied against the source object rather than the manifest entry for
+        an object. Thus, searching the manifest for a type of indicator will return the manifest entries for objects
+        with a type of indicator, even though the manifest doesn't have a type field.
+
+        Filtering is based on properties of the objects that the manifest entries represent. For example, filtering by
+        type=indicator will return manifest entries for objects with a type of indicator.
+      parameters:
+        - in: path
+          name: api-root
+          description: the base URL of the API Root containing the Collection
+          required: true
+        - in: path
+          name: collection-id
+          description: the ​identifier​ of the Collection being requested
+          schema:
+            $ref: '#/definitions/identifier'
+          required: true
+        - in:  header
+          name: Range
+          type: string
+          description: ""
+          schema:
+            pattern: "^items [\\d]+-[\\d]+$"
+            example: "items 0-49"
+        - in: query
+          name: match[id]
+          description: The identifier of the object(s) that are being requested. When searching for a STIX Object, this is a STIX ID.
+          type: array
+          collectionFormat: csv
+        - in: query
+          name: match[type]
+          description: |
+            The type of the object(s) that are being requested. Only the types listed in this parameter are permitted in
+            the response.
+
+            Requests for types defined in [STIX™ Version 2.0. Part 2: STIX ObjectsSTIX 2.0] MUST NOT result in an error
+            due to an invalid type.
+
+            Requests for other types not defined in [STIX™ Version 2.0. Part 2: STIX ObjectsSTIX 2.0] MAY be fulfilled.
+          type: array
+          collectionFormat: csv
+        - in: query
+          name: match[version]
+          type: string
+          description: |
+            The version of the object(s) that are being requested. If no version parameter is provided, the server MUST
+            return the latest version of the object.
+
+            Valid values for the version parameter are:
+              - `last`: requests the latest version of an object. This is the default parameter value.
+              - `first`: requests the earliest version of an object
+              - `all`: requests all versions of an object
+              - `<value>`: requests a specific version of an object.
+                - For STIX objects this requests objects whose modified time matches exactly the provided value. This
+                value MUST follow the rules for timestamp as defined in [STIX™ Version 2.0. Part 1: STIX Core Concepts].
+                - For example: "2016-01-01T01:01:01.000Z" tells the server to give you the exact STIX object with a
+                modified time of "2016-01-01T01:01:01.000Z".
+                - For non-STIX objects this value MAY be any string that represents the version of that object type. If
+                the target format does not support object versions, this parameter MUST be ignored.
+      responses:
+        200:
+          description: OK
+          headers:
+            Content-Range:
+              description: ""
+              type: string
+              pattern: "^items [\\d]+-[\\d]+\\/[\\d]+$"
+          schema:
+            $ref: '#/definitions/manifest'
+            example: |
+              {
+                "objects": [
+                  {
+                    "id": "indicator--29aba82c-5393-42a8-9edb-6a2cb1df070b",
+                    "date_added": "2016-11-01T03:04:05Z",
+                    "versions": ["2016-11-03T12:30:59.000Z","2016-12-03T12:30:59.000Z"],
+                    "media_types": ["application/vnd.oasis.stix+json; version=2.0"]
+                  },
+                  {
+                    "id": "indicator--ef0b28e1-308c-4a30-8770-9b4851b260a5",
+                    "date_added": "2016-11-01T10:29:05Z",
+                    "versions": ["2016-11-03T12:30:59.000Z"],
+                    "media_types": ["application/vnd.oasis.stix+json; version=2.0"]
+                  }
+                ]
+              }
+        404:
+          description: The Manifest resource does not exist or the client does not have access to the Manifest resource.
+          schema:
+            $ref: '#/definitions/error'
+            example: |
+              {
+                "title": "Error condition XYZ",
+                "description": "This error is caused when the application tries to access data...",
+                "error_id": "1234",
+                "error_code": "581234",
+                "http_status": "409",
+                "external_details": "http://example.com/ticketnumber1/errorid-1234",
+                "details": {
+                  "somekey1": "somevalue",
+                  "somekey2": "some other value"
+                }
+              }
+        401:
+          description: The client either needs to authenticate or does not have access to get manifests for objects in the Collection.
+          schema:
+            $ref: '#/definitions/error'
+            example: |
+              {
+                "title": "Error condition XYZ",
+                "description": "This error is caused when the application tries to access data...",
+                "error_id": "1234",
+                "error_code": "581234",
+                "http_status": "409",
+                "external_details": "http://example.com/ticketnumber1/errorid-1234",
+                "details": {
+                  "somekey1": "somevalue",
+                  "somekey2": "some other value"
+                }
+              }
+        403:
+          description: The client either needs to authenticate or does not have access to get manifests for objects in the Collection.
+          schema:
+            $ref: '#/definitions/error'
+            example: |
+              {
+                "title": "Error condition XYZ",
+                "description": "This error is caused when the application tries to access data...",
+                "error_id": "1234",
+                "error_code": "581234",
+                "http_status": "409",
+                "external_details": "http://example.com/ticketnumber1/errorid-1234",
+                "details": {
+                  "somekey1": "somevalue",
+                  "somekey2": "some other value"
+                }
+              }
+definitions:
+  bundle:
+    $ref: 'https://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/master/schemas/common/bundle.json#'
+  collection:
+    type: object
+    description: |
+      The collection resource contains general information about a Collection, such as its id, a human-readable title
+      and description, an optional list of supported media_types (representing the media type of objects can be
+      requested from or added to it), and whether the TAXII Client, as authenticated, can get objects from the
+      Collection and/or add objects to it.
+    properties:
+      id:
+        $ref: '#/definitions/identifier'
+        description: |
+          The id property universally and uniquely identifies this Collection. It is used in the Get Collection Endpoint
+          (see section 5.2) as the <id> parameter to retrieve the Collection.
+        required:
+          - true
+      title:
+        type: string
+        required:
+          - true
+        description: A human readable plain text title used to identify this Collection.
+      description:
+        type: string
+        description: A human readable plain text description for this Collection.
+      can_read:
+        type: boolean
+        description: Indicates if the requester can read (i.e., GET) objects from this Collection.
+        required:
+          - true
+      can_write:
+        type: boolean
+        description: Indicates if the the requester can write (i.e., POST) objects to this Collection.
+        required:
+          - true
+      media_types:
+        type: array
+        description: |
+          A list of supported media types for Objects in this Collection. Absence of this field is equivalent to a
+          single-value list containing  application/vnd.oasis.stix+json.
+        items:
+          type: string
+  collections:
+    type: object
+    description: The collections resource is a simple wrapper around a list of collection resources.
+    properties:
+      collections:
+        type: array
+        description: "A Collections Resource"
+        items:
+          $ref: '#/definitions/collection'
+  dictionary:
+    $ref: 'https://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/v2.0-wd01-r2/schemas/common/dictionary.json#'
+  discovery:
+    type: object
+    description: |
+      The discovery resource contains information about a TAXII Server, such as a human-readable title, description, and
+      contact information, as well as a list of API Roots that it is advertising. It also has an indication of which API
+      Root it considers the default, or the one to use in the absence of other information/user choice.
+    properties:
+      title:
+        description: A human readable plain text name used to identify this server​
+        required:
+          - true
+        type: string
+      description:
+        type: string
+        description: A human readable ​plain text​ description for this server
+      contact:
+        type: string
+        description: The human readable plain text contact information for this server and/or the administrator of this server
+      default:
+        type: string
+        description: |
+          The default API Root that a TAXII Client ​MAY​ use. Absence of this field indicates that there is no default API
+          Root. The default API Root ​MUST ​be an item in api_roots​.
+      api_roots:
+        description: A list of URLs that identify known API Roots. This list MAY​ be filtered on a per-client basis
+        type: array
+        items:
+          type: string
+  identifier:
+    $ref: 'https://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/v2.0-wd01-r2/schemas/common/identifier.json#'
+  manifest:
+    type: object
+    description: "A Manifest Resource"
+    properties:
+      objects:
+        description: |
+          The list of manifest entries for objects returned by the request. If there are no manifest-entry items in the
+          list, this key MUST be omitted and the response is an empty object.
+        type: array
+        items:
+          $ref: '#/definitions/manifest-entry'
+  manifest-entry:
+    type: object
+    properties:
+      id:
+        $ref: '#/definitions/identifier'
+        description: The identifier of the object that this manifest entry describes.
+      date_added:
+        $ref: '#/definitions/timestamp'
+        description: The date and time this object was added to the server.
+      versions:
+        type: array
+        description: |
+          A list of available versions, sorted in order from most recent version to least recent version.
+
+          For example versions[0] contains the newest version and versions[len-1] contains the oldest version.
+
+          For objects in STIX format, the STIX modified field is the version.
+        items:
+          type: string
+      media_types:
+        type: array
+        description: The media types that this object can be requested in.
+        items:
+          type: string
+  timestamp:
+    $ref: 'https://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/v2.0-wd01-r2/schemas/common/timestamp.json#'
+  status:
+    type: object
+    description: |
+      The status resource represents information about a request to add objects to a Collection. It contains information
+      about the status of the request, such as whether or not it's completed (status) and the status of individual
+      objects within the request (i.e. whether they are still pending, completed and failed, or completed and succeeded).
+
+      The status resource is returned in two places: as a response to the initial request (see section 5.4) and in
+      response to a get status request (see section 4.3), which can be made after the initial request to continuously
+      monitor its status.
+
+      The list of objects that are still pending and the list of objects that have been added are both lists of strings
+      containing the identifier of the object (e.g., for STIX objects, their id). The list of objects that failed to be
+      added is a simple type so that both the id and a message indicating why it failed can be provided.
+    properties:
+      id:
+        description: The identifier of this Status resource.
+        $ref: '#/definitions/identifier'
+        required:
+          - true
+      status:
+        description: |
+          The overall status of a previous POST request where an HTTP 202 (Accept) was returned. The value of this
+          property MUST be one of complete or pending. A value of complete indicates that this resource will not be
+          updated further and MAY be removed in the future. A status of pending indicates that this resource MAY update
+          in the future.
+        type: string
+        enum: 
+          - pending
+          - complete
+        required:
+          - true
+      request_timestamp:
+        description: The datetime of the request that this status resource is monitoring.
+        $ref: '#/definitions/timestamp'
+      total_count:
+        type: integer
+        required:
+          - true
+        description: |
+          The total number of objects that were in the request. For a STIX bundle this would be the number of objects in
+          the bundle.
+      success_count:
+        type: integer
+        required:
+          - true
+        description: The number of objects that were successfully created.
+      successess:
+        description: |
+          A list of object IDs that were successfully processed. For STIX objects the STIX ID MUST be used here. For
+          object types that do not have their own identifier, the server MAY use any value as the id.
+        type: array
+        items:
+          type: string
+      failure_count:
+        type: integer
+        required:
+          - true
+        description: The number of objects that failed to be created.
+      failures:
+        description: A list of objects that were not successfully processed.
+        type: array
+        items:
+          $ref: '#/definitions/status-failure'
+      pending_count:
+        type: integer
+        required:
+          - true
+        description: The number of objects that have yet to be processed.
+      pendings:
+        description: |
+          A list of objects for objects that have yet to be processed. For STIX objects the STIX ID MUST be used here.
+          For object types that do not have their own identifier, the server MAY use any value as the id.
+        type: array
+        items:
+          type: string
+  status-failure:
+    type: object
+    description: |
+      This type represents an object that was not added to the Collection. It contains the id of the object and a
+      message describing why it couldn't be added.
+    properties:
+      id:
+        description: |
+          The identifier of the object that failed to be created. For STIX objects the id MUST be the STIX Object id.
+          For object types that do not have their own identifier, the server MAY use any value as the id.
+        type: string
+        required:
+          - true
+      message:
+        type: string
+        description: A message indicating why the object failed to be created.
+  api-root:
+    type: object
+    description: |
+      The api-root resource contains general information about the API Root, such as a human-readable title and
+      description, the TAXII versions it supports, and the maximum size of the content body it will accept in a PUT or
+      POST (max_content_length).
+    properties:
+      title:
+        description: A human readable plain text name used to identify this API instance.
+        type: string
+        required:
+          - true
+      description:
+        description: A human readable plain text description for this API Root.
+        type: string
+      versions:
+        required:
+          - true
+        description: |
+          The list of TAXII versions that this API Root is compatible with. A value of taxii-2.0 MUST be included in
+          this list to indicate conformance with this specification.
+        type: array
+        items:
+          type: string
+      max_content_length:
+        type: integer
+        description: |
+          The maximum size of the request body in octets (8-bit bytes) that the server can support. This applies to
+          requests only and is determined by the server. Requests with total body length values smaller than this value
+          MUST NOT result in an HTTP 413 (Request Entity Too Large) response.
+        required:
+          - true
+  error:
+    type: object
+    properties:
+      title:
+        type: string
+        description: A human readable plain text title for this error.
+        required:
+          - true
+      description:
+        type: string
+        description: |
+          A human readable plain text description that gives details about the error or problem that was encountered by
+          the application.
+      error_id:
+        type: string
+        description: |
+          An identifier for this particular error instance. A TAXII Server might choose to assign each error occurrence
+          it's own identifier in order to facilitate debugging.
+      error_code:
+        type: string
+        description: |
+          The error code for this error type. A TAXII Server might choose to assign a common error code to all errors of
+          the same type. Error codes are application-specific and not intended to be meaningful across different TAXII
+          Servers.
+      http_status:
+        type: string
+        description: The HTTP status code applicable to this error.
+      external_details:
+        type: string
+        description: |
+          A URL that points to additional details. For example, this could be a URL pointing to a knowledge base article
+          describing the error code. Absence of this field indicates that there are no additional details.
+      details:
+        description: |
+          The details property captures additional server-specific details about the error. The keys and values are
+          determined by the TAXII Server and MAY be any valid JSON object structure.
+        $ref: '#/definitions/dictionary'

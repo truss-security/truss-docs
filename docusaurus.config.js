@@ -40,8 +40,6 @@ const config = {
         docs: {
           routeBasePath: '/',
           sidebarPath: require.resolve('./sidebars.js'),
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
           editUrl:
             'https://github.com/truss-security/truss-docs/docs/',
         },
@@ -88,16 +86,16 @@ const config = {
             position: 'left',
             label: 'Truss Protocol',
           },
-          //{
-          //  to: '/api',
-          //  position: 'left',
-          //  label: 'API',
-          //},
           {
             type: 'docSidebar',
             sidebarId: 'marketplaceSidebar',
             position: 'left',
             label: 'Truss Marketplace',
+          },
+          {
+            to: '/api',
+            position: 'left',
+            label: 'API',
           },
           {
             href: 'https://github.com/truss-security/truss-docs/tree/main/docs/',
