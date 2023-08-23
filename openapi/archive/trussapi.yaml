@@ -1,0 +1,193 @@
+openapi: 3.0.0
+info:
+  version: "0.1"
+  title: Truss Security API
+  description: |
+    The Truss Security API offers access to functionality on the Truss Marketplace and the Truss Chain. Truss Maketplace data is stored on a centralized server maintained by Truss. Truss Chain data is stored on a public chain.
+  termsOfService: terms
+
+servers:
+  - url: https://api.truss-security.com
+    description: Truss Mainnet API
+  - url: https://testapi.truss-security.com
+    description: Truss Testnet API
+
+tags: 
+  - name: general
+    description: ""
+    x-displayName: General Information
+  - name: product
+    description: ""
+    x-displayName: Products
+
+paths: 
+  /product: 
+    get: 
+      tags:
+        - product
+      summary: Find product
+      description: "Returns all products from the system that the user has access to"
+      operationId: "findproducts"
+      produces: 
+        - "application/json"
+        - "application/xml"
+        - "text/xml"
+        - "text/html"
+      parameters: 
+        - 
+          name: "tags"
+          in: "query"
+          description: "tags to filter by"
+          required: false
+          type: "array"
+          items: 
+            type: "string"
+          collectionFormat: "csv"
+        - 
+          name: "limit"
+          in: "query"
+          description: "maximum number of results to return"
+          required: false
+          type: "integer"
+          format: "int32"
+      responses: 
+        "200":
+          description: "product response"
+          schema: 
+            type: "array"
+            items: 
+              $ref: "#/definitions/product"
+        default: 
+          description: "unexpected error"
+          schema: 
+            $ref: "#/definitions/ErrorModel"
+    post:
+      tags:
+        - product
+      summary: Add new product
+      description: "Creates a new product."
+      operationId: "addproduct"
+      produces: 
+        - "application/json"
+      parameters: 
+        - 
+          name: "product"
+          in: "query"
+          description: "Security product to add to the Marketplace"
+          required: true
+          schema: 
+            $ref: "#/definitions/Newproduct"
+          example: adsfasdf
+      responses: 
+        "200":
+          description: "product response"
+          schema: 
+            $ref: "#/definitions/product"
+        default: 
+          description: "unexpected error"
+          schema: 
+            $ref: "#/definitions/ErrorModel"
+  /product/{id}: 
+    get: 
+      tags:
+        - product
+      summary: Get product by Id
+      description: "Get product for given Id."
+      operationId: "findproductById"
+      produces: 
+        - "application/json"
+        - "application/xml"
+        - "text/xml"
+        - "text/html"
+      parameters: 
+        - 
+          name: "id"
+          in: "path"
+          description: "ID of product to fetch"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses: 
+        "200":
+          description: "product response"
+          schema: 
+            $ref: "#/definitions/product"
+        default: 
+          description: "unexpected error"
+          schema: 
+            $ref: "#/definitions/ErrorModel"
+    put: 
+      tags:
+        - product
+      summary: Update product
+      description: "Update product for given Id."
+      operationId: "updateproduct"
+      parameters: 
+        - 
+          name: "id"
+          in: "query"
+          description: "ID of product to update"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses: 
+        "204":
+          description: "product deleted"
+        default: 
+          description: "unexpected error"
+          schema: 
+            $ref: "#/definitions/ErrorModel"
+    delete: 
+      tags:
+        - product
+      summary: Delete product
+      description: "Delete product for given Id."
+      operationId: "deleteproduct"
+      parameters: 
+        - 
+          name: "id"
+          in: "path"
+          description: "ID of product to delete"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses: 
+        "204":
+          description: "product deleted"
+        default: 
+          description: "unexpected error"
+          schema: 
+            $ref: "#/definitions/ErrorModel"
+definitions: 
+  product: 
+    type: "object"
+    allOf: 
+      - 
+        $ref: "#/definitions/Newproduct"
+      - 
+        required: 
+          - "id"
+        properties: 
+          id: 
+            type: "integer"
+            format: "int64"
+  Newproduct: 
+    type: "object"
+    required: 
+      - "name"
+    properties: 
+      name: 
+        type: "string"
+      tag: 
+        type: "string"
+  ErrorModel: 
+    type: "object"
+    required: 
+      - "code"
+      - "message"
+    properties: 
+      code: 
+        type: "integer"
+        format: "int32"
+      message: 
+        type: "string"

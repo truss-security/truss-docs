@@ -1,0 +1,627 @@
+swagger: '2.0'
+info:
+  version: "0.1"
+  title: Truss Security API
+  description: |
+    The Truss Security API offers access to functionality on the Truss Marketplace and the Truss Chain. Truss Maketplace data is stored on a centralized server maintained by Truss. Truss Chain data is stored on a public chain.
+  termsOfService: terms
+
+servers:
+  - url: https://api.truss-security.com
+    description: Truss Mainnet API
+  - url: https://testapi.truss-security.com
+    description: Truss Testnet API
+
+tags: 
+  - name: general
+    description: ""
+    x-displayName: General Information
+  - name: marketplace
+    description: ""
+    x-displayName: Truss Marketplace
+  - name: chain
+    description: ""
+    x-displayName: Truss Chain
+  - name: stix
+    x-displayName: STIX
+    description: |
+      Structured Threat Information Expression (STIX™) is an opensource language and serialization format used to exchange 
+      cyber threat intelligence (CTI).
+
+paths:
+  /product:
+    get: 
+      description: Returns all products from the system that the user has access to
+      produces: 
+        - "application/json"
+      responses: 
+        "200":
+          description: A list of products.
+          schema: 
+            type: "array"
+            items: 
+              $ref: "#/definitions/Product"
+    post:
+      tags:
+        - chain
+      summary: Create a security product
+      description: |
+        Overview of how to create a new security product.
+      operationId: createProduct
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/discovery'
+            example: |
+              {
+                "title": "Some TAXII Server",
+                "description": "This TAXII Server contains a listing of...",
+                "contact": "string containing contact information",
+                "default": "https://example.com/api2/",
+                "api_roots": [
+                  "https://example.com/api1/",
+                  "https://example.com/api2/",
+                  "https://example.net/trustgroup1/"
+                ]
+              }
+        '400':
+          description: asdfasdfasdf
+          schema:
+            $ref: '#/definitions/error400'
+        '403':
+          description: asdfasdfasdf
+          schema:
+            $ref: '#/definitions/error403'
+        '404':
+          description: asdfasdfasdf
+          schema:
+            $ref: '#/definitions/error404'
+      parameters:
+        - in: body
+          name: body
+          schema:
+            type: object
+            properties:
+              product:
+                type: string
+                title: JSON string with product properties
+                example: test
+              price:
+                type: integer
+                title: Price of product in Truss
+                description: >-
+                  The price that will be charged, in TRUSS tokens, for the security product.
+                example: 10000000000
+              feeAllocation:
+                type: string
+                title: Actor
+                description: The fee allocation for the Truss security product
+                example: test
+            required:
+              - product
+              - price
+              - feeAllocation
+
+definitions:
+  Product: 
+    type: "object"
+    required: 
+      - "id"
+      - "name"
+    properties: 
+      id: 
+        type: "integer"
+        format: "int64"
+      name: 
+        type: "string"
+      tag: 
+        type: "string"
+  bundle:
+    $ref: 'https://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/master/schemas/common/bundle.json#'
+  collection:
+    type: object
+    description: |
+      The collection resource contains general information about a Collection, such as its id, a human-readable title
+      and description, an optional list of supported media_types (representing the media type of objects can be
+      requested from or added to it), and whether the TAXII Client, as authenticated, can get objects from the
+      Collection and/or add objects to it.
+    properties:
+      id:
+        $ref: '#/definitions/identifier'
+        description: |
+          The id property universally and uniquely identifies this Collection. It is used in the Get Collection Endpoint
+          (see section 5.2) as the <id> parameter to retrieve the Collection.
+        required:
+          - true
+      title:
+        type: string
+        required:
+          - true
+        description: A human readable plain text title used to identify this Collection.
+      description:
+        type: string
+        description: A human readable plain text description for this Collection.
+      can_read:
+        type: boolean
+        description: Indicates if the requester can read (i.e., GET) objects from this Collection.
+        required:
+          - true
+      can_write:
+        type: boolean
+        description: Indicates if the the requester can write (i.e., POST) objects to this Collection.
+        required:
+          - true
+      media_types:
+        type: array
+        description: |
+          A list of supported media types for Objects in this Collection. Absence of this field is equivalent to a
+          single-value list containing  application/vnd.oasis.stix+json.
+        items:
+          type: string
+  collections:
+    type: object
+    description: The collections resource is a simple wrapper around a list of collection resources.
+    properties:
+      collections:
+        type: array
+        description: "A Collections Resource"
+        items:
+          $ref: '#/definitions/collection'
+  dictionary:
+    $ref: 'https://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/v2.0-wd01-r2/schemas/common/dictionary.json#'
+  discovery:
+    type: object
+    description: |
+      The discovery resource contains information about a TAXII Server, such as a human-readable title, description, and
+      contact information, as well as a list of API Roots that it is advertising. It also has an indication of which API
+      Root it considers the default, or the one to use in the absence of other information/user choice.
+    properties:
+      title:
+        description: A human readable plain text name used to identify this server​
+        required:
+          - true
+        type: string
+      description:
+        type: string
+        description: A human readable ​plain text​ description for this server
+      contact:
+        type: string
+        description: The human readable plain text contact information for this server and/or the administrator of this server
+      default:
+        type: string
+        description: |
+          The default API Root that a TAXII Client ​MAY​ use. Absence of this field indicates that there is no default API
+          Root. The default API Root ​MUST ​be an item in api_roots​.
+      api_roots:
+        description: A list of URLs that identify known API Roots. This list MAY​ be filtered on a per-client basis
+        type: array
+        items:
+          type: string
+  identifier:
+    $ref: 'https://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/v2.0-wd01-r2/schemas/common/identifier.json#'
+  manifest:
+    type: object
+    description: "A Manifest Resource"
+    properties:
+      objects:
+        description: |
+          The list of manifest entries for objects returned by the request. If there are no manifest-entry items in the
+          list, this key MUST be omitted and the response is an empty object.
+        type: array
+        items:
+          $ref: '#/definitions/manifest-entry'
+  manifest-entry:
+    type: object
+    properties:
+      id:
+        $ref: '#/definitions/identifier'
+        description: The identifier of the object that this manifest entry describes.
+      date_added:
+        $ref: '#/definitions/timestamp'
+        description: The date and time this object was added to the server.
+      versions:
+        type: array
+        description: |
+          A list of available versions, sorted in order from most recent version to least recent version.
+
+          For example versions[0] contains the newest version and versions[len-1] contains the oldest version.
+
+          For objects in STIX format, the STIX modified field is the version.
+        items:
+          type: string
+      media_types:
+        type: array
+        description: The media types that this object can be requested in.
+        items:
+          type: string
+  timestamp:
+    $ref: 'https://raw.githubusercontent.com/oasis-open/cti-stix2-json-schemas/v2.0-wd01-r2/schemas/common/timestamp.json#'
+  status:
+    type: object
+    description: |
+      The status resource represents information about a request to add objects to a Collection. It contains information
+      about the status of the request, such as whether or not it's completed (status) and the status of individual
+      objects within the request (i.e. whether they are still pending, completed and failed, or completed and succeeded).
+
+      The status resource is returned in two places: as a response to the initial request (see section 5.4) and in
+      response to a get status request (see section 4.3), which can be made after the initial request to continuously
+      monitor its status.
+
+      The list of objects that are still pending and the list of objects that have been added are both lists of strings
+      containing the identifier of the object (e.g., for STIX objects, their id). The list of objects that failed to be
+      added is a simple type so that both the id and a message indicating why it failed can be provided.
+    properties:
+      id:
+        description: The identifier of this Status resource.
+        $ref: '#/definitions/identifier'
+        required:
+          - true
+      status:
+        description: |
+          The overall status of a previous POST request where an HTTP 202 (Accept) was returned. The value of this
+          property MUST be one of complete or pending. A value of complete indicates that this resource will not be
+          updated further and MAY be removed in the future. A status of pending indicates that this resource MAY update
+          in the future.
+        type: string
+        enum: 
+          - pending
+          - complete
+        required:
+          - true
+      request_timestamp:
+        description: The datetime of the request that this status resource is monitoring.
+        $ref: '#/definitions/timestamp'
+      total_count:
+        type: integer
+        required:
+          - true
+        description: |
+          The total number of objects that were in the request. For a STIX bundle this would be the number of objects in
+          the bundle.
+      success_count:
+        type: integer
+        required:
+          - true
+        description: The number of objects that were successfully created.
+      successess:
+        description: |
+          A list of object IDs that were successfully processed. For STIX objects the STIX ID MUST be used here. For
+          object types that do not have their own identifier, the server MAY use any value as the id.
+        type: array
+        items:
+          type: string
+      failure_count:
+        type: integer
+        required:
+          - true
+        description: The number of objects that failed to be created.
+      failures:
+        description: A list of objects that were not successfully processed.
+        type: array
+        items:
+          $ref: '#/definitions/status-failure'
+      pending_count:
+        type: integer
+        required:
+          - true
+        description: The number of objects that have yet to be processed.
+      pendings:
+        description: |
+          A list of objects for objects that have yet to be processed. For STIX objects the STIX ID MUST be used here.
+          For object types that do not have their own identifier, the server MAY use any value as the id.
+        type: array
+        items:
+          type: string
+  status-failure:
+    type: object
+    description: |
+      This type represents an object that was not added to the Collection. It contains the id of the object and a
+      message describing why it couldn't be added.
+    properties:
+      id:
+        description: |
+          The identifier of the object that failed to be created. For STIX objects the id MUST be the STIX Object id.
+          For object types that do not have their own identifier, the server MAY use any value as the id.
+        type: string
+        required:
+          - true
+      message:
+        type: string
+        description: A message indicating why the object failed to be created.
+  api-root:
+    type: object
+    description: |
+      The api-root resource contains general information about the API Root, such as a human-readable title and
+      description, the TAXII versions it supports, and the maximum size of the content body it will accept in a PUT or
+      POST (max_content_length).
+    properties:
+      title:
+        description: A human readable plain text name used to identify this API instance.
+        type: string
+        required:
+          - true
+      description:
+        description: A human readable plain text description for this API Root.
+        type: string
+      versions:
+        required:
+          - true
+        description: |
+          The list of TAXII versions that this API Root is compatible with. A value of taxii-2.0 MUST be included in
+          this list to indicate conformance with this specification.
+        type: array
+        items:
+          type: string
+      max_content_length:
+        type: integer
+        description: |
+          The maximum size of the request body in octets (8-bit bytes) that the server can support. This applies to
+          requests only and is determined by the server. Requests with total body length values smaller than this value
+          MUST NOT result in an HTTP 413 (Request Entity Too Large) response.
+        required:
+          - true
+  error:
+    type: object
+    properties:
+      title:
+        type: string
+        description: A human readable plain text title for this error.
+        required:
+          - true
+      description:
+        type: string
+        description: |
+          A human readable plain text description that gives details about the error or problem that was encountered by
+          the application.
+      error_id:
+        type: string
+        description: |
+          An identifier for this particular error instance. A TAXII Server might choose to assign each error occurrence
+          it's own identifier in order to facilitate debugging.
+      error_code:
+        type: string
+        description: |
+          The error code for this error type. A TAXII Server might choose to assign a common error code to all errors of
+          the same type. Error codes are application-specific and not intended to be meaningful across different TAXII
+          Servers.
+      http_status:
+        type: string
+        description: The HTTP status code applicable to this error.
+      external_details:
+        type: string
+        description: |
+          A URL that points to additional details. For example, this could be a URL pointing to a knowledge base article
+          describing the error code. Absence of this field indicates that there are no additional details.
+      details:
+        description: |
+          The details property captures additional server-specific details about the error. The keys and values are
+          determined by the TAXII Server and MAY be any valid JSON object structure.
+        $ref: '#/definitions/dictionary'
+  error400:
+    type: object
+    description: >-
+      HTTP code 400 is returned when request was malformed or contained improper
+      values. The response body will indicate the name of the incorrect field,
+      its type, and the value the service received.
+    title: Error 400
+    required:
+      - type
+      - message
+      - fields
+    properties:
+      type:
+        type: string
+        default: invalid_input
+        description: invalid_input
+      message:
+        type: string
+        default: >-
+          An invalid request was sent in, please check the nested errors for
+          details.
+        description: >-
+          An invalid request was sent in, please check the nested errors for
+          details.
+      fields:
+        type: array
+        items:
+          type: object
+          properties:
+            name:
+              type: string
+              description: Name of the field which triggered the error
+            value:
+              type: string
+              description: Value which was sent in and which triggered the error
+            error:
+              type: string
+              description: Error message
+  error403:
+    type: object
+    description: >-
+      HTTP code 403 is returned when the action is forbidden.
+
+
+      |type|message|description|
+
+      |---|---|---|
+
+      |invalid_signature|Request signature not valid or not allowed.|Request
+      signature is not valid or this user is not allowed to sign this
+      transaction. For example, this error will be returned if a user tries to
+      add_pub_address on a FIO Crypto Handle (aka FIO Address) they do not own.|
+
+      |invalid_transaction|Signed transactions is not valid or is not formatted
+      properly.|Transaction is not properly signed or formatted.|
+
+      |invalid_account_or_action|Provided account or action is not valid for
+      this endpoint.|Returned when an attempt is made to pass actions which are
+      not associated with a specific endpoint or account.|
+    title: Error 403
+    properties:
+      type:
+        type: string
+        description: Type of 403 error
+        example: invalid_signature
+      message:
+        type: string
+        example: Request signature not valid or not allowed.
+        description: Message associated with the 403 type
+    required:
+      - type
+      - message
+  error404:
+    title: Error 404
+    description: >-
+      HTTP code 404 is returned when the requested information could not be
+      found.
+    properties:
+      message:
+        type: string
+        description: Call specific error message.
+        example: Public address not found
+  object:
+    options:
+      description: |
+        STIX is a schema that defines a taxonomy of cyber threat intelligence that is represented by the following objects:
+        * **STIX Core**  - Any SDO, SCO, or SRO.
+        * **STIX Domain Objects** - Higher Level Intelligence Objects that represent behaviors and constructs that threat analysts 
+          would typically create or work with while understanding the threat landscape.
+        * **STIX Cyber-observable Objects** - Objects that represent observed facts about a network or host that may be used and 
+          related to higher level intelligence to form a more complete understanding of the threat landscape.
+        * **STIX Relationship Objects** - Objects that connect STIX Domain Objects together, STIX Cyber-observable Objects together, 
+          and connect STIX Domain Objects and STIX Cyber-observable Objects together to form a more complete understanding of the threat landscape.
+        * **STIX Meta Objects (SMO)** - A STIX Object that provides the necessary glue and associated metadata to enrich or extend STIX 
+          Core Objects to support user and system workflows.
+        * **STIX Bundle Object** - An object that provides a wrapper mechanism for packaging arbitrary STIX content together.
+
+        [STIC Version 2.1 OASIS Standard](https://docs.oasis-open.org/cti/stix/v2.1/os/stix-v2.1-os.html)
+
+
+      summary: STIX Object
+      operationId:
+      parameters:
+        - in: body
+          name: body
+          description: |
+            The following defines the properties that MAY exist on a STIX Objects. While some STIX Objects use all of these common properties, 
+            not all object types do. Each type of STIX Object defines which common properties are required, which are optional, and which are 
+            not in use.
+          schema:
+            type: object
+            required:
+              - type
+              - spec_version
+            properties:
+              type:
+                type: string
+                required: true
+                description: The type property identifies the type of STIX Object. It must be one of the enumerated strings.
+                enum: 
+                  - artifact
+                  - attack-pattern
+                  - autonomous-system
+                  - campaign
+                  - course-of-action
+                  - directory
+                  - domain-name
+                  - email-addr
+                  - email-message
+                  - extension-definition
+                  - file
+                  - grouping
+                  - identity
+                  - incident
+                  - indicator
+                  - infrastructure
+                  - intrusion-set
+                  - ipv4-addr
+                  - ipv6-addr
+                  - language-content
+                  - location
+                  - mac-addr
+                  - malware
+                  - malware-analysis
+                  - marking-definition
+                  - mutex
+                  - network-traffic
+                  - note
+                  - observed-data
+                  - opinion
+                  - process
+                  - relationship
+                  - report
+                  - sighting
+                  - software
+                  - threat-actor
+                  - tool
+                  - url
+                  - user-account
+                  - vulnerability
+                  - windows-registry-key
+                  - x509-certificate
+                example: malware
+              spec_version:
+                type: string
+                description: |
+                  The version of the STIX specification used to represent this object.
+                  The value of this property MUST be 2.1 for STIX Objects defined according to this specification.
+                example: 2.1
+              id:
+                type: identifier
+                description: The id property uniquely identifies this object.
+              created_by_ref:
+                type: identifier
+                description:  The id property of the identity object that describes the entity that created this object.
+              created:
+                type: timestamp
+                description: The time at which the object was originally created
+              modified:
+                type: timestamp
+                description: The time the object was modified.
+              revoked:
+                type: boolean
+                description: The revoked property is only used by STIX Objects that support versioning and indicates whether the object has been revoked.
+              labels:
+                type: array
+                items:
+                  type: string
+                description: |
+                  The labels property specifies a set of terms used to describe this object. The terms are user-defined or 
+                  trust-group defined and their meaning is outside the scope of this specification and MAY be ignored.
+              confidence:
+                type: integer
+                description: |
+                  The confidence property identifies the confidence that the creator has in the correctness of their data. 
+                  The confidence value MUST be a number in the range of 0-100              
+              lang:
+                type: string
+                description: | 
+                  The lang property identifies the language of the text content in this object. When present, it MUST be a 
+                  language code conformant to [RFC5646](https://docs.oasis-open.org/cti/stix/v2.1/os/stix-v2.1-os.html#kix.1js008hntuzu). If the property is not present, then the language of the content is en (English).
+              external_references:
+                type: array
+                items:
+                  type: external-reference
+                description: | 
+                  The external_references property specifies a list of external references which refers to non-STIX information. 
+                  This property is used to provide one or more URLs, descriptions, or IDs to records in other systems.
+              object_marking_refs:
+                type: array
+                items:
+                  type: identifier
+                description: Specifies a list of id properties of marking-definition objects that apply to this object.
+              granular_markings:
+                type: array
+                items:
+                  type: granular-marking
+                description: Specifies a list of granular markings applied to this object
+              defanged:
+                type: boolean
+                description: Defines whether or not the data contained within the object has been defanged.
+              extensions:
+                type: dictionary
+                description: Specifies any extensions of the object, as a dictionary.
+            title: Signed transaction request
+      tags:
+        - stix

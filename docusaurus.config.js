@@ -55,7 +55,7 @@ const config = {
         // Plugin Options for loading OpenAPI files
         specs: [
           {
-            spec: 'openapi/trussapi.yaml',
+            spec: 'openapi/trussapi.json',
             route: '/api/',
           },
         ],
@@ -66,8 +66,29 @@ const config = {
         },
       },
     ],
+/*    [
+      'docusaurus-plugin-openapi',
+      {
+        api: {
+          path: 'openapi/trussapi.json',
+          routeBasePath: 'api',
+        }
+      },
+    ],*/
   ],
-
+/*
+  plugins: [
+    [
+      'docusaurus-plugin-openapi',
+      {
+        id: 'api',
+        path: 'openapi/trussapi.yaml',
+        routeBasePath: 'api',
+        // ... other options
+      },
+    ]
+  ],
+*/
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
