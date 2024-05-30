@@ -88,13 +88,7 @@ const config: Config = {
           type: 'docSidebar',
           sidebarId: 'trussSidebar',
           position: 'left',
-          label: 'Truss Protocol',
-        },
-        {
-          type: 'docSidebar',
-          sidebarId: 'marketplaceSidebar',
-          position: 'left',
-          label: 'Truss Marketplace',
+          label: 'Documentation',
         },
         {
           to: '/api',
