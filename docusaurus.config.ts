@@ -4,7 +4,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
   title: 'Truss Documentation',
-  tagline: 'Documentation for Truss Protocol and the Truss Marketplace',
+  tagline: 'Documentation for Truss Security',
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
@@ -17,6 +17,8 @@ const config: Config = {
   // If you aren't using GitHub pages, you don't need these.
   organizationName: 'truss-security', // Usually your GitHub org/user name.
   projectName: 'truss-docs', // Usually your repo name.
+  deploymentBranch: 'gh-pages',
+  trailingSlash: false,
 
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -38,7 +40,7 @@ const config: Config = {
           routeBasePath: '/',
           sidebarPath: require.resolve('./sidebars.js'),
           editUrl:
-            'https://github.com/truss-security/truss-docs/docs/',
+            'https://github.com/truss-security/truss-docs/blob/main/',
         },
         blog: false,
         theme: {
@@ -109,13 +111,9 @@ const config: Config = {
           title: 'Docs',
           items: [
             {
-              label: 'Truss Protocol',
+              label: 'Truss Security',
               to: '/truss',
-            },
-            {
-              label: 'Truss Marketplace',
-              to: '/marketplace',
-            },
+            }
           ],
         },
         {
