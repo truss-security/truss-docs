@@ -164,34 +164,62 @@ components:
       properties:
         title:
           type: string
+          example: TOR-ExitNodes_New Zealand_06/02/2024 08:00 UTC
         author:
           type: array
           items:
             type: string
+          example:
+            - TOR Project
+            - Community
         type:
           type: number
+          example: 1
         category:
           type: string
+          example: TOR
         source:
           type: string
+          example: ''
         pubDate:
           type: string
+          example: ''
         reference:
           type: string
+          example:
+            - https://www.torproject.org/
+            - https://metrics.torproject.org/
+            - https://metrics.torproject.org/collector/recent/exit-lists/
         tags:
           type: array
           items:
             type: string
+          example:
+            - TOR Project
+            - TOR Exit Nodes
+            - Community
+            - Truss Automation
+            - Hourly
+            - IPv4
+            - New Zealand
         industry:
           type: array
           items:
             type: string
+          example:
+            - All
         region:
           type: array
           items:
             type: string
+          example:
+            - All
+            - New Zealand
         indicators:
           type: object
+          example:
+            IPV4:
+              - 103.208.86.5
     SearchParams:
       type: object
       properties:
