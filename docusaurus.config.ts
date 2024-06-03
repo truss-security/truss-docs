@@ -83,7 +83,7 @@ const config: Config = {
       title: 'Truss / Docs',
       logo: {
         alt: 'Truss Logo',
-        src: 'img/logo.svg',
+        src: 'img/Truss Logo IconOnly_Color.png',
       },
       items: [
         {
