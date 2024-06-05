@@ -9,10 +9,6 @@
       "name": "Truss Team",
       "email": "info@truss-security.com",
       "url": "https://truss-security.com"
-    },
-    "license": {
-      "name": "Apache 2.0",
-      "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     }
   },
   "servers": [
@@ -21,12 +17,12 @@
     }
   ],
   "paths": {
-    "/products/search": {
+    "/product/search": {
       "post": {
         "description": "Search for products",
         "operationId": "search products",
         "requestBody": {
-          "description": "Search for security products",
+          "description": "Search parameters are optional. Items matching all search parameters will be returned.",
           "required": true,
           "content": {
             "application/json": {
@@ -60,36 +56,7 @@
         }
       }
     },
-    "/products": {
-      "get": {
-        "description": "List all products.\n",
-        "operationId": "list products",
-        "responses": {
-          "200": {
-            "description": "product list",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Product"
-                  }
-                }
-              }
-            }
-          },
-          "default": {
-            "description": "unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          }
-        }
-      },
+    "/product/create": {
       "post": {
         "description": "creates a new security product",
         "operationId": "create product",
@@ -128,7 +95,7 @@
         }
       }
     },
-    "/products/{id}": {
+    "/product/{id}": {
       "get": {
         "description": "Returns a product based on a product ID",
         "operationId": "find product by id",
@@ -166,7 +133,9 @@
             }
           }
         }
-      },
+      }
+    },
+    "/product/update/{id}": {
       "put": {
         "description": "updates a product",
         "operationId": "update product",
@@ -196,7 +165,9 @@
             }
           }
         }
-      },
+      }
+    },
+    "/product/delete/{id}": {
       "delete": {
         "description": "deletes a single product based on a product ID",
         "operationId": "delete product",
@@ -272,8 +243,8 @@
             ]
           },
           "type": {
-            "type": "number",
-            "example": 1
+            "type": "string",
+            "example": "Indicator"
           },
           "category": {
             "type": "string",
@@ -281,17 +252,19 @@
           },
           "source": {
             "type": "string",
-            "example": ""
+            "example": "TOR Project"
           },
           "pubDate": {
             "type": "string",
-            "example": ""
+            "example": "June 02, 2024"
           },
           "reference": {
-            "type": "string",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
             "example": [
               "https://www.torproject.org/",
-              "https://metrics.torproject.org/",
               "https://metrics.torproject.org/collector/recent/exit-lists/"
             ]
           },
@@ -303,7 +276,6 @@
             "example": [
               "TOR Project",
               "TOR Exit Nodes",
-              "Community",
               "Truss Automation",
               "Hourly",
               "IPv4",
@@ -333,7 +305,21 @@
             "type": "object",
             "example": {
               "IPV4": [
-                "103.208.86.5"
+                  "188.114.97.7",
+                  "172.67.148.183"
+              ],
+              "URL": [
+                  "https://rtattack.baqebei1[dot]online/df/tt"
+              ],
+              "DOMAIN": [
+                  "aedjakodu24.ee",
+                  "lambhuaexpress.in",
+                  "manchac.com",
+                  "tonitto.com"
+              ],
+              "SHA256": [
+                  "44a45c396516a3f2705eaf9751a06d346fcae1864f5521356349ce85e78fd386",
+                  "a467302da10ace0bf96963bcd6bdcd6a4e619e28cd477612988276dfee9f429e"
               ]
             }
           }
@@ -345,24 +331,105 @@
           "startdate": {
             "type": "string",
             "description": "return products that were uploaded on or after this date",
-            "format": "Unix Epoch Time"
+            "format": "Unix Epoch Time",
+            "example": 1717377710394
           },
           "enddate": {
             "type": "number",
             "description": "return products that were uploaded on or before this date",
-            "format": "Unix Epoch Time"
+            "format": "Unix Epoch Time",
+            "example": 1717379710282
           },
           "category": {
             "type": "string",
-            "description": "product category value"
+            "description": "Exact match for category name",
+            "example": "Ransomware"
           },
           "source": {
             "type": "string",
-            "description": "product source value"
+            "description": "Exact match for source name",
+            "example": "Cisco Talos"
+          },
+          "author": {
+            "type": "array",
+            "description": "Author name contains any of the strings",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "Research 6",
+              "Researcher 8"
+            ]
+          },
+          "title": {
+            "type": "array",
+            "description": "Title contains any of the strings",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "Cisco Talos",
+              "Noberus "
+            ]
+          },
+          "tags": {
+            "type": "array",
+            "description": "Tags contains any of the strings",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "C2",
+              "AlphV"
+            ]
+          },
+          "validators": {
+            "type": "array",
+            "description": "Validators contains any of the strings",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "0x2f5c1d8e7b3a9"
+            ]
+          },
+          "industry": {
+            "type": "array",
+            "description": "Industry contains any of the strings",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "Government",
+              "Transport"
+            ]
+          },
+          "region": {
+            "type": "array",
+            "description": "Region contains any of the strings",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "Cuba",
+              "Argentina",
+              "Poland"
+            ]
+          },
+          "indicators": {
+            "type": "array",
+            "description": "Indicators contains any of the strings",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "45.61.138.109:45815"
+            ]
           },
           "limit": {
             "type": "number",
-            "description": "maximum number of results to return"
+            "description": "maximum number of results to return",
+            "example": 10
           },
           "startKey": {
             "$ref": "#/components/schemas/StartKey"
@@ -370,7 +437,8 @@
           "scanIndexForward": {
             "type": "boolean",
             "default": true,
-            "description": "sort order of the products according to the product timestamp (true = oldest to newest)"
+            "description": "sort order of the products according to the product timestamp (true = oldest to newest)",
+            "example": true
           }
         }
       },
@@ -466,16 +534,20 @@
         "description": "when paging, use the LastEvaluatedKey returned from the previous query as the startKey for the next query",
         "properties": {
           "GSI2PK": {
-            "type": "string"
+            "type": "string",
+            "example": "Ransomware"
           },
           "SK": {
-            "type": "string"
+            "type": "string",
+            "example": "VER#0"
           },
           "PK": {
-            "type": "string"
+            "type": "string",
+            "example": "PROD#01HGR5R6S0SQDTAPMJC96ZB5BG"
           },
           "GSI2SK": {
-            "type": "string"
+            "type": "number",
+            "example": 1717377710608
           }
         }
       },
