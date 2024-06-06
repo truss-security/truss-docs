@@ -19,9 +19,9 @@ The Home page serves as the main entry point of the Truss Dashboard. It provides
 
 **Functionality:**
 - Hyperlinks allow for easy point and click redirection to dynamic search operations.
-- Top 5 Categories
-- Top 10 Authors
-- Top 20 Tags
+    - Top 5 Categories
+    - Top 10 Authors
+    - Top 20 Tags
 
 ### Dashboard Page (Dashboard.tsx and Dashboard.css)
 The Dashboard page is the main interface for searching, filtering, and managing the data.
