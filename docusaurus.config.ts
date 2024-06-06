@@ -88,9 +88,21 @@ const config: Config = {
       items: [
         {
           type: 'docSidebar',
-          sidebarId: 'trussSidebar',
+          sidebarId: 'dataSidebar',
           position: 'left',
-          label: 'Documentation',
+          label: 'Security Data',
+        },
+        {
+          type: 'docSidebar',
+          sidebarId: 'analysisSidebar',
+          position: 'left',
+          label: 'Threat Analysis',
+        },
+        {
+          type: 'docSidebar',
+          sidebarId: 'contributorsSidebar',
+          position: 'left',
+          label: 'Truss Contributors',
         },
         {
           to: '/api',
@@ -112,7 +124,7 @@ const config: Config = {
           items: [
             {
               label: 'Truss Security',
-              to: '/truss',
+              to: '/data',
             }
           ],
         },

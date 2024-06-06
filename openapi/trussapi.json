@@ -362,19 +362,13 @@
             ]
           },
           "title": {
-            "type": "array",
-            "description": "Title contains any of the strings",
-            "items": {
-              "type": "string"
-            },
-            "example": [
-              "Cisco Talos",
-              "Noberus "
-            ]
+            "type": "string",
+            "description": "Returns products where the product title contains the specified string",
+            "example":  "GhostSec joint ransomware operation"
           },
           "tags": {
             "type": "array",
-            "description": "Tags contains any of the strings",
+            "description": "Return products that contain any of the specified tags",
             "items": {
               "type": "string"
             },
@@ -385,7 +379,7 @@
           },
           "validators": {
             "type": "array",
-            "description": "Validators contains any of the strings",
+            "description": "Return products that contain any of the specified validators",
             "items": {
               "type": "string"
             },
@@ -395,7 +389,7 @@
           },
           "industry": {
             "type": "array",
-            "description": "Industry contains any of the strings",
+            "description": "Return products that contain any of the specified industries",
             "items": {
               "type": "string"
             },
@@ -406,7 +400,7 @@
           },
           "region": {
             "type": "array",
-            "description": "Region contains any of the strings",
+            "description": "Return products that contain any of the specified regions",
             "items": {
               "type": "string"
             },
@@ -418,7 +412,7 @@
           },
           "indicators": {
             "type": "array",
-            "description": "Indicators contains any of the strings",
+            "description": "Return products that contain any of the specified indicators",
             "items": {
               "type": "string"
             },
@@ -434,10 +428,10 @@
           "startKey": {
             "$ref": "#/components/schemas/StartKey"
           },
-          "scanIndexForward": {
+          "scanOldestToNewest": {
             "type": "boolean",
-            "default": true,
-            "description": "sort order of the products according to the product timestamp (true = oldest to newest)",
+            "default": false,
+            "description": "Sort order of the products according to the product timestamp (true = oldest to newest)",
             "example": true
           }
         }

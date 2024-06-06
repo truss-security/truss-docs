@@ -1,12 +1,12 @@
 ---
-sidebar_position: 1
-title: Getting started
+sidebar_position: 4
+title: Keys and Accounts
 ---
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Getting started
+# Keys and Accounts
 
 ## 1. Sign up to Truss
 Sign up for an account on the Truss website, enter your details, and select CREATE A FREE ACCOUNT.
@@ -159,11 +159,11 @@ You'll receive a response similar to:
 }
 ```
 
-## 5. View your project stats
+## 4. View your project stats
 From the Stats page of the Truss dashboard, you can view real-time statistics about your API usage. Optimize your app and better understand your users by reviewing your API request stats regularly.
 
 
-## 6. Manage your account
+## 5. Manage your account
 Find additional settings in Settings to manage your account. You can:
 
 * Set notifications for daily limits from the Account option.
