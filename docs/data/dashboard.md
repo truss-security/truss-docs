@@ -27,14 +27,16 @@ The Home page serves as the main entry point of the Truss Dashboard. It provides
 The Dashboard page is the main interface for searching, filtering, and managing the data.
 
 #### Dashboard.tsx
-**Effect Hooks:**
-- Initialize search fields and input values based on URL parameters.
-- Fetch and filter data from the GraphQL endpoint based on search fields and sort direction.
-
 **Display:**
 - Displays search fields, timeframe inputs, and buttons for search, select all, and export.
 - Shows product insights in an everpresent left-hand pane, providing additional insight into displayed security products.
 - Individual product cards are displayed in the main content area, allowing users to dive into each security product.
 - Selection and exporting of security products provides users with JSON formatted data for easy consumption.
+
+**Effect Hooks:**
+- Initialize search fields and input values based on URL parameters.
+- Fetch and filter data from the GraphQL endpoint based on search fields and sort direction.
+
+---
 
 This documentation provides an overview and detailed description of the processes and operations of the Home, Dashboard, and Signin pages in the Truss Dashboard application. For further details, refer to the respective files in the codebase.
