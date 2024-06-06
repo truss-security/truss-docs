@@ -9,7 +9,7 @@ The Truss Dashboard is a graphical interface to the vast Truss security data dat
 
 ## Page Descriptions and Operations
 
-### Home Page (Home.tsx and Home.css)
+### Home Page
 The Home page serves as the main entry point of the Truss Dashboard. It provides an overview of the product trends, including top categories, total products and indicators, and top authors and tags.
 
 #### Home
@@ -26,7 +26,7 @@ The Home page serves as the main entry point of the Truss Dashboard. It provides
 ### Dashboard Page (Dashboard.tsx and Dashboard.css)
 The Dashboard page is the main interface for searching, filtering, and managing the data.
 
-#### Dashboard.tsx
+#### Dashboard
 **Display:**
 - Displays search fields, timeframe inputs, and buttons for search, select all, and export.
 - Shows product insights in an everpresent left-hand pane, providing additional insight into displayed security products.
