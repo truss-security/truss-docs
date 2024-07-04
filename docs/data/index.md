@@ -2,7 +2,7 @@
 sidebar_position: 1
 ---
 
-# Truss Security
+# Security Data
 
 Truss is dedicated to delivering cutting-edge security intelligence through a decentralized network of security experts worldwide. Truss simplifies the complex process of cybersecurity data collection distribution, enabling IT and security teams to interact with and protect against threats more effectively. Truss connects organizations to the security data they need, precisely when they need it, offering a dynamic and responsive approach to threat intelligence.
 

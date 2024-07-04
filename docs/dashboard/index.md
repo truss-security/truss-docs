@@ -1,11 +1,13 @@
 ---
-sidebar_position: 5
+sidebar_position: 1
+title: Dashboard
 ---
 
-# Truss Dashboard Documentation
+# Truss Dashboard
 
-## Overview
-The Truss Dashboard is a graphical interface to the vast Truss security data database. The database contains curated security information and intelligence products from decentralized sources and intelligence outlets. The dashboard provides various functionalities to search, filter, and export data, as well as insights on the most frequent categories, authors, tags, and regions.
+The Truss dashboard and graph engine (coming soon!) provides for the exploration and cataloging of threat intelligence, enabling you to leverage security data tailored to your infrastructure, applications, software, and the key threats you care about most.
+
+The database contains curated security information and intelligence products from decentralized sources and intelligence outlets. The dashboard provides various functionalities to search, filter, and export data, as well as insights on the most frequent categories, authors, tags, and regions.
 
 ## Page Descriptions and Operations
 
@@ -36,7 +38,3 @@ The Dashboard page is the main interface for searching, filtering, and managing 
 **Effect Hooks:**
 - Initialize search fields and input values based on URL parameters.
 - Fetch and filter data from the GraphQL endpoint based on search fields and sort direction.
-
----
-
-This documentation provides an overview and detailed description of the processes and operations of the Home, Dashboard, and Signin pages in the Truss Dashboard application. For further details, refer to the respective files in the codebase.

@@ -16,6 +16,10 @@ $ yarn start
 
 This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
 
+### Styling
+
+@docusaurus/preset-classic uses [Infima](https://infima.dev/) as the underlying styling framework.
+
 ### Build
 
 ```

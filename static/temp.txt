@@ -1,0 +1,75 @@
+curl https://api.truss-security.com/product/search \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <BEARER_TOKEN> \
+  -d '{
+    "category": "Ransomware",
+    "startDate": 1717379710282,
+    "indicators": {
+      "IP": ["45.61.138.109", "185.141.62.123"],
+      "SHA1": ["bbfc22ac7985902fdf0dd91c5bf270967cf1f474"]
+    }
+  }'
+
+/** 
+{
+  "Items": [
+    {
+      "id": 0,
+      "title": "TOR-ExitNodes_New Zealand_06/02/2024 08:00 UTC",
+      "author": [
+        "TOR Project",
+        "Community"
+      ],
+      "type": "Indicator",
+      "category": "TOR",
+      "source": "TOR Project",
+      "pubDate": "June 02, 2024",
+      "reference": [
+        "https://www.torproject.org/",
+        "https://metrics.torproject.org/collector/recent/exit-lists/"
+      ],
+      "tags": [
+        "TOR Project",
+        "TOR Exit Nodes",
+        "Truss Automation",
+        "Hourly",
+        "IPv4",
+        "New Zealand"
+      ],
+      "industry": [
+        "All"
+      ],
+      "region": [
+        "All",
+        "New Zealand"
+      ],
+      "indicators": {
+        "IPV4": [
+          "188.114.97.7",
+          "172.67.148.183"
+        ],
+        "URL": [
+          "https://rtattack.baqebei1[dot]online/df/tt"
+        ],
+        "DOMAIN": [
+          "aedjakodu24.ee",
+          "lambhuaexpress.in",
+          "manchac.com",
+          "tonitto.com"
+        ],
+        "SHA256": [
+          "44a45c396516a3f2705eaf9751a06d346fcae1864f5521356349ce85e78fd386",
+          "a467302da10ace0bf96963bcd6bdcd6a4e619e28cd477612988276dfee9f429e"
+        ]
+      }
+    }
+  ],
+  "LastEvaluatedKey": {
+    "GSI2PK": "string",
+    "SK": "string",
+    "PK": "string",
+    "GSI2SK": "string"
+  },
+  "ScannedCount": 0
+}
+**/

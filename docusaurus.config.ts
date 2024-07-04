@@ -3,8 +3,8 @@ import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
-  title: 'Truss Documentation',
-  tagline: 'Documentation for Truss Security',
+  title: 'Making Security Smarter',
+  tagline: 'Connecting organizations to the security data they need',
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
@@ -88,15 +88,15 @@ const config: Config = {
       items: [
         {
           type: 'docSidebar',
-          sidebarId: 'dataSidebar',
+          sidebarId: 'dashboardSidebar',
           position: 'left',
-          label: 'Security Data',
+          label: 'Dashboard',
         },
         {
           type: 'docSidebar',
-          sidebarId: 'analysisSidebar',
+          sidebarId: 'dataSidebar',
           position: 'left',
-          label: 'Threat Analysis',
+          label: 'Security Data',
         },
         {
           type: 'docSidebar',
@@ -119,6 +119,15 @@ const config: Config = {
     footer: {
       style: 'dark',
       links: [
+        {
+          title: 'Truss',
+          items: [
+            {
+              label: 'Fully hosted APIs to make your security tools smarter.',
+              to: '/data',
+            }
+          ],
+        },
         {
           title: 'Docs',
           items: [
