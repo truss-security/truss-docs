@@ -217,7 +217,7 @@ components:
       type: object
       properties:
         startdate:
-          type: string
+          type: number
           description: return products that were uploaded on or after this date
           format: Unix Epoch Time
           example: 1717377710394
@@ -281,12 +281,20 @@ components:
             - Argentina
             - Poland
         indicators:
-          type: array
+          type: object
           description: Return products that contain any of the specified indicators
           items:
-            type: string
+            type: array
+            items:
+              type: string
           example:
-            - 45.61.138.109:45815
+            IPV4:
+              - 94.103.91.246
+            URL:
+              - http://94.103.91.246[/]incrementLaunch
+              - http://94.103.91.246[/]addInfection
+            FILENAME:
+              - '*.ghost'
         limit:
           type: number
           description: maximum number of results to return
