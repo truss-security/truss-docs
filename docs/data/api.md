@@ -93,7 +93,7 @@ It is possible to search for one or more indicators. For example, the following 
     IP: ["45.61.138.109", "185.141.62.123"],
     SHA1: ["bbfc22ac7985902fdf0dd91c5bf270967cf1f474"]
   }
-{
+}
 ```
 
 ## Using limit
