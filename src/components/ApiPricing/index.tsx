@@ -1,62 +1,96 @@
-import clsx from 'clsx';
+import React from 'react';
 import Heading from '@theme/Heading';
-import styles from './styles.module.css';
 
 type FeatureItem = {
   title: string;
-  features: string[],
-  cost: number;
-  description: string;
+  price: number | null;
+  interval: string;
+  features: { name: string; included: boolean }[];
 };
 
 const FeatureList: FeatureItem[] = [
   {
-    title: 'Starter',
+    title: 'Free',
+    price: 0,
+    interval: '/month',
     features: [
-      ' 1 User', 
-      ' Access to Security API'
+      { name: 'Basic Analytics', included: true },
+      { name: 'Up to 10 UI Queries Per Day', included: true },
+      { name: 'Basic Support', included: true },
+      { name: 'More than 1 API query per hour', included: false },
+      { name: 'Automatic Downloads', included: false },
     ],
-    cost: 0,
-    description: "100% Free to use",
   },
   {
-    title: 'Analyst',
+    title: 'Pro',
+    price: 50,
+    interval: '/month',
     features: [
-      ' Up to 2 Users', 
-      ' Access to Security API',
-      ' Access to Truss Dashboard'
+      { name: 'Unlimited UI Queries Per Day', included: true },
+      { name: 'Unlimited API Queries Per Day', included: true },
+      { name: '1 Upload Per Day', included: true },
+      { name: 'Larger Discord Channel Access', included: true },
+      { name: 'Uploading Security Intelligence', included: false },
     ],
-    cost: 60,
-    description: "Per month ($720 per year)",
   },
   {
-    title: 'Team',
+    title: 'Contributor',
+    price: 150,
+    interval: '/month',
     features: [
-      ' Up to 5 Users', 
-      ' Access to Security API',
-      ' Access to Truss Dashboard'
+      { name: 'Unlimited UI Queries Per Day', included: true },
+      { name: 'Unlimited API Queries Per Day', included: true },
+      { name: 'Unlimited Uploads Per Day', included: true },
+      { name: 'Larger Discord Channel Access', included: true },
+      { name: '(Coming Soon) Allow Subscribers to PAY YOU for your intel!', included: true },
     ],
-    cost: 180,
-    description: "Per month ($2160 per year)",
   },
+  {
+    title: 'Enterprise',
+    price: null,
+    interval: '/month',
+    features: [
+      { name: 'Basic Analytics', included: true },
+      { name: 'Unlimited Projects', included: true },
+      { name: 'Basic Support', included: true },
+      { name: 'Advanced Features', included: true },
+      { name: 'Priority Support', included: true },
+    ],
+  }
 ];
 
-function Feature({title, features, cost, description}: FeatureItem) {
+function Feature({title, price, interval, features}: FeatureItem) {
   return (
-    <div className={clsx('col col--4')}>
-      <div className="card">
-        <div className="card__body">
-          <div className="text--left padding-horiz--md">
-            <Heading as="h2">{title}</Heading>
+    <div className="col col--3">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden relative">
+        <div className="p-6">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+            {title}
+          </h2>
+          <div className="mt-4 flex items-baseline text-gray-900 dark:text-white">
+            <span className="text-4xl font-extrabold">
+              {price === null ? '$' : `$${price}`}
+            </span>
+            <span className="ml-1 text-xl text-gray-500">{interval}</span>
           </div>
-          <div className="text--left padding-horiz--md">
-            {features.map((feature) => (
-            <p>✓ {feature}</p>
-          ))}
-          </div>
-          <div className="text--center padding-horiz--md">
-            <Heading as="h1">${cost}</Heading>
-            <p>{description}</p>
+
+          <div className="mt-6 space-y-4">
+            {features.map((feature, idx) => (
+              <div key={idx} className="flex items-center">
+                {feature.included ? (
+                  <span className="text-green-500 text-lg font-bold mr-2">✓</span>
+                ) : (
+                  <span className="text-red-500 text-lg font-bold mr-2">✗</span>
+                )}
+                <span className={`${
+                  feature.name.includes('Coming Soon')
+                    ? 'bg-yellow-100 dark:bg-yellow-900 px-2 py-1 rounded text-yellow-800 dark:text-yellow-200'
+                    : 'text-gray-700 dark:text-gray-300'
+                }`}>
+                  {feature.name}
+                </span>
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -66,13 +100,15 @@ function Feature({title, features, cost, description}: FeatureItem) {
 
 export default function ApiPricing(): JSX.Element {
   return (
-    <section className={styles.features}>
+    <section className="py-12">
       <div className="container">
-        <div className="text--center padding-horiz--md">
-          <Heading as="h1" className="hero__title">
-            Get Truss
+        <div className="text-center mb-12">
+          <Heading as="h1" className="text-3xl font-extrabold mb-4">
+            Pricing Plans
           </Heading>
-          <p>Find the best Truss plan for your project. You can switch or cancel at anytime.</p>
+          <p className="text-xl text-gray-600 dark:text-gray-300">
+            Choose the perfect plan for your needs
+          </p>
         </div>
         <div className="row">
           {FeatureList.map((props, idx) => (
