@@ -1,25 +1,26 @@
-import clsx from 'clsx';
+import React from 'react';
 import Heading from '@theme/Heading';
-import styles from './styles.module.css';
 
-const Svg = require('@site/static/img/apiCode.svg').default
+const Svg = require('@site/static/img/apiCode.svg').default;
 
 export default function TrussApi(): JSX.Element {
   return (
-    <section className={styles.features}>
-      <div className="container">
-        <div className="row">
-          <div className="col col--6">
-            <div className="text--left padding-horiz--md">
-              <Heading as="h1" className="hero__title">
+    <section className="py-12">
+      <div className="container mx-auto">
+        <div className="flex flex-wrap -mx-4">
+          <div className="w-full lg:w-1/2 px-4">
+            <div className="text-left px-4">
+              <Heading as="h1" className="text-4xl font-bold mb-4">
                 Security RPC
               </Heading>
-              <p>The Security RPC service is designed for defenders seeking comprehensive access to security data and protections</p>
+              <p className="text-gray-600">
+                The Security RPC service is designed for defenders seeking comprehensive access to security data and protections
+              </p>
             </div>
           </div>
-          <div className="col col--6">
-            <div className="text--center">
-              <Svg className={styles.featureSvg} role="img" />
+          <div className="w-full lg:w-1/2 px-4">
+            <div className="flex justify-center items-center">
+              <Svg className="w-full max-w-md h-auto" role="img" />
             </div>
           </div>
         </div>

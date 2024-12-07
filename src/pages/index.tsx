@@ -1,17 +1,14 @@
-import clsx from 'clsx';
-import Link from '@docusaurus/Link';
+import React from 'react';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
-import TrussApi from '@site/src/components/TrussApi';
-import ApiPricing from '@site/src/components/ApiPricing';
+import TrussApi from '../components/TrussApi';
+import ApiPricing from '../components/ApiPricing';
 import Heading from '@theme/Heading';
-
-import styles from './index.module.css';
 
 function HomepageHeader() {
   const {siteConfig} = useDocusaurusContext();
   return (
-    <header className={clsx(styles.heroBanner)}>
+    <header className="py-16 text-center relative overflow-hidden">
       <div className="container">
         <Heading as="h1" className="hero__title">
           {siteConfig.title}
@@ -21,15 +18,6 @@ function HomepageHeader() {
     </header>
   );
 }
-/** Video button:
-        <div className={styles.buttons}>
-          <Link
-            className="button button--secondary button--lg"
-            to="/">
-            Truss Overview Video - 5min ⏱️
-          </Link>
-        </div> 
- */
 
 export default function Home(): JSX.Element {
   const {siteConfig} = useDocusaurusContext();

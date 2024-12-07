@@ -1,40 +1,38 @@
 ---
 sidebar_position: 1
-title: Dashboard
+title: Dashboard Overview
 ---
 
 # Truss Dashboard
 
-The Truss dashboard and graph engine (coming soon!) provides for the exploration and cataloging of threat intelligence, enabling you to leverage security data tailored to your infrastructure, applications, software, and the key threats you care about most.
+The Truss dashboard provides comprehensive tools for exploring and cataloging threat intelligence, enabling you to leverage security data tailored to your infrastructure, applications, software, and key threats.
 
-The database contains curated security information and intelligence products from decentralized sources and intelligence outlets. The dashboard provides various functionalities to search, filter, and export data, as well as insights on the most frequent categories, authors, tags, and regions.
+## Core Features
 
-## Page Descriptions and Operations
+### [Insights Dashboard](./insights)
+Real-time analytics and visualization of security trends, including:
+- Category distribution analysis
+- Regional activity patterns
+- Industry-specific trends
+- Source reliability metrics
 
-### Home Page
-The Home page serves as the main entry point of the Truss Dashboard. It provides an overview of the product trends, including top categories, total products and indicators, and top authors and tags.
+### [Products Explorer](./products)
+Comprehensive product management interface offering:
+- Advanced filtering system
+- Real-time updates
+- Detailed product information
+- Bulk operations support
 
-#### Home
-**Display:**
-- Displays the total products and indicators.
-- Lists the top five categories, authors, and tags with links to filter the Dashboard page.
+### [Charts & Analytics](./charts)
+Powerful visualization tools including:
+- Stacked area charts
+- Interactive data exploration
+- Custom chart configurations
+- Export capabilities
 
-**Functionality:**
-- Hyperlinks allow for easy point and click redirection to dynamic search operations.
-    - Top 5 Categories
-    - Top 10 Authors
-    - Top 20 Tags
-
-### Dashboard Page (Dashboard.tsx and Dashboard.css)
-The Dashboard page is the main interface for searching, filtering, and managing the data.
-
-#### Dashboard
-**Display:**
-- Displays search fields, timeframe inputs, and buttons for search, select all, and export.
-- Shows product insights in an everpresent left-hand pane, providing additional insight into displayed security products.
-- Individual product cards are displayed in the main content area, allowing users to dive into each security product.
-- Selection and exporting of security products provides users with JSON formatted data for easy consumption.
-
-**Effect Hooks:**
-- Initialize search fields and input values based on URL parameters.
-- Fetch and filter data from the GraphQL endpoint based on search fields and sort direction.
+### [My Account](./my-account)
+Account management and preferences:
+- Profile settings
+- API key management
+- Theme preferences
+- Password management
