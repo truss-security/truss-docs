@@ -34,47 +34,47 @@ Truss Products are the collection of data returned from the Truss API. The follo
 The following is an example of a Truss Product returned from the API:
 
 ```json
-      {
-        "id": "01JEF7J9V20DX9RZ6AMQ7BTXZ5",
-        "version": 0,
-        "latestVersion": 0,
-        "timestamp": 1733530560355,
-        "title": "Threatview-Domains_ru_krd_12/07/2024",
-        "author": [
-          "MohitK_",
-          "Threatview.io",
-          "Community"
-        ],
-        "type": "Indicator",
-        "category": "OSINT",
-        "source": "Threatview.io",
-        "pubDate": "December 07, 2024",
-        "reference": [
-          "https://threatview.io/",
-          "https://threatview.io/Downloads/DOMAIN-High-Confidence-Feed.txt",
-          "https://www.reddit.com/r/HomeNetworking/comments/m8j6mh/integrate_threat_intelligence_in_home_labs/"
-        ],
-        "tags": [
-          "Threatview.io",
-          "Domains",
-          "Truss Automation",
-          "ru",
-          "krd",
-          "High Confidence"
-        ],
-        "industry": [
-          "All"
-        ],
-        "region": [
-          "All"
-        ],
-        "indicators": {
-          "DOMAIN": [
-            "krd-afisha.ru",
-            "krd-croparena.ru",
-            "krd-stadium.ru"
-          ]
-        },
-        "contributor": "Truss Automation"
+{
+  "id": "01JEF7J9V20DX9RZ6AMQ7BTXZ5",
+  "version": 0,
+  "latestVersion": 0,
+  "timestamp": 1733530560355,
+  "title": "Threatview-Domains_ru_krd_12/07/2024",
+  "author": [
+    "MohitK_",
+    "Threatview.io",
+    "Community"
+  ],
+  "type": "Indicator",
+  "category": "OSINT",
+  "source": "Threatview.io",
+  "pubDate": "December 07, 2024",
+  "reference": [
+    "https://threatview.io/",
+    "https://threatview.io/Downloads/DOMAIN-High-Confidence-Feed.txt",
+    "https://www.reddit.com/r/HomeNetworking/comments/m8j6mh/integrate_threat_intelligence_in_home_labs/"
+  ],
+  "tags": [
+    "Threatview.io",
+    "Domains",
+    "Truss Automation",
+    "ru",
+    "krd",
+    "High Confidence"
+  ],
+  "industry": [
+    "All"
+  ],
+  "region": [
+    "All"
+  ],
+  "indicators": {
+    "DOMAIN": [
+      "krd-afisha.ru",
+      "krd-croparena.ru",
+      "krd-stadium.ru"
+    ]
+  },
+  "contributor": "Truss Automation"
 }
 ```
