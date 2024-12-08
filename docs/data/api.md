@@ -7,21 +7,38 @@ import TabItem from '@theme/TabItem';
 
 # Using the API
 
-Documentation on using the API
+## Truss Search Endpoint
 
-## Search
+The Truss `/product/search` endpoint is designed to accommodate most data access needs. This endpoint allows you to retrieve comprehensive slices of security data based on a variety of filter parameters.
 
-`/product/search`
+At the simplest level, you will want to specify a `startdate` or `days` parameter to target a specific time period for the security products you want to retrieve.
 
-The Truss search function is a powerful endpoint that is designed to accommodate most data access needs. This endpoint allows users to retrieve comprehensive slices of security data efficiently and effectively. There are two types of search parameters: primary and secondary. The primary search parameters are indexed in the database and are used to limit the number of records returned by the search. The secondary search parameters are used to filter the data returned from search before returning it.
+```shell
+curl -X 'POST' \
+  "https://api.truss-security.com/product/search" \
+  -H "x-api-key: YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "days": 2
+  }'
+```
 
-### By Date 
+## Paging
 
-* **startdate:** Return products uploaded on or after this date.
-* **enddate:** Return products uploaded on or before this date.
-* **days:** Return products uploaded since N days ago.
+When a product search results in a large number of products, only a subset of the total will be returned by each call to the `/product/search` endpoint. In these cases the initial calls will return metadata in the form of a `LastEvaluatedKey` that can be used to page through the results.
 
-Searches may be time boxed using the `startdate` and `enddate` parameters using *unix epoch time* in milliseconds. For example, the following example will return all security products entered since the specified start date (Sun Jun  2 19:55:10 MDT 2024).
+The format of `LastEvaluatedKey`:
+
+```json
+LastEvaluatedKey: {
+  "GSI1PK": "PROD",
+  "SK": "VER#0",
+  "GSI1SK": 1717377712019,
+  "PK": "PROD#01HKDT164VYRS50ZQ8RJEHHBH0"
+}
+```
+
+To get the next page of the data you pass this object in as a `LastEvaluatedKey` parameter for the next search.
 
 <Tabs>
   <TabItem value="curl" label="curl" default>
@@ -31,19 +48,112 @@ curl -X 'POST' \
   -H "x-api-key: YOUR_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-    "startDate": 1717379710282
+    "days": 2,
+    "LastEvaluatedKey": {
+      "GSI1PK": "PROD",
+      "SK": "VER#0",
+      "GSI1SK": 1717377712019,
+      "PK": "PROD#01HKDT164VYRS50ZQ8RJEHHBH0"
+    }
   }'
 ```
   </TabItem>
   <TabItem value="javascript" label="javascript">
 ```javascript
-{
-  startDate: 1717379710282
+import axios from 'axios';
+
+const YOUR_API_KEY = '1234567890'
+
+export const trussApi = async (filter) => {
+  const server = 'https://api.truss-security.com'
+  const searchEndpoint = '/product/search'
+  const url = server + searchEndpoint
+  try {
+    const options = {
+      method: 'POST',
+      headers: { 
+        'x-api-key': YOUR_API_KEY
+      },
+      data: filter,
+      url,
+    };
+    const response = await axios(options);
+    return response.data
+  } catch (err) {
+    console.log('HTTP Error: ', err)
+    throw err
+  }
 }
+
+export async function fetchAllPages(filter) {
+  const allItems = [];
+  let lastEvaluatedKey;
+  
+  try {
+    do {
+      const currentFilter = {
+        ...filter,
+        LastEvaluatedKey: lastEvaluatedKey
+      };
+      const { result } = await trussApi(currentFilter);
+      allItems.push(...result.Items);
+      lastEvaluatedKey = result.LastEvaluatedKey;
+    } while (lastEvaluatedKey);
+
+    return allItems;
+  } catch (error) {
+    throw new Error(`Failed to fetch pages: ${error.message}`);
+  }
+}
+
+const fetchExample = async () => {
+  try {
+    const filter = {
+      startdate: 1731369600000,
+      enddate: 1731455999999,
+      category: ['TOR', 'Malware']
+    };
+    
+    const allItems = await fetchAllPages(filter);
+
+    console.log('Total Items:', allItems.length);
+  } catch (error) {
+    console.error('Test failed:', error);
+  }
+};
+
+fetchExample()
 ```
   </TabItem>
 </Tabs>
 
+## Search by Date 
+
+There are several ways to search by date. The following parameters are supported:
+
+* **startdate:** Return products uploaded on or after this date.
+* **enddate:** Return products uploaded on or before this date.
+* **days:** Return products uploaded since N days ago.
+
+Searches may be time boxed using the `startdate` and `enddate` parameters. Different date formats are supported:
+
+- *unix epoch time* in milliseconds (e.g., "1717379710282")
+- *ISO* format (e.g., "2024-06-02")
+- *Human readable* format (e.g., "March 20, 2024")
+- *Relative date* format (e.g., "today", "yesterday", "last week", "next week", "last month", "next month")
+
+For example, the following example will return all security products entered since the specified start date (Sun Jun 2 2024) and before the specified end date (Mon Jun 3 2024).
+
+```shell
+curl -X 'POST' \
+  "https://api.truss-security.com/product/search" \
+  -H "x-api-key: YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "startDate": "2024-06-02",
+    "endDate": "2024-06-03"
+  }'
+```
 
 If a `days` parameter is included the search returns security products entered since that number of days in the past to the current time. This parameter will be used in place of `startdate` and `enddate` parameters.
 
@@ -51,209 +161,49 @@ If a `days` parameter is included the search returns security products entered s
 When a `days` parameter is entered, `startdate` and `enddate` parameters will be ignored.
 :::
 
-<Tabs>
-  <TabItem value="curl" label="curl" default>
 ```shell
 curl -X 'POST' \
   "https://api.truss-security.com/product/search" \
   -H "x-api-key: YOUR_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-    "days": 7
+    "days": 3
   }'
 ```
-  </TabItem>
-  <TabItem value="javascript" label="javascript">
-```javascript
-{
-  days: 7
-}
-```
-  </TabItem>
-</Tabs>
 
+## Search Filters
 
-### By category and source
+Search filters are used to narrow down the results of a search. They contain both the date parameters and the product parameters and are passed directly into the data field of the search request.
 
-* **category:** Exact match for category name.
-* **source:** Exact match for source name.
+In addition to the date parameters, the following product parameters are supported:
 
-These primary parameters are indexed in the database, ensuring optimized and quick data retrieval.
+* **category:** Array of category names (e.g., ["Ransomware", "OSINT"]).
+* **source:** Array of source names (e.g., ["TOR Project"]).
+* **author:** Array of author names (e.g., ["MohitK_"]).
+* **industry:** Array of industry names (e.g., ["Finance"]).
+* **region:** Array of region names (e.g., ["Europe"]).
+* **reference:** Array of reference strings (e.g., ["https://threatview.io/"]).
+* **tags:** Array of tags (e.g., ["C2", "AlphV"]).
 
-### Using Filters
+When searching for multiple values for a single parameter, the search performs an `OR` between the strings passed as an array to a single parameter. For example, if the values ["Ransomware", "OSINT"] are passed to the `category` parameter, the search will return all security products where the `category` is "Ransomware" OR "OSINT".
 
-There are also several secondary search parameters that can be used to further filter the search results. These include:
+If more than one parameter is specified in a search (e.g., `category` and `source`), then the search will return those products that satisfy BOTH of the specified parameters. In other words, the search performs an `AND` between the different parameters. For example, if ["Ransomeware"] is passed to the `category` parameter and the ["TOR Project"] is passed to the `source` parameter, the search will return all security products where the `category` is "Ransomeware" AND where the `source` is "TOR Project".
 
-`author | title | tags | validators | industry | region`
+Consider the following filter:
 
-If more than one secondary parameter is specified in a search, then the search will return those products that satisfy both of the specified parameters. In other words, the search performs an `AND` between the different parameters.
-
-Secondary search parameters that are of type `string` (e.g., title) only allow you to pass in a single string. The search will return any security products where that parameter CONTAINS that string.
-
-Secondary search parameters that are of type `array of strings` (e.g., author, tags, validators, industry, region, indicators) allow you to pass in an array of strings. The search will return any security products where ANY of the strings are found. In other words, the search performs an `OR` between the strings passed as an array to a single parameter.
-
-Consider the following search:
-
-<Tabs>
-  <TabItem value="curl" label="curl" default>
 ```shell
 curl -X 'POST' \
   "https://api.truss-security.com/product/search" \
   -H "x-api-key: YOUR_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
+    "days": 3,
     "author": ["TOR Project"],
     "tags": ["C2", "AlphV"]
   }'
 ```
-  </TabItem>
-  <TabItem value="javascript" label="javascript">
-```javascript
-{
-  author: ["Researcher 1"],
-  tags: ["C2", "AlphV"],
-}
-```
-  </TabItem>
-</Tabs>
 
+This will return all security products where the `author` is "TOR Project" `AND` where the `tags` are "C2" `OR` "AlphV".
 
-This will return all security products where the `author` is "Researcher 1" `AND` where the `tags` are "C2" OR "AlphV".
-
-### By indicators
-
-Indicators in a product have a format like the following:
-
-```javascript
-indicators: {
-    IPV4: ["94.103.91.246"],
-    URL: [
-      "http://94.103.91.246/incrementLaunch",
-      "http://94.103.91.246/upload",
-      "http://94.103.91.246/addInfection"
-    ],
-    FILENAME: ["*.ghost"]
-  }
-```
-
-It is possible to search for one or more indicators. For example, the following search will return all security products that have been entered since the specified start date, with the `category` of "Ransomeware" and `IP` indicators "45.61.138.109" OR "185.141.62.123" OR the `SHA1` indicator "bbfc22ac7985902fdf0dd91c5bf270967cf1f474".
-
-<Tabs>
-  <TabItem value="curl" label="curl" default>
-```shell
-curl -X 'POST' \
-  "https://api.truss-security.com/product/search" \
-  -H "x-api-key: YOUR_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "category": "Ransomware"
-    "startDate": 1717379710282,
-    "indicators": {
-      "IP": ["45.61.138.109", "185.141.62.123"],
-      "SHA1": ["bbfc22ac7985902fdf0dd91c5bf270967cf1f474"]
-    }
-  }'
-```
-  </TabItem>
-  <TabItem value="javascript" label="javascript">
-```javascript
-{
-  category: "Ransomware",
-  startDate: 1717379710282,
-  indicators: {
-    IP: ["45.61.138.109", "185.141.62.123"],
-    SHA1: ["bbfc22ac7985902fdf0dd91c5bf270967cf1f474"]
-  }
-}
-```
-  </TabItem>
-</Tabs>
-
-
-
-### Using limit
-
-* **limit:** The maximum number of records to return.
-
-### Paging
-
-Searches where Primary Search Parameters are not specified or which return a large number of products may only return a subset of the total number of products that would be satified by the search. In these cases the search will return metadata in the form of a `LastEvaluatedKey`. 
-
-The format of `LastEvaluatedKey`:
-
-```javascript
-LastEvaluatedKey: {
-  GSI1PK: 'PROD',
-  SK: 'VER#0',
-  GSI1SK: 1717377712019,
-  PK: 'PROD#01HKDT164VYRS50ZQ8RJEHHBH0'
-}
-```
-
-To get the next page of the data you pass this object in as a `LastEvaluatedKey` parameter for the next search.
-
-
-<Tabs>
-  <TabItem value="curl" label="curl" default>
-```shell
-curl -X 'POST' \
-  "https://api.truss-security.com/product/search" \
-  -H "x-api-key: YOUR_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "category": "Ransomware"
-    "LastEvaluatedKey": {
-      "GSI1PK": "PROD",
-      SK: "VER#0",
-      GSI1SK: 1717377712019,
-      PK: "PROD#01HKDT164VYRS50ZQ8RJEHHBH0"
-    }
-  }'
-```
-  </TabItem>
-  <TabItem value="javascript" label="javascript">
-```javascript
-{
-  category: "Ransomware",
-  LastEvaluatedKey: {
-    GSI1PK: 'PROD',
-    SK: 'VER#0',
-    GSI1SK: 1717377712019,
-    PK: 'PROD#01HKDT164VYRS50ZQ8RJEHHBH0'
-  }
-}
-```
-  </TabItem>
-</Tabs>
-
-
-
-
-## Examples
-
-Often, you will want to combine primary search parameters with secondary filters. For example, the following example will return all security products entered since the specified start date with the indicators "94.103.91.246" OR "*.ghost"
-
-<Tabs>
-  <TabItem value="curl" label="curl" default>
-```shell
-curl -X 'POST' \
-  "https://api.truss-security.com/product/search" \
-  -H "x-api-key: YOUR_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "startDate": 1717379710282,
-    "tags": ["C2"]
-  }'
-```
-  </TabItem>
-  <TabItem value="javascript" label="javascript">
-```javascript
-{
-  startDate: 1717379710282,
-  tags: ["C2"]
-}
-```
-  </TabItem>
-</Tabs>
 
 

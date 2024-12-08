@@ -172,7 +172,27 @@ const config: Config = {
       theme: prismThemes.github,
       darkTheme: prismThemes.dracula,
     },
-  } satisfies Preset.ThemeConfig,
+  },
+  customFields: {
+    // Add any custom fields you need
+  },
+  stylesheets: [
+    // Add any additional stylesheets
+  ],
+  plugins: [
+    async function tailwindPlugin(context, options) {
+      return {
+        name: 'docusaurus-tailwindcss',
+        configurePostCss(postcssOptions) {
+          // @ts-ignore
+          postcssOptions.plugins.push(require('tailwindcss'));
+          // @ts-ignore
+          postcssOptions.plugins.push(require('autoprefixer'));
+          return postcssOptions;
+        },
+      };
+    },
+  ],
 };
 
 export default config;
