@@ -2,85 +2,79 @@
 sidebar_position: 1
 ---
 
-# Security Data
+# Security Products
 
-Truss is dedicated to delivering cutting-edge security intelligence through a decentralized network of security experts worldwide. Truss simplifies the complex process of cybersecurity data collection distribution, enabling IT and security teams to interact with and protect against threats more effectively. Truss connects organizations to the security data they need, precisely when they need it, offering a dynamic and responsive approach to threat intelligence.
+Truss is dedicated to delivering security intelligence through a network of security experts worldwide. Truss simplifies the process of cybersecurity data collection and distribution, enabling IT and security teams to interact with and protect against threats more effectively. Truss connects organizations to the security data they need, precisely when they need it, offering a dynamic and responsive approach to threat intelligence.
 
-At the heart of Truss is its Security API, which provides users with access to an extensive repository of threat intelligence. The API allows organizations to quickly identify and request the security data most relevant to their needs, supported by a continually adapting security pipeline that filters out the noise and focuses on critical threats. Through a decentralized network of trusted security analysts, Truss ensures that the data is not only comprehensive but also validated and up-to-date, providing tailored and adaptive security solutions for a wide range of industries and regions.
+## Truss API
 
-## Key Features of Truss
+At the heart of Truss is its [Security API](/data/api), which provides users with access to an extensive repository of threat intelligence. The API allows organizations to quickly identify and request the security data most relevant to their needs, supported by a continually adapting security pipeline that filters out the noise and focuses on critical threats.
 
-**Decentralized Security Intelligence**
+## Truss Products
 
-  * Truss leverages a global network of security experts to provide comprehensive and diverse threat intelligence data.
-  * This decentralized approach ensures access to the latest and most reliable security information from multiple sources.
+Truss Products are the collection of data returned from the Truss API. The following fields are returned for each product:
 
-**Intent-Based Platform**
+- id - The unique identifier for the product.
+- version - The version of the product. If the same security product is updated over time, the version will increment.
+- latestVersion - The latest version of the product.
+- timestamp - The timestamp of when the product was created in the Truss database.
+- title - The title of the product.
+- author - The authors of the product.
+- type - The type of the product. Currently, the only type is "Indicator".
+- category - The category of the product.
+- source - The source of the product.
+- pubDate - The publication date of the product.
+- reference - The reference URLs of the product.
+- tags - The tags associated with the product.
+- industry - The industries associated with the product.
+- region - The regions associated with the product.
+- indicators - The indicators associated with the product.
+- contributor - The security team or individual that contributed the product.
 
-  * Users can specify their high-level security needs without getting bogged down by technical details.
-  * The platform interprets these intents and delivers the most relevant security data, simplifying the user experience.
+The following is an example of a Truss Product returned from the API:
 
-**Security API with RPC**
-
-  * The Security API allows for quick identification and retrieval of specific security data.
-  * Remote Procedure Calls (RPC) give direct access to an ever-growing security data repository, enabling efficient data requests.
-
-**Customized Security Data**
-
-  * Truss provides tailored security data that addresses the unique needs of each organization.
-  * The platform filters out irrelevant information, focusing on the security threats that matter most to the user.
-
-**Curated and Validated Threat Intelligence**
-
-  * Security data is curated to fit specific industries, applications, and regional threats.
-  * A decentralized network of trusted analysts ensures the data is validated and accurate.
-
-**Adaptive Security Solutions**
-
-  * As organizations evolve, Truss adapts by updating the delivered security data to match changing needs and technology stacks.
-  * This adaptive approach ensures continuous relevance and protection.
-
-**Customizable Monitoring Agents**
-
-  * Truss agents monitor for new security threats and automatically notify security teams when relevant intel is discovered.
-  * This proactive monitoring helps organizations stay ahead of potential threats.
-
-**Flexible Payment Plans**
-
-  * Truss offers various monthly payment plans, making it accessible for organizations of different sizes and budgets.
-
-## Benefits of Using Truss
-
-**Enhanced Security Posture**
-
-  * By accessing comprehensive and validated threat intelligence, organizations can better protect their assets and mitigate risks.
-  * The decentralized approach ensures diverse and up-to-date information, reducing the likelihood of blind spots in security.
-
-**Improved Efficiency and Decision-Making**
-
-  * The intent-based platform and customized data delivery streamline the process of obtaining and utilizing threat intelligence.
-  * Security teams can focus on strategic decisions and actions rather than getting lost in technical details.
-
-**Cost-Effective Solutions**
-
-  * The flexible payment plans and efficient data retrieval reduce the overall cost of maintaining robust security.
-  * Organizations can allocate resources more effectively, focusing on areas that need the most attention.
-
-**Proactive Threat Monitoring**
-
-  * Continuous monitoring and automatic notifications ensure that security teams are always informed about the latest threats.
-  * This proactive approach helps in taking timely actions to prevent potential breaches.
-
-**Scalability and Adaptability**
-
-  * Truss' adaptive security solutions grow with the organization, ensuring that security measures remain effective as the technological landscape changes.
-  * This scalability makes Truss suitable for organizations of all sizes and across various industries.
-
-## Getting Started
-
-Begin your journey with the Truss Security Data API by quickly signing up for free access. Follow these simple steps:
-
-1. **Create an Account:** Visit our registration page to create your account.
-2. **Sign Up for an API Key:** Once registered, sign up for an API key, which will grant you access to the Truss API.
-
-With your API key ready, you can immediately start exploring our vast repository of security data. Use the search endpoint to browse different sources, investigate threat intelligence tags, or delve into specific threats.
+```json
+      {
+        "id": "01JEF7J9V20DX9RZ6AMQ7BTXZ5",
+        "version": 0,
+        "latestVersion": 0,
+        "timestamp": 1733530560355,
+        "title": "Threatview-Domains_ru_krd_12/07/2024",
+        "author": [
+          "MohitK_",
+          "Threatview.io",
+          "Community"
+        ],
+        "type": "Indicator",
+        "category": "OSINT",
+        "source": "Threatview.io",
+        "pubDate": "December 07, 2024",
+        "reference": [
+          "https://threatview.io/",
+          "https://threatview.io/Downloads/DOMAIN-High-Confidence-Feed.txt",
+          "https://www.reddit.com/r/HomeNetworking/comments/m8j6mh/integrate_threat_intelligence_in_home_labs/"
+        ],
+        "tags": [
+          "Threatview.io",
+          "Domains",
+          "Truss Automation",
+          "ru",
+          "krd",
+          "High Confidence"
+        ],
+        "industry": [
+          "All"
+        ],
+        "region": [
+          "All"
+        ],
+        "indicators": {
+          "DOMAIN": [
+            "krd-afisha.ru",
+            "krd-croparena.ru",
+            "krd-stadium.ru"
+          ]
+        },
+        "contributor": "Truss Automation"
+}
+```

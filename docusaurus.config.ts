@@ -96,18 +96,13 @@ const config: Config = {
           type: 'docSidebar',
           sidebarId: 'dataSidebar',
           position: 'left',
-          label: 'Security Data',
+          label: 'API',
         },
         {
           type: 'docSidebar',
-          sidebarId: 'contributorsSidebar',
+          sidebarId: 'accountSidebar',
           position: 'left',
-          label: 'Truss Contributors',
-        },
-        {
-          to: '/api',
-          position: 'left',
-          label: 'API',
+          label: 'Account',
         },
         {
           href: 'https://github.com/truss-security/truss-docs/tree/main/docs/',
@@ -174,7 +169,27 @@ const config: Config = {
       theme: prismThemes.github,
       darkTheme: prismThemes.dracula,
     },
-  } satisfies Preset.ThemeConfig,
+  },
+  customFields: {
+    // Add any custom fields you need
+  },
+  stylesheets: [
+    // Add any additional stylesheets
+  ],
+  plugins: [
+    async function tailwindPlugin(context, options) {
+      return {
+        name: 'docusaurus-tailwindcss',
+        configurePostCss(postcssOptions) {
+          // @ts-ignore
+          postcssOptions.plugins.push(require('tailwindcss'));
+          // @ts-ignore
+          postcssOptions.plugins.push(require('autoprefixer'));
+          return postcssOptions;
+        },
+      };
+    },
+  ],
 };
 
 export default config;
