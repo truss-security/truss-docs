@@ -40,6 +40,8 @@ LastEvaluatedKey: {
 
 To get the next page of the data you pass this object in as a `LastEvaluatedKey` parameter for the next search.
 
+<Tabs>
+  <TabItem value="curl" label="curl" default>
 ```shell
 curl -X 'POST' \
   "https://api.truss-security.com/product/search" \
@@ -55,6 +57,75 @@ curl -X 'POST' \
     }
   }'
 ```
+  </TabItem>
+  <TabItem value="javascript" label="javascript">
+```javascript
+import axios from 'axios';
+
+const YOUR_API_KEY = '1234567890'
+
+export const trussApi = async (filter) => {
+  const server = 'https://api.truss-security.com'
+  const searchEndpoint = '/product/search'
+  const url = server + searchEndpoint
+  try {
+    const options = {
+      method: 'POST',
+      headers: { 
+        'x-api-key': YOUR_API_KEY
+      },
+      data: filter,
+      url,
+    };
+    const response = await axios(options);
+    return response.data
+  } catch (err) {
+    console.log('HTTP Error: ', err)
+    throw err
+  }
+}
+
+export async function fetchAllPages(filter) {
+  const allItems = [];
+  let lastEvaluatedKey;
+  
+  try {
+    do {
+      const currentFilter = {
+        ...filter,
+        LastEvaluatedKey: lastEvaluatedKey
+      };
+      const { result } = await trussApi(currentFilter);
+      allItems.push(...result.Items);
+      lastEvaluatedKey = result.LastEvaluatedKey;
+    } while (lastEvaluatedKey);
+
+    return allItems;
+  } catch (error) {
+    throw new Error(`Failed to fetch pages: ${error.message}`);
+  }
+}
+
+const fetchExample = async () => {
+  try {
+    const filter = {
+      startdate: 1731369600000,
+      enddate: 1731455999999,
+      category: ['TOR', 'Malware']
+    };
+    
+    const allItems = await fetchAllPages(filter);
+
+    console.log('Total Items:', allItems.length);
+  } catch (error) {
+    console.error('Test failed:', error);
+  }
+};
+
+fetchExample()
+```
+  </TabItem>
+</Tabs>
 
 ## Search by Date 
 
