@@ -48,6 +48,24 @@
   @apply font-bold mb-4 mt-8;
 }
 
+.markdown h1 {
+  @apply font-bold mb-4 mt-8 text-3xl;
+}
+
+.markdown h2 {
+  @apply font-bold mb-4 mt-8 text-2xl;
+}
+
+.markdown h3 {
+  @apply font-bold mb-4 mt-8 text-lg;
+}
+
+.markdown h4,
+.markdown h5,
+.markdown h6 {
+  @apply font-bold mb-4 mt-8 text-base;
+}
+
 .markdown p {
   @apply mb-4;
 }
