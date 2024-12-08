@@ -1,60 +1,127 @@
 ---
-sidebar_position: 3
+sidebar_position: 5
 title: Products Explorer
+toc_min_heading_level: 2
+toc_max_heading_level: 3
 ---
 
-# Products Explorer
+<div className="text-center">
+  <h1 className="text-4xl font-bold mb-4">Products Explorer</h1>
+</div>
 
-Welcome to the Products Explorer, your gateway to discovering and analyzing security intelligence. Think of this as your personal security research library, where each piece of intelligence is beautifully organized and easily accessible.
+<div className="text-center mb-12">
+  <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-4">
+    Welcome to the Products Explorer, your gateway to discovering and analyzing security intelligence. Think of this as your personal security research library, where each piece of intelligence is beautifully organized and easily accessible.
+  </p>
+  <p className="text-xl italic text-gray-600 max-w-3xl mx-auto">
+    The Products Explorer provides detailed intelligence data based on your selected filters and search criteria.
+  </p>
+</div>
 
-## Your Journey Through the Interface
+## { /* Navigating the Products Interface */ }
+<h2 className="text-3xl font-bold mb-6 border-b pb-2">Navigating the Products Interface</h2>
 
-### Starting Your Search
-Imagine walking into a vast library with an intelligent assistant ready to help you find exactly what you need. That's your top navigation bar:
-- A smart breadcrumb trail shows your current filters like `category × Malware ×`
-- Toggle between simple searches and powerful query language for advanced users
-- Watch as your results update instantly with each selection
+<p className="text-lg mb-6">
+  Using the filter that was applied from the 
+  <a href="/truss-docs/insight" className="text-blue-600 underline">Insight's Dashboard</a>, 
+  let's explore how to effectively use the Products Explorer interface.
+</p>
 
-### Your Navigation Companion
-On your left, you'll find your faithful navigation panel - think of it as your research compass:
-- **Category Explorer**: Filter through security categories like Malware, OSINT, or APTs
-- **Source Directory**: Find intelligence from specific security providers
-- **Author Gallery**: Discover content from particular security researchers
+### { /* Understanding the Layout */ }
+<h3 className="text-2xl font-semibold mb-4 text-blue-800">Understanding the Layout</h3>
 
-Each filter acts like a lens, focusing your view on exactly what matters to you. As you click, the interface responds, refining your results in real-time.
+<div className="my-6">
+  <img 
+    src="/truss-docs/img/6 - Products - Initial.png"
+    alt="Products Default View"
+    className="rounded-lg shadow-lg w-full max-w-4xl mx-auto" 
+  />
+</div>
 
-### The Intelligence Library
-The main stage of our explorer showcases your security intelligence as elegant cards, each telling its own story:
+<div className="mb-8 text-lg">
+  The Products Explorer interface consists of five main sections:
+  <ul className="list-disc pl-6 my-4">
+    <li><span className="font-semibold">Breadcrumbs:</span> Top area used for searching and view options</li>
+    <li><span className="font-semibold">Total Products:</span> The total number of products found with the selected filters</li>
+    <li><span className="font-semibold">Date Range:</span> The date range to use for given query</li>
+    <li><span className="font-semibold">Page:</span> The current page of results being displayed</li>
+    <li><span className="font-semibold">Attributes Panel:</span> The metadata associated with the the current set of products</li>
+  </ul>
+</div>
 
-**Each Card Reveals:**
-- A compelling title describing the security finding
-- The source and authors behind the discovery
-- When it was published
-- What category of security it belongs to
-- Which regions and industries it affects
+### { /* Looking at Single Products */ }
+<h3 className="text-2xl font-semibold mb-4 text-blue-800">Using Filters</h3>
 
-Think of each card as a book cover that, when clicked, opens to reveal its full story in a detailed modal view.
+<div className="my-6">
+  <img 
+    src="/truss-docs/img/7 - Products - Highlight Card.png"
+    alt="Products Filter Panel"
+    className="rounded-lg shadow-lg w-full max-w-4xl mx-auto" 
+  />
+</div>
 
-### Interactive Features
+<div className="mb-8 text-lg">
+  By hovering over a product card, you can see the following attributes:
+  <ul className="list-disc pl-6 my-4">
+    <li><span className="font-semibold">Title:</span> The title of the product</li>
+    <li><span className="font-semibold">Source:</span> The source of the product</li>
+    <li><span className="font-semibold">Author:</span> The author of the product</li>
+    <li><span className="font-semibold">Publication Date:</span> The date the product was published</li>
+    <li><span className="font-semibold">Categories:</span> The categories associated with the product</li>
+    <li><span className="font-semibold">Regions:</span> The regions associated with the product</li>
+    <li><span className="font-semibold">Industries:</span> The industries associated with the product</li>
+  </ul>
+  Clicking on the card will open a detailed view of the product.
+</div>
 
-**Smart Filtering:**
-- Click any element in the left panel to add it to your search
-- Watch as the breadcrumbs above track your exploration path
-- Use the Query Language toggle to craft precise searches
+### { /* Detailed Intelligence View */ }
+<h3 className="text-2xl font-semibold mb-4 text-blue-800">Detailed Intelligence View</h3>
 
-**Dynamic Updates:**
-- See results refresh instantly as you adjust filters
-- Track the total number of matching products
-- Navigate through pages of results with ease
+<div className="my-6">
+  <img 
+    src="/truss-docs/img/9 - Products - Modal Details.png"
+    alt="Detailed Intelligence View"
+    className="rounded-lg shadow-lg w-full max-w-4xl mx-auto" 
+  />
+</div>
 
-**Detailed Views:**
-- Click any card to dive deeper into the intelligence
-- Explore comprehensive metadata in the modal view
-- Find related indicators and source materials
+<div className="mb-8 text-lg">
+  Clicking on a card reveals comprehensive details and metadata associated with the product:
+  <ul className="list-disc pl-6 my-4">
+    <li><span className="font-semibold">Region:</span> Again, you see the region associated with the product</li>
+    <li><span className="font-semibold">References:</span> The references and URL links associated with the product</li>
+    <li><span className="font-semibold">Tags:</span> The tags associated with the product</li>
+    <li><span className="font-semibold">Indicators:</span> The indicators associated with the product</li>
+  </ul>
+</div>
 
-## Real-World Example
+## { /* Pro Search Tips */ }
+<h2 className="text-3xl font-bold mt-12 mb-6 border-b pb-2">Pro Search Tips</h2>
 
-Let's say you're tracking malware affecting the manufacturing sector in Asia. Here's how you'd find it:
-1. Click "Malware" in the category filter
-2. Watch as the cards update to show only malware-related intelligence
-3. Find a card like:
+<div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-8">
+  <div className="bg-blue-50 p-6 rounded-lg shadow-md border border-green-100 my-6">
+    <h3 className="text-xl font-bold mb-4 text-blue-800">Advanced Search Techniques</h3>
+    <ul className="list-disc pl-6 space-y-2">
+      <li><span className="font-semibold">Basic Search:</span> Use keywords and phrases</li>
+      <li><span className="font-semibold">Query Language:</span> Write complex search queries</li>
+      <li><span className="font-semibold">Filter Combinations:</span> Combine multiple criteria</li>
+      <li><span className="font-semibold">Save Searches:</span> Bookmark frequent queries</li>
+    </ul>
+  </div>
+
+  <div className="bg-blue-50 p-6 rounded-lg shadow-md border border-green-100 my-6">
+    <h3 className="text-xl font-bold mb-4 text-blue-800">Best Practices</h3>
+    <ul className="list-disc pl-6 space-y-2">
+      <li>Start with broad searches, then refine</li>
+      <li>Use multiple filters for precision</li>
+      <li>Check related intelligence</li>
+      <li>Export findings for reporting</li>
+    </ul>
+  </div>
+</div>
+
+<div className="mt-12 p-6 bg-blue-50 rounded-lg shadow-md border border-blue-100 text-center">
+  <p className="text-lg font-medium text-blue-800">
+    The Products Explorer is your comprehensive tool for discovering and analyzing security intelligence. Use these features to make informed security decisions based on the latest intelligence data.
+  </p>
+</div>

@@ -1,14 +1,12 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  corePlugins: {
-    preflight: false,
-  },
   content: [
-    "./src/**/*.{js,jsx,ts,tsx}",
+    "./src/**/*.{js,jsx,ts,tsx,md,mdx}",
+    "./docs/**/*.{js,jsx,ts,tsx,md,mdx}",
   ],
-  darkMode: ['class', '[data-theme="dark"]'],
   theme: {
     extend: {},
   },
   plugins: [],
+  darkMode: ['class', '[data-theme="dark"]'], // for Docusaurus dark mode
 }; 

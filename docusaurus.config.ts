@@ -4,7 +4,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
   title: 'Making Security Smarter',
-  tagline: 'Connecting organizations to the security data they need',
+  tagline: 'Connecting organizations to data they need, when they need it.',
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
@@ -44,7 +44,10 @@ const config: Config = {
         },
         blog: false,
         theme: {
-          customCss: require.resolve('./src/css/custom.css'),
+          customCss: [
+            require.resolve('./src/css/custom.css'),
+            require.resolve('./src/css/tailwind.css'),
+          ],
         },
       }),
     ],
@@ -94,7 +97,7 @@ const config: Config = {
         },
         {
           type: 'docSidebar',
-          sidebarId: 'dataSidebar',
+          sidebarId: 'apiSidebar',
           position: 'left',
           label: 'API',
         },
