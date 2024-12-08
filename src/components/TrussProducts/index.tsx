@@ -1,9 +1,7 @@
 import React from 'react';
 import Heading from '@theme/Heading';
 
-const Svg = require('@site/static/img/apiCode.svg').default;
-
-export default function TrussApi(): JSX.Element {
+export default function TrussProducts(): JSX.Element {
   return (
     <section className="py-12">
       <div className="container mx-auto">
@@ -11,20 +9,24 @@ export default function TrussApi(): JSX.Element {
           <div className="w-full lg:w-1/2 px-4">
             <div className="text-left px-4">
               <Heading as="h1" className="text-4xl font-bold mb-4">
-                Truss RPC API
+                Security Intelligence Products
               </Heading>
               <p className="text-gray-600">
-                The Truss RPC API service is designed for defenders seeking comprehensive and programmatic access to security data and protections
+                Explore our comprehensive security intelligence products, featuring detailed analysis, threat indicators, and actionable insights for security professionals.
               </p>
             </div>
           </div>
           <div className="w-full lg:w-1/2 px-4">
             <div className="flex justify-center items-center">
-              <Svg className="w-full max-w-md h-auto" role="img" />
+              <img 
+                src="/truss-docs/img/Truss - Product - Page.png"
+                alt="Products Interface"
+                className="w-full max-w-md h-auto rounded-lg shadow-lg"
+              />
             </div>
           </div>
         </div>
       </div>
     </section>
   );
-}
+} 
