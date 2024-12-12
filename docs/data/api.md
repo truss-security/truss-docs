@@ -11,6 +11,7 @@ import { pagingExample as PagingExample } from '@site/src/components/APIExamples
 import { dateSearchExample as DateSearchExample } from '@site/src/components/APIExamples/dateSearchExamples';
 import { daysExample as DaysExample } from '@site/src/components/APIExamples/daysExamples';
 import { filterExample as FilterExample } from '@site/src/components/APIExamples/filterExamples';
+import { lastEvaluatedKeyExample as LastEvaluatedKeyExample, initialQueryExample as InitialQueryExample } from '@site/src/components/APIExamples/lastEvaluatedKeyExamples';
 
 <div className="text-center">
   <h1 className="text-4xl font-bold mb-4">Using the API</h1>
@@ -102,6 +103,44 @@ For example, if ["Ransomeware"] is passed to the `category` parameter and the ["
 Consider the following filter:
 
 <CodeTabs example={FilterExample} />
+
+## { /* Last Evaluated Keys */ }
+<h2 className="text-3xl font-bold mb-6 border-b pb-2">Last Evaluated Keys</h2>
+
+<p className="text-lg mb-6">
+  When working with large datasets, the Truss API implements pagination to ensure efficient data retrieval. If your query returns a <code>LastEvaluatedKey</code> in the response, this indicates there are more results available. To retrieve the next set of results, include this key in your subsequent query.
+</p>
+
+<p className="text-lg mb-6">
+  The <code>LastEvaluatedKey</code> acts as a bookmark, telling the API where to resume fetching results. This pagination mechanism ensures optimal performance while allowing you to retrieve complete result sets.
+</p>
+
+### { /* Initial Query Examples */ }
+<h3 className="text-2xl font-semibold mb-4 text-blue-800">Initial Query Examples</h3>
+
+<CodeTabs example={InitialQueryExample} />
+
+<p className="text-lg mb-6">
+  When using the curl command, the API returns a response containing a LastEvaluatedKey, it will look like this:
+</p>
+
+<pre className="text-sm bg-gray-50 p-4 rounded-md">
+{`
+  {
+    "LastEvaluatedKey": {
+      "SK": "VER#0",
+      "GSI3PK": "OpenPhish",
+      "PK": "PROD#01JEMBFNT12JV97ZT3GVBF2X2J",
+      "GSI3SK": 1733702440770
+    }
+  }
+`}
+</pre>
+
+### { /* Using LastEvaluatedKey Examples */ }
+<h3 className="text-2xl font-semibold mb-4 text-blue-800">Using LastEvaluatedKey Examples</h3>
+
+<CodeTabs example={LastEvaluatedKeyExample} />
 
 ## { /* Pro API Tips */ }
 <h2 className="text-3xl font-bold mt-12 mb-6 border-b pb-2">Pro API Tips</h2>
