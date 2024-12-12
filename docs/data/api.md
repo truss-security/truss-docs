@@ -57,7 +57,6 @@ Searches may be time boxed using the `startdate` and `enddate` parameters. Diffe
 - *unix epoch time* in milliseconds (e.g., "1717379710282")
 - *ISO* format (e.g., "2024-06-02")
 - *Human readable* format (e.g., "March 20, 2024")
-- *Relative date* format (e.g., "today", "yesterday", "last week", "next week", "last month", "next month")
 
 For example, the following example will return all security products entered since the specified start date (Sun Jun 2 2024) and before the specified end date (Mon Jun 3 2024).
 
