@@ -18,13 +18,20 @@ toc_max_heading_level: 3
   </p>
 </div>
 
-## { /* Understanding Query Language */ }
-<h2 className="text-3xl font-bold mb-6 border-b pb-2">Understanding Query Language</h2>
+<div className="relative my-12">
+  <div className="absolute inset-0 flex items-center" aria-hidden="true">
+    <div className="w-full border-t border-gray-300" />
+  </div>
+  <div className="relative flex justify-center">
+    <span className="bg-white px-3 text-base text-gray-500">•</span>
+  </div>
+</div>
+
+## Understanding Query Language
 
 <p className="text-lg mb-6">Let's explore how to effectively use the Query Language for advanced filtering.</p>
 
-### { /* Basic Query Structure */ }
-<h3 className="text-2xl font-semibold mb-4 text-blue-800">Basic Query Structure</h3>
+### Basic Query Structure
 
 <div className="my-6 flex justify-center">
   <img 
@@ -46,8 +53,16 @@ toc_max_heading_level: 3
   Example: <code>category="Malware" AND region="Russia" AND tags="APT27"</code>
 </div>
 
-### { /* Complex Query Combinations */ }
-<h3 className="text-2xl font-semibold mb-4 text-blue-800">Complex Query Combinations</h3>
+<div className="relative my-12">
+  <div className="absolute inset-0 flex items-center" aria-hidden="true">
+    <div className="w-full border-t border-gray-300" />
+  </div>
+  <div className="relative flex justify-center">
+    <span className="bg-white px-3 text-base text-gray-500">•</span>
+  </div>
+</div>
+
+### Complex Query Combinations
 
 <div className="my-6 flex justify-center">
   <img 
@@ -67,8 +82,16 @@ toc_max_heading_level: 3
   Example: <code>(region="Russia" OR region="China") AND (tags="APT27" OR tags="APT28" OR tags="APT10")</code>
 </div>
 
-### { /* Query Results */ }
-<h3 className="text-2xl font-semibold mb-4 text-blue-800">Query Results</h3>
+<div className="relative my-12">
+  <div className="absolute inset-0 flex items-center" aria-hidden="true">
+    <div className="w-full border-t border-gray-300" />
+  </div>
+  <div className="relative flex justify-center">
+    <span className="bg-white px-3 text-base text-gray-500">•</span>
+  </div>
+</div>
+
+## Query Results
 
 <div className="my-6 flex justify-center">
   <img 
@@ -87,8 +110,16 @@ toc_max_heading_level: 3
   </ul>
 </div>
 
-## { /* Pro Query Tips */ }
-<h2 className="text-3xl font-bold mt-12 mb-6 border-b pb-2">Pro Query Tips</h2>
+<div className="relative my-12">
+  <div className="absolute inset-0 flex items-center" aria-hidden="true">
+    <div className="w-full border-t border-gray-300" />
+  </div>
+  <div className="relative flex justify-center">
+    <span className="bg-white px-3 text-base text-gray-500">•</span>
+  </div>
+</div>
+
+## Pro Query Tips
 
 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-8">
   <div className="bg-blue-50 p-6 rounded-lg shadow-md border border-green-100 my-6">

@@ -26,8 +26,16 @@ import { lastEvaluatedKeyExample as LastEvaluatedKeyExample, initialQueryExample
   </p>
 </div>
 
-## { /* Truss Search Endpoint */ }
-<h2 className="text-3xl font-bold mb-6 border-b pb-2">Truss Search Endpoint</h2>
+<div className="relative my-12">
+  <div className="absolute inset-0 flex items-center" aria-hidden="true">
+    <div className="w-full border-t border-gray-300" />
+  </div>
+  <div className="relative flex justify-center">
+    <span className="bg-white px-3 text-base text-gray-500">•</span>
+  </div>
+</div>
+
+## Truss Search Endpoint
 
 <p className="text-lg mb-6">
   The Truss <code>/product/search</code> endpoint is designed to accommodate most data access needs. This endpoint allows you to retrieve comprehensive slices of security data based on a variety of filter parameters.
@@ -35,17 +43,16 @@ import { lastEvaluatedKeyExample as LastEvaluatedKeyExample, initialQueryExample
 
 <CodeTabs example={BasicSearchExample} />
 
-## { /* Paging */ }
-<h2 className="text-3xl font-bold mb-6 border-b pb-2">Paging</h2>
+<div className="relative my-12">
+  <div className="absolute inset-0 flex items-center" aria-hidden="true">
+    <div className="w-full border-t border-gray-300" />
+  </div>
+  <div className="relative flex justify-center">
+    <span className="bg-white px-3 text-base text-gray-500">•</span>
+  </div>
+</div>
 
-<p className="text-lg mb-6">
-  When a product search results in a large number of products, only a subset of the total will be returned by each call to the <code>/product/search</code> endpoint. In these cases, the initial calls will return metadata in the form of a <code>LastEvaluatedKey</code> that can be used to page through the results.
-</p>
-
-<CodeTabs example={PagingExample} />
-
-## { /* Search by Date */ }
-<h2 className="text-3xl font-bold mb-6 border-b pb-2">Search by Date</h2>
+## Search by Date
 
 There are several ways to search by date. The following parameters are supported:
 
@@ -71,8 +78,16 @@ When a `days` parameter is entered, `startdate` and `enddate` parameters will be
 
 <CodeTabs example={DaysExample} />
 
-## { /* Boolean Search Filters */ }
-<h2 className="text-3xl font-bold mb-6 border-b pb-2">Boolean Search Filters</h2>
+<div className="relative my-12">
+  <div className="absolute inset-0 flex items-center" aria-hidden="true">
+    <div className="w-full border-t border-gray-300" />
+  </div>
+  <div className="relative flex justify-center">
+    <span className="bg-white px-3 text-base text-gray-500">•</span>
+  </div>
+</div>
+
+## Boolean Search Filters
 
 <p className="text-lg mb-6">
   Boolean search filters can be used to narrow down the results of a query. Boolean search filters contain both the date parameters and the product parameters and are passed directly into the data field of the search request.
@@ -88,13 +103,11 @@ The following product parameters support boolean search filters:
 * **reference:** Array of reference strings (e.g., ["https://threatview.io/"]).
 * **tags:** Array of tags (e.g., ["C2", "AlphV"]).
 
-### { /* 'OR' Filtering */ }
-<h3 className="text-2xl font-semibold mb-4 text-blue-800">'OR' Filtering</h3>
+### 'OR' Filtering
 
 When searching for multiple values for a single parameter, the search performs an `OR` between the strings passed as an array to a single parameter. For example, if the values ["Ransomware", "OSINT"] are passed to the `category` parameter, the search will return all security products where the `category` is "Ransomware" OR "OSINT".
 
-### { /* 'AND' Filtering */ }
-<h3 className="text-2xl font-semibold mb-4 text-blue-800">'AND' Filtering</h3>
+### 'AND' Filtering
 
 If more than one parameter is specified in a search (e.g., `category` and `source`), then the search will return those products that satisfy BOTH of the specified parameters. In other words, the search performs an `AND` between the different parameters.
 
@@ -104,8 +117,33 @@ Consider the following filter:
 
 <CodeTabs example={FilterExample} />
 
-## { /* Last Evaluated Keys */ }
-<h2 className="text-3xl font-bold mb-6 border-b pb-2">Last Evaluated Keys</h2>
+<div className="relative my-12">
+  <div className="absolute inset-0 flex items-center" aria-hidden="true">
+    <div className="w-full border-t border-gray-300" />
+  </div>
+  <div className="relative flex justify-center">
+    <span className="bg-white px-3 text-base text-gray-500">•</span>
+  </div>
+</div>
+
+## Paging
+
+<p className="text-lg mb-6">
+  When a product search results in a large number of products, only a subset of the total will be returned by each call to the <code>/product/search</code> endpoint. In these cases, the initial calls will return metadata in the form of a <code>LastEvaluatedKey</code> that can be used to page through the results.
+</p>
+
+<CodeTabs example={PagingExample} />
+
+<div className="relative my-12">
+  <div className="absolute inset-0 flex items-center" aria-hidden="true">
+    <div className="w-full border-t border-gray-300" />
+  </div>
+  <div className="relative flex justify-center">
+    <span className="bg-white px-3 text-base text-gray-500">•</span>
+  </div>
+</div>
+
+## Last Evaluated Keys
 
 <p className="text-lg mb-6">
   When working with large datasets, the Truss API implements pagination to ensure efficient data retrieval. If your query returns a <code>LastEvaluatedKey</code> in the response, this indicates there are more results available. To retrieve the next set of results, include this key in your subsequent query.
@@ -115,8 +153,7 @@ Consider the following filter:
   The <code>LastEvaluatedKey</code> acts as a bookmark, telling the API where to resume fetching results. This pagination mechanism ensures optimal performance while allowing you to retrieve complete result sets.
 </p>
 
-### { /* Initial Query Examples */ }
-<h3 className="text-2xl font-semibold mb-4 text-blue-800">Initial Query Examples</h3>
+### Initial Query Examples
 
 <CodeTabs example={InitialQueryExample} />
 
@@ -137,13 +174,20 @@ Consider the following filter:
 `}
 </pre>
 
-### { /* Using LastEvaluatedKey Examples */ }
-<h3 className="text-2xl font-semibold mb-4 text-blue-800">Using LastEvaluatedKey Examples</h3>
+### Using LastEvaluatedKey Examples
 
 <CodeTabs example={LastEvaluatedKeyExample} />
 
-## { /* Pro API Tips */ }
-<h2 className="text-3xl font-bold mt-12 mb-6 border-b pb-2">Pro API Tips</h2>
+<div className="relative my-12">
+  <div className="absolute inset-0 flex items-center" aria-hidden="true">
+    <div className="w-full border-t border-gray-300" />
+  </div>
+  <div className="relative flex justify-center">
+    <span className="bg-white px-3 text-base text-gray-500">•</span>
+  </div>
+</div>
+
+## Pro API Tips
 
 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-8">
   <div className="bg-blue-50 p-6 rounded-lg shadow-md border border-green-100 my-6">

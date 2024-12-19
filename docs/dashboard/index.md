@@ -18,15 +18,18 @@ toc_max_heading_level: 3
   </p>
 </div>
 
-## { /* Dashboard Components */ }
-<h2 className="text-3xl font-bold mb-6 border-b pb-2">Dashboard Components</h2>
+<div className="relative my-12">
+  <div className="absolute inset-0 flex items-center" aria-hidden="true">
+    <div className="w-full border-t border-gray-300" />
+  </div>
+  <div className="relative flex justify-center">
+    <span className="bg-white px-3 text-base text-gray-500">•</span>
+  </div>
+</div>
 
-### { /* Insights Dashboard */ }
-<h3 className="text-2xl font-semibold mb-4 text-blue-800">
-  <a href="/truss-docs/dashboard/insights" className="hover:text-blue-600">
-    Insights Dashboard
-  </a>
-</h3>
+## Dashboard Components
+
+### Insights Dashboard
 
 <div className="mb-8 text-lg">
   The Insights Dashboard provides trending analysis of your security data:
@@ -37,12 +40,7 @@ toc_max_heading_level: 3
   </ul>
 </div>
 
-### { /* Attribute Panel */ }
-<h3 className="text-2xl font-semibold mb-4 text-blue-800">
-  <a href="/truss-docs/dashboard/attributepanel" className="hover:text-blue-600">
-    Attribute Panel
-  </a>
-</h3>
+### Attribute Panel
 
 <div className="mb-8 text-lg">
   The Attribute Panel provides powerful filtering capabilities:
@@ -54,12 +52,7 @@ toc_max_heading_level: 3
   </ul>
 </div>
 
-### { /* Query Bar */ }
-<h3 className="text-2xl font-semibold mb-4 text-blue-800">
-  <a href="/truss-docs/dashboard/querybar" className="hover:text-blue-600">
-    Query Bar
-  </a>
-</h3>
+### Query Bar
 
 <div className="mb-8 text-lg">
   The Query Bar enables advanced search capabilities:
@@ -71,12 +64,7 @@ toc_max_heading_level: 3
   </ul>
 </div>
 
-### { /* Products Explorer */ }
-<h3 className="text-2xl font-semibold mb-4 text-blue-800">
-  <a href="/truss-docs/dashboard/products" className="hover:text-blue-600">
-    Products Explorer
-  </a>
-</h3>
+### Products Explorer
 
 <div className="mb-8 text-lg">
   The Products Explorer lets you discover and analyze security intelligence:
@@ -87,12 +75,7 @@ toc_max_heading_level: 3
   </ul>
 </div>
 
-### { /* Charts & Analytics */ }
-<h3 className="text-2xl font-semibold mb-4 text-blue-800">
-  <a href="/truss-docs/dashboard/charts" className="hover:text-blue-600">
-    Charts & Analytics
-  </a>
-</h3>
+### Charts & Analytics
 
 <div className="mb-8 text-lg">
   The Charts section provides visual analytics of your data:
@@ -103,8 +86,7 @@ toc_max_heading_level: 3
   </ul>
 </div>
 
-## { /* Getting Started */ }
-<h2 className="text-3xl font-bold mt-12 mb-6 border-b pb-2">Getting Started</h2>
+## Getting Started
 
 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-8">
   <div className="bg-blue-50 p-6 rounded-lg shadow-md border border-green-100 my-6">

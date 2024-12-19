@@ -18,13 +18,20 @@ toc_max_heading_level: 3
   </p>
 </div>
 
-## { /* Account Sections */ }
-<h2 className="text-3xl font-bold mb-6 border-b pb-2">Account Sections</h2>
+<div className="relative my-12">
+  <div className="absolute inset-0 flex items-center" aria-hidden="true">
+    <div className="w-full border-t border-gray-300" />
+  </div>
+  <div className="relative flex justify-center">
+    <span className="bg-white px-3 text-base text-gray-500">•</span>
+  </div>
+</div>
 
-### { /* User Account */ }
+## Account Sections
+
 <h3 className="text-2xl font-semibold mb-4 text-blue-800">
   <a href="/truss-docs/account/useraccount" className="hover:text-blue-600">
-    User Account Management
+    ### User Account Management
   </a>
 </h3>
 
@@ -37,10 +44,9 @@ toc_max_heading_level: 3
   </ul>
 </div>
 
-### { /* Billing */ }
 <h3 className="text-2xl font-semibold mb-4 text-blue-800">
   <a href="/truss-docs/account/billing" className="hover:text-blue-600">
-    Billing Management
+   ### Billing Management
   </a>
 </h3>
 
@@ -53,10 +59,9 @@ toc_max_heading_level: 3
   </ul>
 </div>
 
-### { /* Resources */ }
 <h3 className="text-2xl font-semibold mb-4 text-blue-800">
   <a href="/truss-docs/account/resources" className="hover:text-blue-600">
-    Additional Resources
+   ### Additional Resources
   </a>
 </h3>
 
@@ -69,8 +74,7 @@ toc_max_heading_level: 3
   </ul>
 </div>
 
-## { /* Quick Links */ }
-<h2 className="text-3xl font-bold mt-12 mb-6 border-b pb-2">Quick Links</h2>
+## Quick Links
 
 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-8">
   <div className="bg-blue-50 p-6 rounded-lg shadow-md border border-green-100 my-6">

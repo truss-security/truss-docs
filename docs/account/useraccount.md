@@ -18,8 +18,16 @@ toc_max_heading_level: 3
   </p>
 </div>
 
-## { /* Account Settings Overview */ }
-<h2 className="text-3xl font-bold mb-6 border-b pb-2">Account Settings Overview</h2>
+<div className="relative my-12">
+  <div className="absolute inset-0 flex items-center" aria-hidden="true">
+    <div className="w-full border-t border-gray-300" />
+  </div>
+  <div className="relative flex justify-center">
+    <span className="bg-white px-3 text-base text-gray-500">•</span>
+  </div>
+</div>
+
+## Account Settings Overview
 
 <div className="my-6">
   <img 

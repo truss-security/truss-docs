@@ -19,8 +19,16 @@ toc_max_heading_level: 3
   </p>
 </div>
 
-## { /* Truss API */ }
-<h2 className="text-3xl font-bold mb-6 border-b pb-2">Truss API</h2>
+<div className="relative my-12">
+  <div className="absolute inset-0 flex items-center" aria-hidden="true">
+    <div className="w-full border-t border-gray-300" />
+  </div>
+  <div className="relative flex justify-center">
+    <span className="bg-white px-3 text-base text-gray-500">•</span>
+  </div>
+</div>
+
+## Truss API
 
 <p className="text-lg mb-6">
   At the heart of Truss is its <a href="/data/api" className="text-blue-600 underline">Security API</a>. The API also called a Remote Procedure Call (RPC), provides users with access to an extensive repository of continually populating security data and intelligence.
@@ -30,8 +38,16 @@ toc_max_heading_level: 3
   The Truss API allows users to query for and extract data from the Truss platform programatically and use that data in their security tools. It also allows for the creation of custom applications that can be used to query Truss more frequently, enabling your security tools to remain up to date with the security data you care about in near real-time.
 </p>
 
-## { /* Truss Products */ }
-<h2 className="text-3xl font-bold mb-6 border-b pb-2">Truss Products</h2>
+<div className="relative my-12">
+  <div className="absolute inset-0 flex items-center" aria-hidden="true">
+    <div className="w-full border-t border-gray-300" />
+  </div>
+  <div className="relative flex justify-center">
+    <span className="bg-white px-3 text-base text-gray-500">•</span>
+  </div>
+</div>
+
+## Truss Products
 
 <p className="text-lg mb-6">
   Truss Products are collect security data that is uploaded to the Truss platform and returned to requesting users via the Truss RPC.
@@ -64,8 +80,16 @@ toc_max_heading_level: 3
   <span className="font-semibold text-xl">*</span> <i className="text-base">These fields can be used as query parameters within both the Truss RPC and the Truss Dashboard, allowing for flexible and powerful data filtering capabilities.</i>
 </p>
 
-## { /* Getting Started */ }
-<h2 className="text-3xl font-bold mt-12 mb-6 border-b pb-2">Getting Started</h2>
+<div className="relative my-12">
+  <div className="absolute inset-0 flex items-center" aria-hidden="true">
+    <div className="w-full border-t border-gray-300" />
+  </div>
+  <div className="relative flex justify-center">
+    <span className="bg-white px-3 text-base text-gray-500">•</span>
+  </div>
+</div>
+
+## Getting Started
 
 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-8">
   <div className="bg-blue-50 p-6 rounded-lg shadow-md border border-green-100 my-6">
