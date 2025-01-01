@@ -1,45 +1,37 @@
-# Website
+# Truss Docs
 
-This website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
-
-### Installation
+## Installation
 
 ```
-$ yarn
+$ npm install
 ```
 
-### Local Development
+## Local Development
 
 ```
-$ yarn start
+$ npm run start
 ```
 
 This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
 
-### Styling
-
-@docusaurus/preset-classic uses [Infima](https://infima.dev/) as the underlying styling framework.
-
-### Build
+## Build
 
 ```
-$ yarn build
+$ npm run build
 ```
 
 This command generates static content into the `build` directory and can be served using any static contents hosting service.
 
-### Deployment
+## Deployment
 
-Using SSH:
-
-```
-$ USE_SSH=true yarn deploy
-```
-
-Not using SSH:
 
 ```
-$ GIT_USER=<Your GitHub username> yarn deploy
+$ npm run deploy
 ```
 
-If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
+This command will deploy Truss Docs to GitHub Pages on the `gh-pages` branch.
+
+
+## Notes
+
+This website is built using [Docusaurus](https://docusaurus.io/), a static website generator.
