@@ -35,7 +35,7 @@ toc_max_heading_level: 3
 
 <div className="my-6 flex justify-center">
   <img 
-    src="/truss-docs/img/15 - Query Language Bar - Searching.png"
+    src="/truss-docs/img/15 - Query Language Bar - Changing Filters1.png"
     alt="Basic Query View"
     className="rounded-lg shadow-lg max-h-[500px] object-contain" 
   />
@@ -50,7 +50,26 @@ toc_max_heading_level: 3
     <li><span className="font-semibold">Operators:</span> AND, OR for combining conditions</li>
     <li><span className="font-semibold">Values:</span> Enclosed in quotes for exact matching</li>
   </ul>
-  Example: <code>category="Malware" AND region="Russia" AND tags="APT27"</code>
+  Example: <code>category="Malware" AND region="Russia"</code>
+</div>
+
+### Switch the filter view
+
+<div className="my-6 flex justify-center">
+  <img 
+    src="/truss-docs/img/16 - Query Language Bar - Changing Filters2.png"
+    alt="Query Results View"
+    className="rounded-lg shadow-lg max-h-[500px] object-contain" 
+  />
+</div>
+
+<div className="mb-8 text-lg">
+  You can switch between the Query Language Bar and the Breadcrumb Filter display at will
+  <ul className="list-disc pl-6 my-4">
+    <li><span className="font-semibold">Filter Tags:</span> Visual and Textual representation of active filters</li>
+    <li><span className="font-semibold">Product Count:</span> Updated total matching your criteria</li>
+    <li><span className="font-semibold">Results Display:</span> Filtered product cards matching your query</li>
+  </ul>
 </div>
 
 <div className="relative my-12">
@@ -66,7 +85,7 @@ toc_max_heading_level: 3
 
 <div className="my-6 flex justify-center">
   <img 
-    src="/truss-docs/img/16 - Query Language Bar - Advanced Searching.png"
+    src="/truss-docs/img/17 - Query Language Bar - Complex Filter1.png"
     alt="Complex Query View"
     className="rounded-lg shadow-lg max-h-[500px] object-contain" 
   />
@@ -79,7 +98,7 @@ toc_max_heading_level: 3
     <li><span className="font-semibold">Multiple Values:</span> Combine related criteria with OR</li>
     <li><span className="font-semibold">Field Combinations:</span> Mix different fields for precise filtering</li>
   </ul>
-  Example: <code>(region="Russia" OR region="China") AND (tags="APT27" OR tags="APT28" OR tags="APT10")</code>
+  Example: <code>(region="Russia") AND (tags="APT27" OR tags="APT28")</code>
 </div>
 
 <div className="relative my-12">
@@ -91,23 +110,74 @@ toc_max_heading_level: 3
   </div>
 </div>
 
-## Query Results
+## Save and Load Filters
+
+### Save Filter
+<div className="mb-8 text-lg">
+  Once you have a filter set you want to save, you can do so by clicking the 'Save Filter' button.
+</div>
 
 <div className="my-6 flex justify-center">
   <img 
-    src="/truss-docs/img/17 - Query Language Bar - To Filter.png"
-    alt="Query Results View"
+    src="/truss-docs/img/18 - Query Language Bar - Save Filter1.png"
+    alt="Complex Query View"
     className="rounded-lg shadow-lg max-h-[500px] object-contain" 
   />
 </div>
 
 <div className="mb-8 text-lg">
-  You can switch between the Query Language Bar and the Breadcrumb Filter display at will
+  A modal will appear where you can give your filter a name and description.
   <ul className="list-disc pl-6 my-4">
-    <li><span className="font-semibold">Filter Tags:</span> Visual and Textual representation of active filters</li>
-    <li><span className="font-semibold">Product Count:</span> Updated total matching your criteria</li>
-    <li><span className="font-semibold">Results Display:</span> Filtered product cards matching your query</li>
+    <li><span className="font-semibold">Filter Name:</span> A name for your filter</li>
+    <li><span className="font-semibold">Filter Description:</span> A description for your filter</li>
   </ul>
+</div>
+
+<div className="my-6 flex justify-center">
+  <img 
+    src="/truss-docs/img/19 - Query Language Bar - Save Filter2.png"
+    alt="Complex Query View"
+    className="rounded-lg shadow-lg max-h-[500px] object-contain" 
+  />
+</div>
+
+<div className="relative my-12">
+  <div className="absolute inset-0 flex items-center" aria-hidden="true">
+    <div className="w-full border-t border-gray-300" />
+  </div>
+  <div className="relative flex justify-center">
+    <span className="bg-white px-3 text-base text-gray-500">•</span>
+  </div>
+</div>
+
+### Load Filter
+
+<div className="mb-8 text-lg">
+  You can also load a saved filter by clicking the 'Load Filter' button.
+  <ul className="list-disc pl-6 my-4">
+    <li><span className="font-semibold">Load Filter:</span> Click the 'Load Filter' button</li>
+    <li><span className="font-semibold">Select Filter:</span> Select the filter you want to load</li>
+  </ul>
+</div>
+
+<div className="my-6 flex justify-center">
+  <img 
+    src="/truss-docs/img/20 - Query Language Bar - Load Filter1.png"
+    alt="Complex Query View"
+    className="rounded-lg shadow-lg max-h-[500px] object-contain" 
+  />
+</div>
+
+<div className="mb-8 text-lg">
+  After selecting the filter you want to load, the filter will be applied and the products associated with the filter will be displayed.
+</div>
+
+<div className="my-6 flex justify-center">
+  <img 
+    src="/truss-docs/img/21 - Query Language Bar - Load Filter2.png"
+    alt="Complex Query View"
+    className="rounded-lg shadow-lg max-h-[500px] object-contain" 
+  />
 </div>
 
 <div className="relative my-12">

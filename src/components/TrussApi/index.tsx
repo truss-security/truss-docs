@@ -11,10 +11,10 @@ export default function TrussApi(): JSX.Element {
           <div className="w-full lg:w-1/2 px-4">
             <div className="text-left px-4">
               <Heading as="h1" className="text-4xl font-bold mb-4">
-                Truss RPC API
+                Truss API
               </Heading>
               <p className="text-gray-600">
-                The Truss RPC API service is designed for defenders seeking comprehensive and programmatic access to security data and protections
+                The Truss API service is designed for defenders seeking comprehensive and programmatic access to security data and protections
               </p>
             </div>
           </div>
