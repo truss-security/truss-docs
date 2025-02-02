@@ -33,6 +33,18 @@ toc_max_heading_level: 3
 
 ### Basic Query Structure
 
+<div className="mb-8 text-lg">
+  First, the filter page will display the current filter within the visual Truss Query Language (TQL) format.
+
+  The TQL will be displayed in the breadcrumb filter display and can be manipulated with the following options:
+  <ul className="list-disc pl-6 my-4">
+    <li><span className="font-semibold">Field Names:</span> category, region, tags, etc.</li>
+    <li><span className="font-semibold">Attribute Panel:</span> Clicking on the attribute panel items will add them to the filter</li>
+    <li><span className="font-semibold">Charts Page:</span> Clicking on the charts page panels will add them to the filter</li>
+    <li><span className="font-semibold">Filter Tags:</span> Clicking on the filter tags will remove them from the filter</li>
+  </ul>
+</div>
+
 <div className="my-6 flex justify-center">
   <img 
     src="/truss-docs/img/15 - Query Language Bar - Changing Filters1.png"
@@ -41,19 +53,13 @@ toc_max_heading_level: 3
   />
 </div>
 
-<div className="mb-8 text-lg">
-  First, click on the QL icon in the top right of the page.
-  
-  This will return the current filter within the Truss Query Language format:
-  <ul className="list-disc pl-6 my-4">
-    <li><span className="font-semibold">Field Names:</span> category, region, tags, etc.</li>
-    <li><span className="font-semibold">Operators:</span> AND, OR for combining conditions</li>
-    <li><span className="font-semibold">Values:</span> Enclosed in quotes for exact matching</li>
-  </ul>
-  Example: <code>category="Malware" AND region="Russia"</code>
-</div>
-
 ### Switch the filter view
+
+<div className="mb-8 text-lg">
+  You can switch between the Breadcrumb TQL Filter and the Textual TQL Filter display.
+  The same filter addition options will be available in both views (attribute panel or charts page additions).
+  But within the QL view, you will be able to see the TQL syntax and can manipulate the filter with the following options:
+</div>
 
 <div className="my-6 flex justify-center">
   <img 
@@ -64,11 +70,10 @@ toc_max_heading_level: 3
 </div>
 
 <div className="mb-8 text-lg">
-  You can switch between the Query Language Bar and the Breadcrumb Filter display at will
   <ul className="list-disc pl-6 my-4">
-    <li><span className="font-semibold">Filter Tags:</span> Visual and Textual representation of active filters</li>
-    <li><span className="font-semibold">Product Count:</span> Updated total matching your criteria</li>
-    <li><span className="font-semibold">Results Display:</span> Filtered product cards matching your query</li>
+    <li><span className="font-semibold">Operators:</span> AND, OR for combining conditions</li>
+    <li><span className="font-semibold">Values:</span> Enclosed in quotes for exact matching</li>
+    <li><span className="font-semibold">Customizable:</span> Here you can add new filter names that are not currently available in the attribute panel or charts page.</li>
   </ul>
 </div>
 
