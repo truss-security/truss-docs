@@ -63,7 +63,7 @@ There are several ways to search by date. The following parameters are supported
 Searches may be time boxed using the `startdate` and `enddate` parameters. Different date formats are supported:
 
 - *unix epoch time* in milliseconds (e.g., "1717379710282")
-- *ISO* format (e.g., "2024-06-02")
+- *ISO* format (e.g., "2024-06-02", "2024-06-02T15:30:00Z" for UTC, or "2024-06-02T09:30:00-06:00" for "UTC - 6" hours)
 - *Human readable* format (e.g., "March 20, 2024")
 
 For example, the following example will return all security products entered since the specified start date (Sun Jun 2 2024) and before the specified end date (Mon Jun 3 2024).
