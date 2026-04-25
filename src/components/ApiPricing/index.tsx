@@ -98,7 +98,7 @@ function Feature({title, price, interval, features}: FeatureItem) {
   );
 }
 
-export default function ApiPricing(): JSX.Element {
+export default function ApiPricing(): React.ReactElement {
   return (
     <section className="py-12">
       <div className="container">

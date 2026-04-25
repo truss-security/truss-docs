@@ -2,7 +2,7 @@ import React from 'react';
 import Link from '@docusaurus/Link';
 import Heading from '@theme/Heading';
 
-export default function AdditionalResources(): JSX.Element {
+export default function AdditionalResources(): React.ReactElement {
   return (
     <section className="docs-home-section docs-home-section--ecosystem">
       <div className="container">
