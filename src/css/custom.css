@@ -1,15 +1,13 @@
-/* Empty file or minimal custom styles if needed */
+@import 'tailwindcss';
+@config '../../tailwind.config.js';
+/* Match Docusaurus dark theme so `dark:` utilities work with [data-theme="dark"] */
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
 
 /**
  * Any CSS included here will be global. The classic template
  * bundles Infima by default. Infima is a CSS framework designed to
  * work well with React.
  */
-
-/* Import Tailwind */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 
 /* You can override the default Infima variables here. */
 :root {

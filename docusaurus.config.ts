@@ -21,7 +21,11 @@ const config: Config = {
   trailingSlash: false,
 
   onBrokenLinks: 'throw',
-  onBrokenMarkdownLinks: 'warn',
+  markdown: {
+    hooks: {
+      onBrokenMarkdownLinks: 'warn',
+    },
+  },
 
   // Even if you don't use internationalization, you can use this field to set
   // useful metadata like html lang. For example, if your site is Chinese, you
@@ -44,10 +48,7 @@ const config: Config = {
         },
         blog: false,
         theme: {
-          customCss: [
-            require.resolve('./src/css/custom.css'),
-            require.resolve('./src/css/tailwind.css'),
-          ],
+          customCss: [require.resolve('./src/css/custom.css')],
         },
       }),
     ],
@@ -178,20 +179,6 @@ const config: Config = {
   },
   stylesheets: [
     // Add any additional stylesheets
-  ],
-  plugins: [
-    async function tailwindPlugin(context, options) {
-      return {
-        name: 'docusaurus-tailwindcss',
-        configurePostCss(postcssOptions) {
-          // @ts-ignore
-          postcssOptions.plugins.push(require('tailwindcss'));
-          // @ts-ignore
-          postcssOptions.plugins.push(require('autoprefixer'));
-          return postcssOptions;
-        },
-      };
-    },
   ],
 };
 

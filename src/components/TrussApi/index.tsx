@@ -3,7 +3,7 @@ import Heading from '@theme/Heading';
 
 const Svg = require('@site/static/img/apiCode.svg').default;
 
-export default function TrussApi(): JSX.Element {
+export default function TrussApi(): React.ReactElement {
   return (
     <section className="py-12">
       <div className="container mx-auto">

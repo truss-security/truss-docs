@@ -1,7 +1,7 @@
 import React from 'react';
 import Heading from '@theme/Heading';
 
-export default function TrussCharts(): JSX.Element {
+export default function TrussCharts(): React.ReactElement {
   return (
     <section className="py-12">
       <div className="container mx-auto">
