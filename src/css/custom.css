@@ -22,6 +22,18 @@
     --ifm-color-primary-lightest: #64a3f6;
     --ifm-code-font-size: 95%;
     --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+    --truss-font-sans: -apple-system, system-ui, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    --truss-color-dark: #04080C;
+    --truss-color-dark-l2: #191E22;
+    --truss-color-grey-d2: #586D8E;
+    --truss-color-grey-d1: #637897;
+    --truss-color-border: #E1E8F0;
+    --truss-color-surface: #FFFFFF;
+    --truss-header-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.97) 0%, rgba(247, 251, 255, 0.94) 100%);
+    --truss-header-accent: linear-gradient(90deg, #0077CC, #FFC400);
+    --truss-color-primary-muted: rgba(0, 119, 204, 0.12);
+    --truss-shadow-card: 0 1px 2px rgba(15, 23, 42, 0.05), 0 4px 12px rgba(15, 23, 42, 0.04);
+    --truss-shadow-card-hover: 0 4px 6px -1px rgba(15, 23, 42, 0.07), 0 12px 20px -8px rgba(0, 119, 204, 0.12);
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
@@ -34,6 +46,48 @@
     --ifm-color-primary-lighter: #77a4ed;
     --ifm-color-primary-lightest: #a0c0f3;
     --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+    --truss-color-dark: #E8EEF4;
+    --truss-color-dark-l2: rgba(232, 238, 244, 0.9);
+    --truss-color-grey-d1: rgba(232, 238, 244, 0.86);
+    --truss-color-grey-d2: rgba(232, 238, 244, 0.78);
+    --truss-color-border: rgba(255, 255, 255, 0.12);
+    --truss-color-surface: #0E1317;
+    --truss-header-bg: linear-gradient(180deg, rgba(14, 19, 23, 0.97) 0%, rgba(25, 30, 34, 0.94) 100%);
+    --truss-header-accent: linear-gradient(90deg, #4e89e8, #FFC400);
+}
+
+body {
+    font-family: var(--truss-font-sans);
+}
+
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--truss-header-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--truss-color-border);
+    box-shadow: 0 1px 0 rgba(15, 23, 42, 0.06);
+}
+
+.navbar::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--truss-header-accent);
+    opacity: 0.85;
+}
+
+.navbar__title {
+    font-family: var(--truss-font-sans);
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--truss-color-dark);
 }
 
 /* Override Tailwind's reset for specific Docusaurus elements */
@@ -91,9 +145,10 @@
 
 /* Docs homepage portal styling */
 .docs-home-hero {
-    padding: 3rem 0 2rem;
+    padding: clamp(2.25rem, 6vw, 4.25rem) 0 clamp(2rem, 5vw, 3.25rem);
     text-align: center;
-    border-bottom: 1px solid var(--ifm-toc-border-color);
+    background: linear-gradient(180deg, #F7FBFF 0%, #EEF4FA 55%, #F4F7FB 100%);
+    border-bottom: 1px solid var(--truss-color-border);
 }
 
 .docs-home-hero__logo {
@@ -104,21 +159,29 @@
 
 .docs-home-hero__title {
     margin: 0;
-    font-size: clamp(2rem, 4vw, 3rem);
-    line-height: 1.1;
+    font-family: var(--truss-font-sans);
+    font-size: clamp(2.125rem, 5vw, 3.25rem);
+    font-weight: 800;
+    line-height: 1.08;
+    letter-spacing: -0.035em;
+    color: var(--truss-color-dark);
 }
 
 .docs-home-hero__tagline {
     margin: 0.75rem auto 0;
     max-width: 55rem;
-    font-size: 1.1rem;
-    color: var(--ifm-color-emphasis-700);
+    font-family: var(--truss-font-sans);
+    font-size: 1.0625rem;
+    line-height: 1.55;
+    color: var(--truss-color-dark-l2);
 }
 
 .docs-home-hero__intro {
     margin: 1rem auto 0;
     max-width: 52rem;
-    color: var(--ifm-color-emphasis-700);
+    font-family: var(--truss-font-sans);
+    line-height: 1.5;
+    color: var(--truss-color-grey-d2);
 }
 
 .docs-home-hero__actions {
@@ -130,50 +193,169 @@
 }
 
 .docs-home-section {
-    padding: 1.5rem 0;
+    padding: clamp(1.6rem, 3.2vw, 2.3rem) 0;
 }
 
 .docs-home-section__header {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.9rem;
 }
 
 .docs-home-section__header h2 {
-    margin-bottom: 0.4rem;
+    margin: 0 0 0.45rem;
+    font-family: var(--truss-font-sans);
+    font-size: clamp(1.5rem, 3.2vw, 2rem);
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    color: var(--truss-color-dark);
 }
 
 .docs-home-section__header p {
     margin-bottom: 0;
-    color: var(--ifm-color-emphasis-700);
+    font-family: var(--truss-font-sans);
+    line-height: 1.55;
+    color: var(--truss-color-grey-d2);
 }
 
 .docs-home-card {
-    border: 1px solid var(--ifm-toc-border-color);
-    box-shadow: none;
+    border: 1px solid var(--truss-color-border);
+    background: var(--truss-color-surface);
+    border-radius: 14px;
+    box-shadow: var(--truss-shadow-card);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
     height: 100%;
+}
+
+.docs-home-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--truss-shadow-card-hover);
+    border-color: color-mix(in srgb, var(--ifm-color-primary) 28%, var(--truss-color-border));
 }
 
 .docs-home-card .card__body h3 {
     margin-top: 0;
-    margin-bottom: 0.5rem;
-    font-size: 1.1rem;
+    margin-bottom: 0.55rem;
+    font-family: var(--truss-font-sans);
+    font-size: 1.12rem;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: var(--truss-color-dark);
 }
 
 .docs-home-card .card__body p {
-    color: var(--ifm-color-emphasis-700);
+    color: var(--truss-color-grey-d2);
+    line-height: 1.5;
 }
 
 .docs-home-card ul {
     margin: 0;
-    padding-left: 1rem;
+    padding: 0;
+    list-style: none;
 }
 
 .docs-home-card li {
-    margin-bottom: 0.35rem;
+    margin-bottom: 0.55rem;
+    padding-left: 1rem;
+    position: relative;
+}
+
+.docs-home-card li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.55em;
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: var(--ifm-color-primary);
+}
+
+.docs-home-card a:not(.button) {
+    color: var(--ifm-color-primary);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.docs-home-card a:not(.button):hover {
+    text-decoration: underline;
 }
 
 .docs-home-card__audience {
-    font-size: 0.9rem;
-    color: var(--ifm-color-emphasis-600);
+    margin-bottom: 0.65rem;
+    font-size: 0.84rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--ifm-color-primary);
+}
+
+.docs-home-card .button {
+    border-radius: 10px;
+    font-weight: 600;
+}
+
+.docs-home-card .button--secondary {
+    background: var(--truss-color-primary-muted);
+    color: var(--ifm-color-primary);
+    border-color: transparent;
+}
+
+.docs-home-card .button--secondary:hover {
+    background: color-mix(in srgb, var(--ifm-color-primary) 16%, transparent);
+    color: var(--ifm-color-primary-darkest);
+}
+
+.docs-home-card .button--primary {
+    box-shadow: 0 10px 18px -12px rgba(0, 119, 204, 0.7);
+}
+
+.docs-home-section--quickstart .docs-home-section__header h2,
+.docs-home-section--directory .docs-home-section__header h2,
+.docs-home-section--whats-new .docs-home-section__header h2,
+.docs-home-section--ecosystem .docs-home-section__header h2 {
+    display: inline-block;
+    position: relative;
+    padding-bottom: 0.35rem;
+}
+
+.docs-home-section--quickstart .docs-home-section__header h2::after,
+.docs-home-section--directory .docs-home-section__header h2::after,
+.docs-home-section--whats-new .docs-home-section__header h2::after,
+.docs-home-section--ecosystem .docs-home-section__header h2::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 64px;
+    height: 3px;
+    border-radius: 999px;
+    background: var(--truss-header-accent);
+}
+
+.docs-home-card--quickstart .card__body,
+.docs-home-card--whats-new .card__body {
+    padding-top: 1.2rem;
+}
+
+.docs-home-card--directory .card__body,
+.docs-home-card--ecosystem .card__body {
+    padding-top: 1.15rem;
+}
+
+.docs-home-card--quickstart .card__body p {
+    font-size: 0.94rem;
+    line-height: 1.45;
+}
+
+.docs-home-card--quickstart .docs-home-card__audience {
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+}
+
+.docs-home-card--quickstart .button {
+    font-size: 0.88rem;
+    margin-top: 0.35rem;
+    padding: 0.52rem 0.95rem;
 }
 
 .docs-home-inline-actions {

@@ -37,7 +37,7 @@ function HomepageHeader() {
 
 function QuickstartPathways() {
   return (
-    <section className="docs-home-section">
+    <section className="docs-home-section docs-home-section--quickstart">
       <div className="container">
         <div className="docs-home-section__header">
           <Heading as="h2">Quickstart pathways</Heading>
@@ -45,7 +45,7 @@ function QuickstartPathways() {
         </div>
         <div className="row">
           <div className="col col--4 margin-vert--md">
-            <div className="card docs-home-card">
+            <div className="card docs-home-card docs-home-card--quickstart">
               <div className="card__body">
                 <Heading as="h3">Explore</Heading>
                 <p className="docs-home-card__audience">For analysts and responders</p>
@@ -55,7 +55,7 @@ function QuickstartPathways() {
             </div>
           </div>
           <div className="col col--4 margin-vert--md">
-            <div className="card docs-home-card">
+            <div className="card docs-home-card docs-home-card--quickstart">
               <div className="card__body">
                 <Heading as="h3">Integrate</Heading>
                 <p className="docs-home-card__audience">For developers and platform engineers</p>
@@ -65,7 +65,7 @@ function QuickstartPathways() {
             </div>
           </div>
           <div className="col col--4 margin-vert--md">
-            <div className="card docs-home-card">
+            <div className="card docs-home-card docs-home-card--quickstart">
               <div className="card__body">
                 <Heading as="h3">Operate</Heading>
                 <p className="docs-home-card__audience">For admins and team leads</p>
@@ -82,7 +82,7 @@ function QuickstartPathways() {
 
 function DocsDirectory() {
   return (
-    <section className="docs-home-section">
+    <section className="docs-home-section docs-home-section--directory">
       <div className="container">
         <div className="docs-home-section__header">
           <Heading as="h2">Docs directory</Heading>
@@ -90,7 +90,7 @@ function DocsDirectory() {
         </div>
         <div className="row">
           <div className="col col--3 margin-vert--md">
-            <div className="card docs-home-card">
+            <div className="card docs-home-card docs-home-card--directory">
               <div className="card__body">
                 <Heading as="h3">Product guides</Heading>
                 <ul>
@@ -102,7 +102,7 @@ function DocsDirectory() {
             </div>
           </div>
           <div className="col col--3 margin-vert--md">
-            <div className="card docs-home-card">
+            <div className="card docs-home-card docs-home-card--directory">
               <div className="card__body">
                 <Heading as="h3">API and reference</Heading>
                 <ul>
@@ -114,7 +114,7 @@ function DocsDirectory() {
             </div>
           </div>
           <div className="col col--3 margin-vert--md">
-            <div className="card docs-home-card">
+            <div className="card docs-home-card docs-home-card--directory">
               <div className="card__body">
                 <Heading as="h3">Account and admin</Heading>
                 <ul>
@@ -126,7 +126,7 @@ function DocsDirectory() {
             </div>
           </div>
           <div className="col col--3 margin-vert--md">
-            <div className="card docs-home-card">
+            <div className="card docs-home-card docs-home-card--directory">
               <div className="card__body">
                 <Heading as="h3">External resources</Heading>
                 <ul>
@@ -145,7 +145,7 @@ function DocsDirectory() {
 
 function WhatsNew() {
   return (
-    <section className="docs-home-section">
+    <section className="docs-home-section docs-home-section--whats-new">
       <div className="container">
         <div className="docs-home-section__header">
           <Heading as="h2">What&apos;s new</Heading>
@@ -153,7 +153,7 @@ function WhatsNew() {
         </div>
         <div className="row">
           <div className="col col--6 margin-vert--md">
-            <div className="card docs-home-card">
+            <div className="card docs-home-card docs-home-card--whats-new">
               <div className="card__body">
                 <Heading as="h3">Start with the API reference</Heading>
                 <p>Begin implementation with endpoint-level details and authentication guidance.</p>
@@ -162,7 +162,7 @@ function WhatsNew() {
             </div>
           </div>
           <div className="col col--6 margin-vert--md">
-            <div className="card docs-home-card">
+            <div className="card docs-home-card docs-home-card--whats-new">
               <div className="card__body">
                 <Heading as="h3">Review dashboard workflows</Heading>
                 <p>See current docs for exploration, filtering, charts, and operational usage patterns.</p>
