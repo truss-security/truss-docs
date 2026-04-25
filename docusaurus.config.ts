@@ -3,9 +3,9 @@ import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
-  title: 'Making Security Smarter',
-  tagline: 'Connecting organizations to data they need, when they need it.',
-  favicon: 'img/favicon.ico',
+  title: 'Truss Docs',
+  tagline: 'Documentation for the Security Information Exchange.',
+  favicon: 'img/Truss_favicon.ico',
 
   // Set the production url of your site here
   url: 'https://truss-security.github.io',
@@ -84,7 +84,7 @@ const config: Config = {
     // Replace with your project's social card
     image: 'img/docusaurus-social-card.jpg',
     navbar: {
-      title: 'Truss / Docs',
+      title: 'Truss Docs',
       logo: {
         alt: 'Truss Logo',
         src: 'img/Truss Logo IconOnly_Color.png',
@@ -119,11 +119,11 @@ const config: Config = {
       style: 'dark',
       links: [
         {
-          title: 'Truss',
+          title: 'Platform',
           items: [
             {
-              label: 'Fully hosted APIs to make your security tools smarter.',
-              to: '/data',
+              label: 'Website',
+              href: 'https://www.truss-security.com',
             }
           ],
         },
@@ -131,8 +131,16 @@ const config: Config = {
           title: 'Docs',
           items: [
             {
-              label: 'Truss Security',
-              to: '/data',
+              label: 'Dashboard',
+              to: '/dashboard',
+            },
+            {
+              label: 'API',
+              to: '/api',
+            },
+            {
+              label: 'Account',
+              to: '/account',
             }
           ],
         },
@@ -142,10 +150,6 @@ const config: Config = {
             {
               label: 'Discord',
               href: 'https://discord.com/invite/zerVhHtfxJ',
-            },
-            {
-              label: 'Twitter',
-              href: 'https://twitter.com/Truss_Security',
             },
             {
               label: 'LinkedIn',
