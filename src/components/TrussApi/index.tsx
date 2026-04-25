@@ -3,9 +3,6 @@ import Link from '@docusaurus/Link';
 import Heading from '@theme/Heading';
 
 export default function TrussApi(): JSX.Element {
-const Svg = require('@site/static/img/apiCode.svg').default;
-
-export default function TrussApi(): React.ReactElement {
   return (
     <section className="docs-home-section">
       <div className="container">
