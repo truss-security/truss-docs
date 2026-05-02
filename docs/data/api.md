@@ -1,6 +1,6 @@
 ---
 sidebar_position: 2
-title: Truss API Guide
+title: Truss API
 toc_min_heading_level: 2
 toc_max_heading_level: 3
 ---
@@ -11,208 +11,201 @@ import { pagingExample as PagingExample } from '@site/src/components/APIExamples
 import { dateSearchExample as DateSearchExample } from '@site/src/components/APIExamples/dateSearchExamples';
 import { daysExample as DaysExample } from '@site/src/components/APIExamples/daysExamples';
 import { filterExample as FilterExample } from '@site/src/components/APIExamples/filterExamples';
-import { lastEvaluatedKeyExample as LastEvaluatedKeyExample, initialQueryExample as InitialQueryExample } from '@site/src/components/APIExamples/lastEvaluatedKeyExamples';
+import { filteredQueryExample as FilteredQueryExample, nextPageExample as NextPageExample } from '@site/src/components/APIExamples/lastEvaluatedKeyExamples';
 
 <div className="text-center">
-  <h1 className="text-4xl font-bold mb-4">Using the API</h1>
+  <h1 className="text-3xl font-bold mb-4 max-w-4xl">Using the API</h1>
 </div>
 
-<div className="text-center mb-12">
-  <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-4">
-    The Truss API facilitates powerful endpoint query operations to provide access to Truss' security data. The API is designed to be used by developers to retrieve, filter, and analyze data efficiently.
+<div className="text-left mb-12">
+  <p className="text-xl text-gray-600 dark:text-gray-300 max-w-4xl mx-auto mb-4">
+    The public Truss API is HTTPS JSON. The main data access path is <code>POST /product/search</code>, which accepts <strong>FilterQL</strong> in <code>filterExpression</code> plus optional time range and pagination fields. You can also load a single product with <code>GET /product/:id</code> (numeric id or <code>truss_prod_id</code>).
   </p>
-  <p className="text-xl italic text-gray-600 max-w-3xl mx-auto">
-    Truss allows organizations to access the security data they need, in a way that is efficient and easy to use.
+  <p className="text-xl italic text-gray-600 dark:text-gray-300 max-w-4xl mx-auto">
+    For the live contract (schemas, examples, try-it-out), open the <a href="/api" className="underline">API reference</a>. For typed clients, use <a href="/data/sdk" className="underline"><code>@truss-security/truss-sdk</code></a>.
   </p>
 </div>
 
-<div className="relative my-12">
-  <div className="absolute inset-0 flex items-center" aria-hidden="true">
-    <div className="w-full border-t border-gray-300" />
-  </div>
-  <div className="relative flex justify-center">
-    <span className="bg-white px-3 text-base text-gray-500">•</span>
-  </div>
-</div>
+## Authentication and base URL
 
-## Truss Search Endpoint
+- **Base URL:** <code>https://api.truss-security.com</code>
+- **Header:** <code>x-api-key: &lt;your API key&gt;</code> on every request
+- **Content-Type:** <code>application/json</code> for POST bodies
 
-<p className="text-lg mb-6">
-  The Truss <code>/product/search</code> endpoint is designed to accommodate most data access needs. This endpoint allows you to retrieve comprehensive slices of security data based on a variety of filter parameters.
-</p>
+## Product search (`POST /product/search`)
+
+The body is a single JSON object. Allowed keys include:
+
+| Field | Purpose |
+|--------|---------|
+| <code>filterExpression</code> | Optional **FilterQL** string (see below). Omit or use an empty string for no attribute filter. |
+| <code>startDate</code> / <code>endDate</code> | Optional time window on product <code>timestamp</code> (string or Unix **milliseconds**). If you pass <code>endDate</code>, you must also pass <code>startDate</code> or <code>days</code>. |
+| <code>days</code> | Optional non-negative number; when **greater than zero**, the window start is derived from “now minus N days” (and interacts with explicit dates per server rules). |
+| <code>page</code> | 1-based page index (default <code>1</code>). |
+| <code>limit</code> | Page size (integer ≥ 1; the server applies an effective maximum—see OpenAPI). |
+| <code>order_by</code> | One of: <code>pub_date</code>, <code>downloads</code>, <code>rating</code>, <code>timestamp</code> (optional; defaults apply). |
+| <code>order_direction</code> | <code>asc</code> or <code>desc</code> (optional). |
+
+Successful responses include <code>products</code>, <code>total</code>, <code>page</code>, <code>limit</code>, and <code>hasMore</code>. Product objects use **snake_case** fields (for example <code>pub_date</code>, <code>truss_prod_id</code>).
 
 <CodeTabs example={BasicSearchExample} />
 
 <div className="relative my-12">
   <div className="absolute inset-0 flex items-center" aria-hidden="true">
-    <div className="w-full border-t border-gray-300" />
+    <div className="w-full border-t border-gray-300 dark:border-gray-600" />
   </div>
   <div className="relative flex justify-center">
-    <span className="bg-white px-3 text-base text-gray-500">•</span>
+    <span className="bg-white dark:bg-[var(--ifm-background-color)] px-3 text-base text-gray-500">•</span>
   </div>
 </div>
 
-## Search by Date
+## Search by date
 
-There are several ways to search by date. The following parameters are supported:
+Supported time filters:
 
-* **startdate:** Return products uploaded on or after this date.
-* **enddate:** Return products uploaded on or before this date.
-* **days:** Return products uploaded since N days ago.
+- <code>startDate</code> — products with <code>timestamp</code> on or after this instant.
+- <code>endDate</code> — on or before this instant (requires <code>startDate</code> or <code>days</code>).
+- <code>days</code> — rolling window when set to a **positive** number; <code>0</code> is accepted but does not apply a “last N days” window.
 
-Searches may be time boxed using the `startdate` and `enddate` parameters. Different date formats are supported:
-
-- *unix epoch time* in milliseconds (e.g., "1717379710282")
-- *ISO* format (e.g., "2024-06-02", "2024-06-02T15:30:00Z" for UTC, or "2024-06-02T09:30:00-06:00" for "UTC - 6" hours)
-- *Human readable* format (e.g., "March 20, 2024")
-
-For example, the following example will return all security products entered since the specified start date (Sun Jun 2 2024) and before the specified end date (Mon Jun 3 2024).
+Date values can be ISO strings, human-readable strings, or Unix epoch **milliseconds** as a number. The API normalizes to UTC.
 
 <CodeTabs example={DateSearchExample} />
 
-If a `days` parameter is included the search returns security products entered since that number of days in the past to the current time. This parameter will be used in place of `startdate` and `enddate` parameters.
-
-:::info
-When a `days` parameter is entered, `startdate` and `enddate` parameters will be ignored.
-:::
+When <code>days</code> &gt; 0, the server derives the start of the time window from the current time; explicit <code>startDate</code> / <code>endDate</code> still participate according to validation rules—prefer one mental model: either a **fixed range** (<code>startDate</code> + <code>endDate</code>) or a **rolling window** (<code>days</code>), and test edge cases in the <a href="/api">explorer</a> if you combine fields.
 
 <CodeTabs example={DaysExample} />
 
 <div className="relative my-12">
   <div className="absolute inset-0 flex items-center" aria-hidden="true">
-    <div className="w-full border-t border-gray-300" />
+    <div className="w-full border-t border-gray-300 dark:border-gray-600" />
   </div>
   <div className="relative flex justify-center">
-    <span className="bg-white px-3 text-base text-gray-500">•</span>
+    <span className="bg-white dark:bg-[var(--ifm-background-color)] px-3 text-base text-gray-500">•</span>
   </div>
 </div>
 
-## Boolean Search Filters
+## FilterQL (attribute filters)
 
-<p className="text-lg mb-6">
-  Boolean search filters can be used to narrow down the results of a query. Boolean search filters contain both the date parameters and the product parameters and are passed directly into the data field of the search request.
-</p>
+Use **FilterQL** in <code>filterExpression</code> to filter on attributes such as <code>category</code>, <code>source</code>, <code>type</code>, <code>title</code>, <code>author</code>, <code>industry</code>, <code>region</code>, <code>reference</code>, <code>tags</code>, <code>validators</code>, and <code>indicators</code>.
 
-The following product parameters support boolean search filters:
-
-* **category:** Array of category names (e.g., ["Ransomware", "OSINT"]).
-* **source:** Array of source names (e.g., ["TOR Project"]).
-* **author:** Array of author names (e.g., ["MohitK_"]).
-* **industry:** Array of industry names (e.g., ["Finance"]).
-* **region:** Array of region names (e.g., ["Europe"]).
-* **reference:** Array of reference strings (e.g., ["https://threatview.io/"]).
-* **tags:** Array of tags (e.g., ["C2", "AlphV"]).
-
-### 'OR' Filtering
-
-When searching for multiple values for a single parameter, the search performs an `OR` between the strings passed as an array to a single parameter. For example, if the values ["Ransomware", "OSINT"] are passed to the `category` parameter, the search will return all security products where the `category` is "Ransomware" OR "OSINT".
-
-### 'AND' Filtering
-
-If more than one parameter is specified in a search (e.g., `category` and `source`), then the search will return those products that satisfy BOTH of the specified parameters. In other words, the search performs an `AND` between the different parameters.
-
-For example, if ["Ransomeware"] is passed to the `category` parameter and the ["TOR Project"] is passed to the `source` parameter, the search will return all security products where the `category` is "Ransomeware" AND where the `source` is "TOR Project".
-
-Consider the following filter:
+- Combine predicates with <code>AND</code> / <code>OR</code>.
+- Compare with <code>=</code>, <code>!=</code>, and <code>LIKE</code> where supported.
+- **OR within one attribute:** e.g. two categories—<code>category = 'Ransomware' OR category = 'OSINT'</code>.
+- **AND across attributes:** e.g. <code>category = 'Ransomware' AND source = 'TOR Project'</code>.
 
 <CodeTabs example={FilterExample} />
 
 <div className="relative my-12">
   <div className="absolute inset-0 flex items-center" aria-hidden="true">
-    <div className="w-full border-t border-gray-300" />
+    <div className="w-full border-t border-gray-300 dark:border-gray-600" />
   </div>
   <div className="relative flex justify-center">
-    <span className="bg-white px-3 text-base text-gray-500">•</span>
+    <span className="bg-white dark:bg-[var(--ifm-background-color)] px-3 text-base text-gray-500">•</span>
   </div>
 </div>
 
-## Paging
+## Pagination
 
-<p className="text-lg mb-6">
-  When a product search results in a large number of products, only a subset of the total will be returned by each call to the <code>/product/search</code> endpoint. In these cases, the initial calls will return metadata in the form of a <code>LastEvaluatedKey</code> that can be used to page through the results.
-</p>
+Pagination is **page-based**, not cursor-based. Increase <code>page</code> while <code>hasMore</code> is true. Reuse the same filter and <code>limit</code> for each page.
 
 <CodeTabs example={PagingExample} />
 
-<div className="relative my-12">
-  <div className="absolute inset-0 flex items-center" aria-hidden="true">
-    <div className="w-full border-t border-gray-300" />
-  </div>
-  <div className="relative flex justify-center">
-    <span className="bg-white px-3 text-base text-gray-500">•</span>
-  </div>
-</div>
+### Example: filtered query
 
-## Last Evaluated Keys
+<CodeTabs example={FilteredQueryExample} />
 
-<p className="text-lg mb-6">
-  When working with large datasets, the Truss API implements pagination to ensure efficient data retrieval. If your query returns a <code>LastEvaluatedKey</code> in the response, this indicates there are more results available. To retrieve the next set of results, include this key in your subsequent query.
-</p>
+### Example: next page
 
-<p className="text-lg mb-6">
-  The <code>LastEvaluatedKey</code> acts as a bookmark, telling the API where to resume fetching results. This pagination mechanism ensures optimal performance while allowing you to retrieve complete result sets.
-</p>
+Use the same body as before but increment <code>page</code>.
 
-### Initial Query Examples
-
-<CodeTabs example={InitialQueryExample} />
-
-<p className="text-lg mb-6">
-  When using the curl command, the API returns a response containing a LastEvaluatedKey, it will look like this:
-</p>
-
-<pre className="text-sm bg-gray-50 p-4 rounded-md">
-{`
-  {
-    "LastEvaluatedKey": {
-      "SK": "VER#0",
-      "GSI3PK": "OpenPhish",
-      "PK": "PROD#01JEMBFNT12JV97ZT3GVBF2X2J",
-      "GSI3SK": 1733702440770
-    }
-  }
-`}
-</pre>
-
-### Using LastEvaluatedKey Examples
-
-<CodeTabs example={LastEvaluatedKeyExample} />
+<CodeTabs example={NextPageExample} />
 
 <div className="relative my-12">
   <div className="absolute inset-0 flex items-center" aria-hidden="true">
-    <div className="w-full border-t border-gray-300" />
+    <div className="w-full border-t border-gray-300 dark:border-gray-600" />
   </div>
   <div className="relative flex justify-center">
-    <span className="bg-white px-3 text-base text-gray-500">•</span>
+    <span className="bg-white dark:bg-[var(--ifm-background-color)] px-3 text-base text-gray-500">•</span>
   </div>
 </div>
 
-## Pro API Tips
+## Single product (`GET /product/:id`)
+
+Returns a JSON body with a top-level <code>product</code> object—the same snake_case shape as rows in <code>POST /product/search</code>. The path parameter is either the numeric <code>id</code> or the string <code>truss_prod_id</code> (ULID). Use the SDK helper <code>search.product(id)</code> to unwrap the body to a typed object.
+
+```bash
+curl -sS "https://api.truss-security.com/product/01ARZ3NDEKTSV4RRFFQ69G5FAV" \
+  -H "x-api-key: YOUR_KEY"
+```
+
+<div className="relative my-12">
+  <div className="absolute inset-0 flex items-center" aria-hidden="true">
+    <div className="w-full border-t border-gray-300 dark:border-gray-600" />
+  </div>
+  <div className="relative flex justify-center">
+    <span className="bg-white dark:bg-[var(--ifm-background-color)] px-3 text-base text-gray-500">•</span>
+  </div>
+</div>
+
+## STIX
+
+Public STIX endpoints (same API key):
+
+- <code>GET /product/:id/stix</code> — STIX bundle for one product (numeric id or ULID <code>truss_prod_id</code>).
+- <code>POST /product/search/stix</code> — search with the same filter/date fields as JSON search; STIX responses include pagination-related headers documented in OpenAPI.
+
+Example (body is the same shape as JSON search; response is <code>application/stix+json</code>):
+
+```bash
+curl -sS -X POST "https://api.truss-security.com/product/search/stix" \
+  -H "x-api-key: YOUR_KEY" \
+  -H "Content-Type: application/json" \
+  -d @- <<'EOF' | jq .
+{
+  "filterExpression": "",
+  "page": 1,
+  "limit": 10,
+  "startDate": "2026-04-25T17:45:00.000Z",
+  "endDate": "2026-05-02T17:45:59.999Z"
+}
+EOF
+```
+
+Use <code>@truss-security/truss-sdk</code> helpers <code>search.productStix</code> and <code>search.productsStix</code> if you prefer TypeScript.
+
+<div className="relative my-12">
+  <div className="absolute inset-0 flex items-center" aria-hidden="true">
+    <div className="w-full border-t border-gray-300 dark:border-gray-600" />
+  </div>
+  <div className="relative flex justify-center">
+    <span className="bg-white dark:bg-[var(--ifm-background-color)] px-3 text-base text-gray-500">•</span>
+  </div>
+</div>
+
+## Tips
 
 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-8">
-  <div className="bg-blue-50 p-6 rounded-lg shadow-md border border-green-100 my-6">
-    <h3 className="text-xl font-bold mb-4 text-blue-800">Advanced API Techniques</h3>
+  <div className="bg-blue-50 dark:bg-blue-950/30 p-6 rounded-lg shadow-md border border-green-100 dark:border-green-900/40 my-6">
+    <h3 className="text-xl font-bold mb-4 text-blue-800 dark:text-blue-200">Requests</h3>
     <ul className="list-disc pl-6 space-y-2">
-      <li><span className="font-semibold">Pagination:</span> Handle large result sets efficiently by adding pagination to your client</li>
-      <li><span className="font-semibold">Filter Chaining:</span> Combine multiple filters for precise results</li>
-      <li><span className="font-semibold">Date Formatting:</span> You can use various date formats for flexibility. epoch, day range, or human readable</li>
-      <li><span className="font-semibold">Error Handling:</span> Implement robust error handling through your client to handle errors gracefully</li>
+      <li>Prefer small <code>limit</code> values while prototyping, then page with <code>hasMore</code></li>
+      <li>Keep FilterQL readable; build complex filters in the SDK with the <code>filter</code> helper</li>
+      <li>Validate date assumptions in the <a href="/api">OpenAPI UI</a> against your timezone</li>
     </ul>
   </div>
 
-  <div className="bg-blue-50 p-6 rounded-lg shadow-md border border-green-100 my-6">
-    <h3 className="text-xl font-bold mb-4 text-blue-800">API Best Practices</h3>
+  <div className="bg-blue-50 dark:bg-blue-950/30 p-6 rounded-lg shadow-md border border-green-900/40 my-6">
+    <h3 className="text-xl font-bold mb-4 text-blue-800 dark:text-blue-200">Security</h3>
     <ul className="list-disc pl-6 space-y-2">
-      <li>Cache responses when appropriate</li>
-      <li>Implement rate limiting in your client</li>
-      <li>Use proper error handling and retries</li>
-      <li>Your API key is sensitive to your account. Do not share it with anyone.</li>
+      <li>Treat API keys like passwords; never commit them</li>
+      <li>Use retries with backoff for <code>429</code> and transient <code>5xx</code> (the SDK does this)</li>
+      <li>Log request ids or timestamps when reporting failures to support</li>
     </ul>
   </div>
 </div>
 
-<div className="mt-12 p-6 bg-blue-50 rounded-lg shadow-md border border-blue-100 text-center">
-  <p className="text-lg font-medium text-blue-800">
-    The Truss API is your tool for accessing and managing security intelligence data. Use these endpoints to retrieve, filter, and analyze data efficiently.
+<div className="mt-12 p-6 bg-blue-50 dark:bg-blue-950/30 rounded-lg shadow-md border border-blue-100 dark:border-blue-900/40 text-center">
+  <p className="text-lg font-medium text-blue-800 dark:text-blue-200">
+    The <a href="/api" className="underline">interactive reference</a> stays aligned with the public SDK and production routes.
   </p>
 </div>

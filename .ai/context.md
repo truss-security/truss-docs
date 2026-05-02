@@ -4,12 +4,10 @@
 [Brief description of this repository's purpose and main functionality]
 
 ## Repository Relationships
-- **truss-dashboard**: Documents dashboard features, workflows, and user interfaces.
 - **truss-api**: Documents API endpoints, parameters, and response formats.
 - **truss-agent**: Documents agent installation, configuration, and troubleshooting.
 
 ## Cross-Repository References
-- Dashboard Context: `/Users/ericbutz/git-truss/truss-dashboard/.ai/context.md`
 - API Context: `/Users/ericbutz/git-truss/truss-api/.ai/context.md`
 - Agent Context: `/Users/ericbutz/git-truss/truss-agent/.ai/context.md`
 - Docs Context: `/Users/ericbutz/git-truss/truss-docs/.ai/context.md`

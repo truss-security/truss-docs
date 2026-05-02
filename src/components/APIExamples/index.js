@@ -4,4 +4,4 @@ export { pagingExample } from './pagingExamples';
 export { dateSearchExample } from './dateSearchExamples';
 export { daysExample } from './daysExamples';
 export { filterExample } from './filterExamples';
-export { lastEvaluatedKeyExample } from './lastEvaluatedKeyExamples'; 
+export { filteredQueryExample, nextPageExample } from './lastEvaluatedKeyExamples'; 

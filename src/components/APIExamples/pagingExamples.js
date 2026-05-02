@@ -1,250 +1,161 @@
 export const pagingExample = {
-    curl: `curl -X 'POST' \\
-  "https://api.truss-security.com/product/search" \\
-  -H "x-api-key: YOUR_API_KEY" \\
+  curl: `curl -sS -X POST "https://api.truss-security.com/product/search" \\
+  -H "x-api-key: YOUR_KEY" \\
   -H "Content-Type: application/json" \\
-  -d '{
-    "days": 2,
-    "LastEvaluatedKey": {
-      "GSI1PK": "PROD",
-      "SK": "VER#0",
-      "GSI1SK": 1717377712019,
-      "PK": "PROD#01HKDT164VYRS50ZQ8RJEHHBH0"
-    }
-  }'`,
-
-    javascript: `import axios from 'axios';
-
-const YOUR_API_KEY = 'YOUR_API_KEY';
-
-export const trussApi = async (filter) => {
-  const server = 'https://api.truss-security.com'
-  const searchEndpoint = '/product/search'
-  const url = server + searchEndpoint
-  try {
-    const options = {
-      method: 'POST',
-      headers: { 
-        'x-api-key': YOUR_API_KEY
-      },
-      data: filter,
-      url,
-    };
-    const response = await axios(options);
-    return response.data
-  } catch (err) {
-    console.log('HTTP Error: ', err)
-    throw err
-  }
+  -d @- <<'EOF' | jq .
+{
+  "days": 7,
+  "limit": 10,
+  "page": 1
 }
+EOF`,
 
-export async function fetchAllPages(filter) {
-  const allItems = [];
-  let lastEvaluatedKey;
-  
-  try {
-    do {
-      const currentFilter = {
-        ...filter,
-        LastEvaluatedKey: lastEvaluatedKey
-      };
-      const { result } = await trussApi(currentFilter);
-      allItems.push(...result.Items);
-      lastEvaluatedKey = result.LastEvaluatedKey;
-    } while (lastEvaluatedKey);
+  javascript: `const YOUR_API_KEY = 'YOUR_API_KEY';
 
-    return allItems;
-  } catch (error) {
-    throw new Error(\`Failed to fetch pages: \${error.message}\`);
+async function fetchAllPages(baseBody) {
+  const url = 'https://api.truss-security.com/product/search';
+  const all = [];
+  let page = 1;
+
+  while (true) {
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'x-api-key': YOUR_API_KEY,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ ...baseBody, page }),
+    });
+    if (!res.ok) throw new Error(await res.text());
+    const data = await res.json();
+    all.push(...data.products);
+    if (!data.hasMore) break;
+    page += 1;
   }
+  return all;
 }`,
 
-    python: `import requests
-import json
+  python: `import requests
 
 API_KEY = 'YOUR_API_KEY'
 
-def fetch_all_pages(filter_params):
+def fetch_all_pages(base_body):
     url = 'https://api.truss-security.com/product/search'
     headers = {
         'x-api-key': API_KEY,
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
     }
-    all_items = []
-    last_evaluated_key = None
-    
-    try:
-        while True:
-            if last_evaluated_key:
-                filter_params['LastEvaluatedKey'] = last_evaluated_key
-                
-            response = requests.post(url, headers=headers, json=filter_params)
-            response.raise_for_status()
-            result = response.json()['result']
-            
-            all_items.extend(result['Items'])
-            last_evaluated_key = result.get('LastEvaluatedKey')
-            
-            if not last_evaluated_key:
-                break
-                
-        return all_items
-    except requests.exceptions.RequestException as e:
-        print(f"Error: {e}")
-        raise`,
+    all_products = []
+    page = 1
+    while True:
+        body = { **base_body, 'page': page }
+        r = requests.post(url, headers=headers, json=body)
+        r.raise_for_status()
+        data = r.json()
+        all_products.extend(data.get('products', []))
+        if not data.get('hasMore'):
+            break
+        page += 1
+    return all_products`,
 
-    ruby: `require 'net/http'
+  ruby: `require 'net/http'
 require 'uri'
 require 'json'
 
 API_KEY = 'YOUR_API_KEY'
 
-def fetch_all_pages(filter_params)
+def fetch_all_pages(base_body)
   uri = URI('https://api.truss-security.com/product/search')
   http = Net::HTTP.new(uri.host, uri.port)
   http.use_ssl = true
-  
-  all_items = []
-  last_evaluated_key = nil
-  
-  begin
-    loop do
-      filter_params['LastEvaluatedKey'] = last_evaluated_key if last_evaluated_key
-      
-      request = Net::HTTP::Post.new(uri)
-      request['x-api-key'] = API_KEY
-      request['Content-Type'] = 'application/json'
-      request.body = filter_params.to_json
-      
-      response = http.request(request)
-      result = JSON.parse(response.body)['result']
-      
-      all_items.concat(result['Items'])
-      last_evaluated_key = result['LastEvaluatedKey']
-      
-      break unless last_evaluated_key
-    end
-    
-    all_items
-  rescue StandardError => e
-    puts "Error: #{e.message}"
-    raise
+  all_products = []
+  page = 1
+  loop do
+    body = base_body.merge('page' => page)
+    request = Net::HTTP::Post.new(uri)
+    request['x-api-key'] = API_KEY
+    request['Content-Type'] = 'application/json'
+    request.body = body.to_json
+    response = http.request(request)
+    data = JSON.parse(response.body)
+    all_products.concat(data['products'] || [])
+    break unless data['hasMore']
+    page += 1
   end
+  all_products
 end`,
 
-    go: `package main
+  go: `package main
 
 import (
     "bytes"
     "encoding/json"
     "fmt"
-    "io/ioutil"
+    "io"
     "net/http"
 )
 
 const apiKey = "YOUR_API_KEY"
 
-type SearchRequest struct {
-    Days int \`json:"days"\`
-    LastEvaluatedKey map[string]interface{} \`json:"LastEvaluatedKey,omitempty"\`
-}
-
-func fetchAllPages(filter SearchRequest) ([]map[string]interface{}, error) {
+func fetchAllPages(base map[string]interface{}) ([]interface{}, error) {
     url := "https://api.truss-security.com/product/search"
-    var allItems []map[string]interface{}
-    
+    var all []interface{}
+    page := 1
     for {
-        jsonData, err := json.Marshal(filter)
-        if err != nil {
-            return nil, fmt.Errorf("error marshaling JSON: %v", err)
-        }
-        
-        req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonData))
-        if err != nil {
-            return nil, fmt.Errorf("error creating request: %v", err)
-        }
-        
+        base["page"] = page
+        body, _ := json.Marshal(base)
+        req, _ := http.NewRequest("POST", url, bytes.NewReader(body))
         req.Header.Set("x-api-key", apiKey)
         req.Header.Set("Content-Type", "application/json")
-        
-        client := &http.Client{}
-        resp, err := client.Do(req)
+        resp, err := http.DefaultClient.Do(req)
         if err != nil {
-            return nil, fmt.Errorf("error making request: %v", err)
+            return nil, err
         }
-        
-        body, err := ioutil.ReadAll(resp.Body)
+        b, _ := io.ReadAll(resp.Body)
         resp.Body.Close()
-        if err != nil {
-            return nil, fmt.Errorf("error reading response: %v", err)
+        var data map[string]interface{}
+        if err := json.Unmarshal(b, &data); err != nil {
+            return nil, err
         }
-        
-        var result map[string]interface{}
-        if err := json.Unmarshal(body, &result); err != nil {
-            return nil, fmt.Errorf("error parsing response: %v", err)
+        if prods, ok := data["products"].([]interface{}); ok {
+            all = append(all, prods...)
         }
-        
-        resultData := result["result"].(map[string]interface{})
-        items := resultData["Items"].([]interface{})
-        for _, item := range items {
-            allItems = append(allItems, item.(map[string]interface{}))
-        }
-        
-        lastEvaluatedKey, exists := resultData["LastEvaluatedKey"]
-        if !exists || lastEvaluatedKey == nil {
+        if hm, ok := data["hasMore"].(bool); !ok || !hm {
             break
         }
-        
-        filter.LastEvaluatedKey = lastEvaluatedKey.(map[string]interface{})
+        page++
     }
-    
-    return allItems, nil
+    return all, nil
 }`,
 
-    rust: `use reqwest::Client;
+  rust: `use reqwest::Client;
 use serde_json::{json, Value};
 use anyhow::Result;
 
 const API_KEY: &str = "YOUR_API_KEY";
 
-async fn fetch_all_pages(mut filter: Value) -> Result<Vec<Value>> {
+async fn fetch_all_pages(mut base: Value) -> Result<Vec<Value>> {
     let client = Client::new();
-    let mut all_items = Vec::new();
-    
+    let mut all = Vec::new();
+    let mut page = 1i64;
     loop {
+        base["page"] = json!(page);
         let response = client
             .post("https://api.truss-security.com/product/search")
             .header("x-api-key", API_KEY)
             .header("Content-Type", "application/json")
-            .json(&filter)
+            .json(&base)
             .send()
             .await?;
-        
-        let result = response.json::<Value>().await?;
-        let items = result["result"]["Items"].as_array()
-            .ok_or_else(|| anyhow::anyhow!("Invalid response format"))?;
-        all_items.extend(items.clone());
-        
-        if let Some(last_key) = result["result"]["LastEvaluatedKey"].as_object() {
-            filter["LastEvaluatedKey"] = json!(last_key);
-        } else {
+        let data: Value = response.json().await?;
+        if let Some(arr) = data["products"].as_array() {
+            all.extend(arr.iter().cloned());
+        }
+        if !data["hasMore"].as_bool().unwrap_or(false) {
             break;
         }
+        page += 1;
     }
-    
-    Ok(all_items)
-}
-
-#[tokio::main]
-async fn main() -> Result<()> {
-    let filter = json!({
-        "days": 2
-    });
-    
-    match fetch_all_pages(filter).await {
-        Ok(items) => println!("Total items: {}", items.len()),
-        Err(e) => eprintln!("Error: {}", e),
-    }
-    Ok(())
-}`
+    Ok(all)
+}`,
 };

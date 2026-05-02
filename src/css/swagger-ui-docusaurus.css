@@ -1,0 +1,278 @@
+@import 'swagger-ui-react/swagger-ui.css';
+
+/**
+ * Swagger UI ships light-theme-only colors. Scope fixes under `.swagger-ui-host`
+ * and map text/background/borders to Infima variables so light + dark mode track
+ * the Docusaurus theme (`[data-theme="dark"]`).
+ */
+
+.swagger-ui-host {
+  color: var(--ifm-font-color-base);
+}
+
+.swagger-ui-host .swagger-ui {
+  font-family: var(--ifm-font-family-base);
+  color: var(--ifm-font-color-base);
+}
+
+.swagger-ui-host .swagger-ui .info .title,
+.swagger-ui-host .swagger-ui .info h1,
+.swagger-ui-host .swagger-ui .info h2,
+.swagger-ui-host .swagger-ui .info h3,
+.swagger-ui-host .swagger-ui .info h4,
+.swagger-ui-host .swagger-ui .info h5,
+.swagger-ui-host .swagger-ui .info li,
+.swagger-ui-host .swagger-ui .info p,
+.swagger-ui-host .swagger-ui .info table {
+  color: var(--ifm-font-color-base);
+}
+
+.swagger-ui-host .swagger-ui a {
+  color: var(--ifm-link-color);
+}
+
+.swagger-ui-host .swagger-ui .scheme-container,
+.swagger-ui-host .swagger-ui .wrapper {
+  background: transparent;
+}
+
+.swagger-ui-host .swagger-ui .opblock-tag,
+.swagger-ui-host .swagger-ui .opblock .opblock-summary-description,
+.swagger-ui-host .swagger-ui .opblock-description-wrapper p,
+.swagger-ui-host .swagger-ui .parameter__name,
+.swagger-ui-host .swagger-ui .parameter__type,
+.swagger-ui-host .swagger-ui .response-col_status,
+.swagger-ui-host .swagger-ui .tab li,
+.swagger-ui-host .swagger-ui .model-title,
+.swagger-ui-host .swagger-ui .prop-type,
+.swagger-ui-host .swagger-ui .prop-format,
+.swagger-ui-host .swagger-ui table thead tr td,
+.swagger-ui-host .swagger-ui table thead tr th,
+.swagger-ui-host .swagger-ui table tbody tr td {
+  color: var(--ifm-font-color-base);
+}
+
+.swagger-ui-host .swagger-ui .model-box,
+.swagger-ui-host .swagger-ui .model .model-box,
+.swagger-ui-host .swagger-ui section.models {
+  background: var(--ifm-background-surface-color);
+  border-color: var(--ifm-border-color);
+}
+
+.swagger-ui-host .swagger-ui table tr,
+.swagger-ui-host .swagger-ui .parameters-col_description,
+.swagger-ui-host .swagger-ui .response-col_description {
+  color: var(--ifm-font-color-base);
+}
+
+.swagger-ui-host .swagger-ui .markdown code,
+.swagger-ui-host .swagger-ui .microlight,
+.swagger-ui-host .swagger-ui pre {
+  background: var(--ifm-code-background) !important;
+  color: var(--ifm-font-color-base) !important;
+  border: 1px solid var(--ifm-border-color);
+}
+
+/* Dark mode: lift contrast on panels Swagger paints white / near-black text */
+[data-theme='dark'] .swagger-ui-host .swagger-ui .opblock {
+  background: var(--ifm-background-surface-color);
+  border-color: var(--ifm-border-color);
+}
+
+/*
+ * Swagger’s built-in dark theme uses `html.dark-mode`; Docusaurus uses
+ * `[data-theme="dark"]`, so those rules never run. Mirror the opblock section
+ * header bars (Parameters / Request body / Responses) + light text here.
+ */
+[data-theme='dark'] .swagger-ui-host .swagger-ui .opblock .opblock-section-header {
+  box-shadow: none;
+}
+
+[data-theme='dark'] .swagger-ui-host .swagger-ui .opblock .opblock-section-header h4,
+[data-theme='dark'] .swagger-ui-host .swagger-ui .opblock .opblock-section-header label {
+  color: #e4e6e6 !important;
+}
+
+[data-theme='dark'] .swagger-ui-host .swagger-ui .opblock .opblock-section-header .try-out__btn {
+  border-color: #b7bcbf;
+  box-shadow: none;
+  color: #e4e6e6 !important;
+}
+
+[data-theme='dark'] .swagger-ui-host .swagger-ui .opblock .opblock-section-header .try-out__btn.cancel {
+  border-color: #ff5f5f;
+  color: #ff5f5f !important;
+}
+
+[data-theme='dark'] .swagger-ui-host .swagger-ui .opblock.opblock-post .opblock-section-header {
+  background: #14392c;
+  border-bottom: 1px solid #104834;
+  border-top: 1px solid #104834;
+}
+
+[data-theme='dark'] .swagger-ui-host .swagger-ui .opblock.opblock-deprecated .opblock-section-header {
+  background: #262e36;
+  border-bottom: 1px solid #495361;
+  border-top: 1px solid #495361;
+}
+
+[data-theme='dark'] .swagger-ui-host .swagger-ui .opblock.opblock-put .opblock-section-header {
+  background: #9a5b3e;
+  border-bottom: 1px solid #523524;
+  border-top: 1px solid #523524;
+}
+
+[data-theme='dark'] .swagger-ui-host .swagger-ui .opblock.opblock-get .opblock-section-header {
+  background: #1c3043;
+  border-bottom: 1px solid #294262;
+  border-top: 1px solid #294262;
+}
+
+[data-theme='dark'] .swagger-ui-host .swagger-ui .opblock.opblock-delete .opblock-section-header {
+  background: #2f2020;
+  border-bottom: 1px solid #4b2420;
+  border-top: 1px solid #4b2420;
+}
+
+[data-theme='dark'] .swagger-ui-host .swagger-ui .opblock.opblock-patch .opblock-section-header {
+  background: #113239;
+  border-bottom: 1px solid #16494b;
+  border-top: 1px solid #16494b;
+}
+
+[data-theme='dark'] .swagger-ui-host .swagger-ui .opblock.opblock-head .opblock-section-header {
+  background: #352c45;
+  border-bottom: 1px solid #44336a;
+  border-top: 1px solid #44336a;
+}
+
+[data-theme='dark'] .swagger-ui-host .swagger-ui .opblock.opblock-options .opblock-section-header {
+  background: #314558;
+  border-bottom: 1px solid #33465e;
+  border-top: 1px solid #33465e;
+}
+
+[data-theme='dark'] .swagger-ui-host .swagger-ui .opblock.opblock-query .opblock-section-header {
+  background: #3a2238;
+  border-bottom: 1px solid #4a2848;
+  border-top: 1px solid #4a2848;
+}
+
+/* Parameters / Responses tables: column titles stay Swagger’s #3b4151 unless forced */
+[data-theme='dark'] .swagger-ui-host .swagger-ui .opblock-body table thead tr th,
+[data-theme='dark'] .swagger-ui-host .swagger-ui .opblock-body table thead tr td {
+  color: var(--ifm-font-color-base) !important;
+  background: var(--ifm-background-surface-color);
+}
+
+[data-theme='dark'] .swagger-ui-host .swagger-ui .opblock-body pre,
+[data-theme='dark'] .swagger-ui-host .swagger-ui .opblock-body .microlight {
+  background: var(--ifm-code-background) !important;
+  color: var(--ifm-font-color-base) !important;
+}
+
+[data-theme='dark'] .swagger-ui-host .swagger-ui table thead tr td,
+[data-theme='dark'] .swagger-ui-host .swagger-ui table thead tr th {
+  border-color: var(--ifm-border-color);
+}
+
+[data-theme='dark'] .swagger-ui-host .swagger-ui table tbody tr td {
+  border-color: var(--ifm-border-color);
+}
+
+[data-theme='dark'] .swagger-ui-host .swagger-ui .btn {
+  color: var(--ifm-font-color-base);
+  border-color: var(--ifm-border-color);
+  background: var(--ifm-background-surface-color);
+}
+
+[data-theme='dark'] .swagger-ui-host .swagger-ui .btn.cancel {
+  color: var(--ifm-font-color-base);
+}
+
+/*
+ * Dark mode: Swagger uses many hard-coded greys (#6b6b6b, #929292, #999, …) for
+ * schema trees, models, and Tachyons helpers — they stay “dark grey” on a dark
+ * page. Map them to Infima body/secondary tokens (secondary alone is often still
+ * too dim; we use a readable mix for “muted” labels).
+ */
+[data-theme='dark'] .swagger-ui-host {
+  /* Lighter than raw Infima “secondary” for small grey labels in Swagger */
+  --swagger-muted: color-mix(in srgb, var(--ifm-font-color-base) 78%, transparent);
+}
+
+[data-theme='dark'] .swagger-ui-host .swagger-ui .gray,
+[data-theme='dark'] .swagger-ui-host .swagger-ui .silver,
+[data-theme='dark'] .swagger-ui-host .swagger-ui .mid-gray,
+[data-theme='dark'] .swagger-ui-host .swagger-ui .b--gray,
+[data-theme='dark'] .swagger-ui-host .swagger-ui .b--silver,
+[data-theme='dark'] .swagger-ui-host .swagger-ui .b--mid-gray {
+  color: var(--swagger-muted) !important;
+}
+
+[data-theme='dark'] .swagger-ui-host .swagger-ui .model .property,
+[data-theme='dark'] .swagger-ui-host .swagger-ui .model .property.primitive,
+[data-theme='dark'] .swagger-ui-host .swagger-ui .model .external-docs,
+[data-theme='dark'] .swagger-ui-host .swagger-ui table.model tr.description,
+[data-theme='dark'] .swagger-ui-host .swagger-ui table.model tr.extension,
+[data-theme='dark'] .swagger-ui-host .swagger-ui section.models h4,
+[data-theme='dark'] .swagger-ui-host .swagger-ui section.models h5,
+[data-theme='dark'] .swagger-ui-host .swagger-ui .model-title,
+[data-theme='dark'] .swagger-ui-host .swagger-ui .prop-format,
+[data-theme='dark'] .swagger-ui-host .swagger-ui .errors-wrapper .errors small,
+[data-theme='dark'] .swagger-ui-host .swagger-ui .response-col_status .response-undocumented,
+[data-theme='dark'] .swagger-ui-host .swagger-ui .response-col_links .response-undocumented,
+[data-theme='dark'] .swagger-ui-host .swagger-ui table.headers .header-example,
+[data-theme='dark'] .swagger-ui-host .swagger-ui span.token-string,
+[data-theme='dark'] .swagger-ui-host .swagger-ui span.token-not-formatted,
+[data-theme='dark'] .swagger-ui-host .swagger-ui textarea[disabled],
+[data-theme='dark'] .swagger-ui-host .swagger-ui input[disabled],
+[data-theme='dark'] .swagger-ui-host .swagger-ui select[disabled],
+[data-theme='dark'] .swagger-ui-host .swagger-ui label,
+[data-theme='dark'] .swagger-ui-host .swagger-ui .checkbox p,
+[data-theme='dark'] .swagger-ui-host .swagger-ui .servers > label {
+  color: var(--swagger-muted) !important;
+}
+
+/* OpenAPI 3.1 / JSON Schema “2020-12” viewer (lots of nested greys) */
+[data-theme='dark'] .swagger-ui-host .swagger-ui .json-schema-2020-12-keyword--description,
+[data-theme='dark'] .swagger-ui-host .swagger-ui .json-schema-2020-12__title,
+[data-theme='dark'] .swagger-ui-host .swagger-ui .json-schema-2020-12-keyword__name--secondary,
+[data-theme='dark'] .swagger-ui-host .swagger-ui .json-schema-2020-12-keyword__name--extension,
+[data-theme='dark'] .swagger-ui-host .swagger-ui .json-schema-2020-12-keyword__value,
+[data-theme='dark'] .swagger-ui-host .swagger-ui .json-schema-2020-12-keyword__value--secondary,
+[data-theme='dark'] .swagger-ui-host .swagger-ui .json-schema-2020-12-keyword__value--extension,
+[data-theme='dark'] .swagger-ui-host .swagger-ui .json-schema-2020-12-json-viewer__name--secondary,
+[data-theme='dark'] .swagger-ui-host .swagger-ui .json-schema-2020-12-json-viewer__name--extension,
+[data-theme='dark'] .swagger-ui-host .swagger-ui .json-schema-2020-12-json-viewer__value,
+[data-theme='dark'] .swagger-ui-host .swagger-ui .json-schema-2020-12-json-viewer__value--secondary,
+[data-theme='dark'] .swagger-ui-host .swagger-ui .json-schema-2020-12-json-viewer__value--extension,
+[data-theme='dark'] .swagger-ui-host .swagger-ui .json-schema-2020-12-json-viewer-extension-keyword .json-schema-2020-12-json-viewer__value {
+  color: var(--swagger-muted) !important;
+}
+
+[data-theme='dark'] .swagger-ui-host .swagger-ui .json-schema-2020-12-keyword__value--primary,
+[data-theme='dark'] .swagger-ui-host .swagger-ui .json-schema-2020-12-json-viewer__value--primary,
+[data-theme='dark'] .swagger-ui-host .swagger-ui .json-schema-2020-12-json-viewer__name--primary,
+[data-theme='dark'] .swagger-ui-host .swagger-ui .json-schema-2020-12-property .json-schema-2020-12__title {
+  color: var(--ifm-font-color-base) !important;
+}
+
+/* Section headers that Swagger paints #545d61 / #606060 */
+[data-theme='dark'] .swagger-ui-host .swagger-ui section.models,
+[data-theme='dark'] .swagger-ui-host .swagger-ui .dialog-ux .modal-ux-header {
+  color: var(--ifm-font-color-base) !important;
+}
+
+[data-theme='dark'] .swagger-ui-host .swagger-ui .opblock-tag,
+[data-theme='dark'] .swagger-ui-host .swagger-ui .opblock-tag small,
+[data-theme='dark'] .swagger-ui-host .swagger-ui .opblock .opblock-summary-path,
+[data-theme='dark'] .swagger-ui-host .swagger-ui .opblock .opblock-summary-description,
+[data-theme='dark'] .swagger-ui-host .swagger-ui .opblock-description-wrapper,
+[data-theme='dark'] .swagger-ui-host .swagger-ui .opblock-external-docs-wrapper,
+[data-theme='dark'] .swagger-ui-host .swagger-ui .responses-inner h4,
+[data-theme='dark'] .swagger-ui-host .swagger-ui .responses-inner h5,
+[data-theme='dark'] .swagger-ui-host .swagger-ui .tab li,
+[data-theme='dark'] .swagger-ui-host .swagger-ui .scheme-container .schemes label {
+  color: var(--ifm-font-color-base) !important;
+}

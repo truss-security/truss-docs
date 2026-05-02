@@ -79,8 +79,17 @@
     @apply mb-2;
 }
 
+/*
+ * Inline `code` (backticks): distinguish with color + monospace only — no pill/box.
+ * Infima defaults add --ifm-code-background + padding on all `code`; reset here and
+ * rely on `pre` / theme-code-block for fenced blocks.
+ */
 .markdown code {
-    @apply px-1.5 py-0.5 rounded;
+    font-size: var(--ifm-code-font-size);
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    vertical-align: baseline;
 }
 
 .markdown pre {

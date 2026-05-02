@@ -1,42 +1,36 @@
 export const filterExample = {
-    curl: `curl -X 'POST' \\
-  "https://api.truss-security.com/product/search" \\
-  -H "x-api-key: YOUR_API_KEY" \\
+  curl: `curl -sS -X POST "https://api.truss-security.com/product/search" \\
+  -H "x-api-key: YOUR_KEY" \\
   -H "Content-Type: application/json" \\
-  -d '{
-    "days": 3,
-    "author": ["TOR Project"],
-    "tags": ["C2", "AlphV"]
-  }'`,
+  -d @- <<'EOF' | jq .
+{
+  "days": 7,
+  "filterExpression": "(category = 'Ransomware' OR category = 'OSINT') AND source = 'TOR Project'",
+  "limit": 10
+}
+EOF`,
 
-    javascript: `import axios from 'axios';
-
-const YOUR_API_KEY = 'YOUR_API_KEY';
+  javascript: `const YOUR_API_KEY = 'YOUR_API_KEY';
 
 async function searchWithFilters() {
-  try {
-    const response = await axios({
-      method: 'POST',
-      url: 'https://api.truss-security.com/product/search',
-      headers: { 
-        'x-api-key': YOUR_API_KEY,
-        'Content-Type': 'application/json'
-      },
-      data: {
-        days: 3,
-        author: ["TOR Project"],
-        tags: ["C2", "AlphV"]
-      }
-    });
-    return response.data;
-  } catch (error) {
-    console.error('Error:', error);
-    throw error;
-  }
+  const res = await fetch('https://api.truss-security.com/product/search', {
+    method: 'POST',
+    headers: {
+      'x-api-key': YOUR_API_KEY,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      days: 7,
+      filterExpression:
+        "(category = 'Ransomware' OR category = 'OSINT') AND source = 'TOR Project'",
+      limit: 10,
+    }),
+  });
+  if (!res.ok) throw new Error(await res.text());
+  return res.json();
 }`,
 
-    python: `import requests
-import json
+  python: `import requests
 
 API_KEY = 'YOUR_API_KEY'
 
@@ -44,23 +38,18 @@ def search_with_filters():
     url = 'https://api.truss-security.com/product/search'
     headers = {
         'x-api-key': API_KEY,
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
     }
     data = {
-        'days': 3,
-        'author': ['TOR Project'],
-        'tags': ['C2', 'AlphV']
+        'days': 7,
+        'filterExpression': "(category = 'Ransomware' OR category = 'OSINT') AND source = 'TOR Project'",
+        'limit': 10,
     }
-    
-    try:
-        response = requests.post(url, headers=headers, json=data)
-        response.raise_for_status()
-        return response.json()
-    except requests.exceptions.RequestException as e:
-        print(f"Error: {e}")
-        raise`,
+    response = requests.post(url, headers=headers, json=data)
+    response.raise_for_status()
+    return response.json()`,
 
-    ruby: `require 'net/http'
+  ruby: `require 'net/http'
 require 'uri'
 require 'json'
 
@@ -70,85 +59,64 @@ def search_with_filters
   uri = URI('https://api.truss-security.com/product/search')
   http = Net::HTTP.new(uri.host, uri.port)
   http.use_ssl = true
-  
   request = Net::HTTP::Post.new(uri)
   request['x-api-key'] = API_KEY
   request['Content-Type'] = 'application/json'
   request.body = {
-    days: 3,
-    author: ['TOR Project'],
-    tags: ['C2', 'AlphV']
+    days: 7,
+    filterExpression: "(category = 'Ransomware' OR category = 'OSINT') AND source = 'TOR Project'",
+    limit: 10
   }.to_json
-  
-  begin
-    response = http.request(request)
-    JSON.parse(response.body)
-  rescue StandardError => e
-    puts "Error: #{e.message}"
-    raise
-  end
+  response = http.request(request)
+  JSON.parse(response.body)
 end`,
 
-    go: `package main
+  go: `package main
 
 import (
     "bytes"
     "encoding/json"
     "fmt"
-    "io/ioutil"
+    "io"
     "net/http"
 )
 
 const apiKey = "YOUR_API_KEY"
 
-type FilterSearchRequest struct {
-    Days   int      \`json:"days"\`
-    Author []string \`json:"author"\`
-    Tags   []string \`json:"tags"\`
-}
-
 func searchWithFilters() (map[string]interface{}, error) {
     url := "https://api.truss-security.com/product/search"
-    data := FilterSearchRequest{
-        Days:   3,
-        Author: []string{"TOR Project"},
-        Tags:   []string{"C2", "AlphV"},
+    body := map[string]interface{}{
+        "days": 7,
+        "filterExpression": "(category = 'Ransomware' OR category = 'OSINT') AND source = 'TOR Project'",
+        "limit": 10,
     }
-    
-    jsonData, err := json.Marshal(data)
+    jsonData, err := json.Marshal(body)
     if err != nil {
-        return nil, fmt.Errorf("error marshaling JSON: %v", err)
+        return nil, err
     }
-    
-    req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonData))
+    req, err := http.NewRequest("POST", url, bytes.NewReader(jsonData))
     if err != nil {
-        return nil, fmt.Errorf("error creating request: %v", err)
+        return nil, err
     }
-    
     req.Header.Set("x-api-key", apiKey)
     req.Header.Set("Content-Type", "application/json")
-    
-    client := &http.Client{}
-    resp, err := client.Do(req)
+    resp, err := http.DefaultClient.Do(req)
     if err != nil {
-        return nil, fmt.Errorf("error making request: %v", err)
+        return nil, err
     }
     defer resp.Body.Close()
-    
-    body, err := ioutil.ReadAll(resp.Body)
+    b, err := io.ReadAll(resp.Body)
     if err != nil {
-        return nil, fmt.Errorf("error reading response: %v", err)
+        return nil, err
     }
-    
-    var result map[string]interface{}
-    if err := json.Unmarshal(body, &result); err != nil {
-        return nil, fmt.Errorf("error parsing response: %v", err)
+    var out map[string]interface{}
+    if err := json.Unmarshal(b, &out); err != nil {
+        return nil, err
     }
-    
-    return result, nil
+    return out, nil
 }`,
 
-    rust: `use reqwest::Client;
+  rust: `use reqwest::Client;
 use serde_json::{json, Value};
 use anyhow::Result;
 
@@ -156,29 +124,17 @@ const API_KEY: &str = "YOUR_API_KEY";
 
 async fn search_with_filters() -> Result<Value> {
     let client = Client::new();
-    
     let response = client
         .post("https://api.truss-security.com/product/search")
         .header("x-api-key", API_KEY)
         .header("Content-Type", "application/json")
         .json(&json!({
-            "days": 3,
-            "author": ["TOR Project"],
-            "tags": ["C2", "AlphV"]
+            "days": 7,
+            "filterExpression": "(category = 'Ransomware' OR category = 'OSINT') AND source = 'TOR Project'",
+            "limit": 10
         }))
         .send()
         .await?;
-    
-    let data = response.json::<Value>().await?;
-    Ok(data)
-}
-
-#[tokio::main]
-async fn main() -> Result<()> {
-    match search_with_filters().await {
-        Ok(data) => println!("Response: {:?}", data),
-        Err(e) => eprintln!("Error: {}", e),
-    }
-    Ok(())
-}`
+    Ok(response.json().await?)
+}`,
 };

@@ -52,32 +52,6 @@ const config: Config = {
         },
       }),
     ],
-    [
-      'redocusaurus',
-      {
-        // Plugin Options for loading OpenAPI files
-        specs: [
-          {
-            spec: 'openapi/trussapi.json',
-            route: '/api/',
-          },
-        ],
-        // Theme Options for modifying how redoc renders them
-        theme: {
-          // Change with your site colors
-          primaryColor: '#1890ff',
-        },
-      },
-    ],
-/*    [
-      'docusaurus-plugin-openapi',
-      {
-        api: {
-          path: 'openapi/trussapi.json',
-          routeBasePath: 'api',
-        }
-      },
-    ],*/
   ],
 
   themeConfig: {
@@ -92,21 +66,14 @@ const config: Config = {
       items: [
         {
           type: 'docSidebar',
-          sidebarId: 'dashboardSidebar',
-          position: 'left',
-          label: 'Dashboard',
-        },
-        {
-          type: 'docSidebar',
           sidebarId: 'apiSidebar',
           position: 'left',
-          label: 'API',
+          label: 'Guides',
         },
         {
-          type: 'docSidebar',
-          sidebarId: 'accountSidebar',
+          label: 'API',
+          to: '/api',
           position: 'left',
-          label: 'Account',
         },
         {
           href: 'https://github.com/truss-security/truss-docs/tree/main/docs/',

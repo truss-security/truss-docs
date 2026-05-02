@@ -1,11 +1,13 @@
 export const daysExample = {
-    curl: `curl -X 'POST' \\
-  "https://api.truss-security.com/product/search" \\
-  -H "x-api-key: YOUR_API_KEY" \\
+    curl: `curl -sS -X POST "https://api.truss-security.com/product/search" \\
+  -H "x-api-key: YOUR_KEY" \\
   -H "Content-Type: application/json" \\
-  -d '{
-    "days": 3
-  }'`,
+  -d @- <<'EOF' | jq .
+{
+  "days": 3,
+  "limit": 10
+}
+EOF`,
 
     javascript: `import axios from 'axios';
 
@@ -21,7 +23,8 @@ async function searchByDays() {
         'Content-Type': 'application/json'
       },
       data: {
-        days: 3
+        days: 3,
+        limit: 10
       }
     });
     return response.data;
@@ -43,7 +46,8 @@ def search_by_days():
         'Content-Type': 'application/json'
     }
     data = {
-        'days': 3
+        'days': 3,
+        'limit': 10
     }
     
     try:
@@ -68,7 +72,7 @@ def search_by_days
   request = Net::HTTP::Post.new(uri)
   request['x-api-key'] = API_KEY
   request['Content-Type'] = 'application/json'
-  request.body = { days: 3 }.to_json
+  request.body = { days: 3, limit: 10 }.to_json
   
   begin
     response = http.request(request)
@@ -92,12 +96,13 @@ import (
 const apiKey = "YOUR_API_KEY"
 
 type DaysSearchRequest struct {
-    Days int \`json:"days"\`
+    Days  int \`json:"days"\`
+    Limit int \`json:"limit"\`
 }
 
 func searchByDays() (map[string]interface{}, error) {
     url := "https://api.truss-security.com/product/search"
-    data := DaysSearchRequest{Days: 3}
+    data := DaysSearchRequest{Days: 3, Limit: 10}
     
     jsonData, err := json.Marshal(data)
     if err != nil {
@@ -146,7 +151,8 @@ async fn search_by_days() -> Result<Value> {
         .header("x-api-key", API_KEY)
         .header("Content-Type", "application/json")
         .json(&json!({
-            "days": 3
+            "days": 3,
+            "limit": 10
         }))
         .send()
         .await?;

@@ -49,30 +49,12 @@ function QuickLinks() {
         <p className="text-gray-600">Jump directly to key documentation sections</p>
       </div>
       <div className="row">
-        <div className="col col--4 margin-vert--md">
+        <div className="col col--6 col--offset-3 margin-vert--md">
           <div className="card shadow--md">
             <div className="card__body text--center">
-              <Heading as="h3" className="text-xl font-bold mb-2">API Documentation</Heading>
-              <p className="mb-4">Access our comprehensive API documentation</p>
-              <a href="/truss-docs/api" className="button button--primary">View API Docs</a>
-            </div>
-          </div>
-        </div>
-        <div className="col col--4 margin-vert--md">
-          <div className="card shadow--md">
-            <div className="card__body text--center">
-              <Heading as="h3" className="text-xl font-bold mb-2">Dashboard Guide</Heading>
-              <p className="mb-4">Learn about our dashboard features</p>
-              <a href="/truss-docs/dashboard" className="button button--primary">Explore Dashboard</a>
-            </div>
-          </div>
-        </div>
-        <div className="col col--4 margin-vert--md">
-          <div className="card shadow--md">
-            <div className="card__body text--center">
-              <Heading as="h3" className="text-xl font-bold mb-2">Account Management</Heading>
-              <p className="mb-4">Manage your account and settings</p>
-              <a href="/truss-docs/account" className="button button--primary">Account Guide</a>
+              <Heading as="h3" className="text-xl font-bold mb-2">API documentation</Heading>
+              <p className="mb-4">Interactive OpenAPI reference and guides</p>
+              <a href="/truss-docs/api" className="button button--primary">View API docs</a>
             </div>
           </div>
         </div>

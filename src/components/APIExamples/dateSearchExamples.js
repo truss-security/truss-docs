@@ -1,12 +1,14 @@
 export const dateSearchExample = {
-    curl: `curl -X 'POST' \\
-  "https://api.truss-security.com/product/search" \\
-  -H "x-api-key: YOUR_API_KEY" \\
+    curl: `curl -sS -X POST "https://api.truss-security.com/product/search" \\
+  -H "x-api-key: YOUR_KEY" \\
   -H "Content-Type: application/json" \\
-  -d '{
-    "startDate": "2024-06-02",
-    "endDate": "2024-06-03"
-  }'`,
+  -d @- <<'EOF' | jq .
+{
+  "startDate": "2024-06-02",
+  "endDate": "2024-06-03",
+  "limit": 10
+}
+EOF`,
 
     javascript: `import axios from 'axios';
 
@@ -23,7 +25,8 @@ async function searchByDate() {
       },
       data: {
         startDate: "2024-06-02",
-        endDate: "2024-06-03"
+        endDate: "2024-06-03",
+        limit: 10
       }
     });
     return response.data;
@@ -46,7 +49,8 @@ def search_by_date():
     }
     data = {
         'startDate': '2024-06-02',
-        'endDate': '2024-06-03'
+        'endDate': '2024-06-03',
+        'limit': 10
     }
     
     try:
@@ -73,7 +77,8 @@ def search_by_date
   request['Content-Type'] = 'application/json'
   request.body = {
     startDate: '2024-06-02',
-    endDate: '2024-06-03'
+    endDate: '2024-06-03',
+    limit: 10
   }.to_json
   
   begin
@@ -100,6 +105,7 @@ const apiKey = "YOUR_API_KEY"
 type DateSearchRequest struct {
     StartDate string \`json:"startDate"\`
     EndDate   string \`json:"endDate"\`
+    Limit     int    \`json:"limit"\`
 }
 
 func searchByDate() (map[string]interface{}, error) {
@@ -107,6 +113,7 @@ func searchByDate() (map[string]interface{}, error) {
     data := DateSearchRequest{
         StartDate: "2024-06-02",
         EndDate:   "2024-06-03",
+        Limit:     10,
     }
     
     jsonData, err := json.Marshal(data)
@@ -157,7 +164,8 @@ async fn search_by_date() -> Result<Value> {
         .header("Content-Type", "application/json")
         .json(&json!({
             "startDate": "2024-06-02",
-            "endDate": "2024-06-03"
+            "endDate": "2024-06-03",
+            "limit": 10
         }))
         .send()
         .await?;
