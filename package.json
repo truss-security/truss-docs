@@ -1,7 +1,7 @@
 {
-  "name": "truss-docs-2",
-  "version": "0.0.0",
-  "private": true,
+  "name": "@truss-security/truss-docs",
+  "version": "1.0.0",
+  "private": false,
   "scripts": {
     "docusaurus": "docusaurus",
     "start": "docusaurus start",
@@ -24,7 +24,10 @@
     "prism-react-renderer": "^2.4.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "swagger-ui-react": "^5.31.0"
+    "swagger-ui-react": "^5.31.0",
+    "react-router": "^5.3.4",
+    "react-router-dom": "^5.3.4",
+    "redocusaurus": "^2.5.0"
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "^3.10.0",
