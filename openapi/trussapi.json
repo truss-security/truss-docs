@@ -372,7 +372,7 @@
       },
       "SearchProductResponse": {
         "type": "object",
-        "description": "Single product in `products[]`; matches `SearchProductResponse` / `Product` from `@truss-security/truss-sdk`. Shaped like `transformProduct` in `truss-api` (relation arrays default to `[]`). **Embeddings** (`title_embedding`, `content_embedding`) are not returned on this route.",
+        "description": "Single product in `products[]`; matches `SearchProductResponse` / `Product` from `@truss-security/truss-sdk`. Shaped like `transformProduct` in `truss-api` (relation arrays default to `[]`).",
         "properties": {
           "id": { "type": "integer", "format": "int64" },
           "truss_prod_id": { "type": "string", "nullable": true },
@@ -432,21 +432,7 @@
           "total": { "type": "integer", "minimum": 0 },
           "page": { "type": "integer", "minimum": 1 },
           "limit": { "type": "integer", "minimum": 1 },
-          "hasMore": { "type": "boolean" },
-          "debug": {
-            "type": "object",
-            "description": "Included on successful `POST /product/search` responses from the current Lambda handler (echo of request + counts). Mirrors `SearchProductsResponse['debug']` in the SDK.",
-            "properties": {
-              "searchParams": { "type": "object", "additionalProperties": true },
-              "resultCount": { "type": "integer" },
-              "hasStartDate": { "type": "boolean" },
-              "hasEndDate": { "type": "boolean" },
-              "hasDays": { "type": "boolean" },
-              "startDateValue": {},
-              "endDateValue": {},
-              "daysValue": { "type": "integer", "nullable": true }
-            }
-          }
+          "hasMore": { "type": "boolean" }
         }
       },
       "StixBundle": {
