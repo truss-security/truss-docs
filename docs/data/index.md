@@ -70,7 +70,7 @@ toc_max_heading_level: 3
 </ul>
 
 <p className="text-lg mb-6">
-  Filter and slice products with <strong>FilterQL</strong> in <code>filterExpression</code> (see the <a href="/data/api" className="text-blue-600 dark:text-blue-400 underline">API guide</a>). The dashboard and SDK use the same attribute names for filtering.
+  Filter and slice products with <strong>FilterQL</strong> in <code>filterExpression</code> (see the <a href="/data/api" className="text-blue-600 dark:text-blue-400 underline">API guide</a>). The API and SDK use the same attribute names for filtering.
 </p>
 
 <div className="relative my-12">

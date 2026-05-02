@@ -138,7 +138,7 @@ Examples and the CLI accept:
 
 ## Examples in the SDK repo
 
-From a clone of <a href="https://github.com/truss-security/truss-sdk">truss-security/truss-sdk</a>:
+From a clone of <a href="https://github.com/truss-security/truss-sdk" target="_blank" rel="noopener noreferrer">truss-security/truss-sdk</a>:
 
 ```bash
 cp env.example .env   # set TRUSS_API_KEY

@@ -21,15 +21,8 @@ function HomepageHeader() {
           {siteConfig.tagline}
         </p>
         <p className="docs-home-hero__intro">
-          Start here to explore the dashboard, integrate with API and SDK workflows, and operate with
-          account-level governance.
+          Start here to read the guides and integrate with the HTTP API and TypeScript SDK.
         </p>
-        <div className="docs-home-hero__actions">
-          <Link to="/dashboard/" className="button button--primary">Get Started</Link>
-          <Link to="/api/" className="button button--secondary">API Reference</Link>
-          <Link to="/dashboard/" className="button button--secondary">Dashboard Docs</Link>
-          <Link to="/account/" className="button button--secondary">Account Docs</Link>
-        </div>
       </div>
     </header>
   );
@@ -49,8 +42,8 @@ function QuickstartPathways() {
               <div className="card__body">
                 <Heading as="h3">Explore</Heading>
                 <p className="docs-home-card__audience">For analysts and responders</p>
-                <p>Use dashboard workflows to search, filter, and inspect intelligence context quickly.</p>
-                <Link to="/dashboard/" className="button button--primary button--sm">Open Dashboard Docs</Link>
+                <p>Use the guides to understand products, filters, and how data is shaped in the API.</p>
+                <Link to="/data" className="button button--primary button--sm">Open guides</Link>
               </div>
             </div>
           </div>
@@ -60,17 +53,17 @@ function QuickstartPathways() {
                 <Heading as="h3">Integrate</Heading>
                 <p className="docs-home-card__audience">For developers and platform engineers</p>
                 <p>Connect Truss data with REST and SDK patterns for repeatable tool integrations.</p>
-                <Link to="/api/" className="button button--primary button--sm">Open API Docs</Link>
+                <Link to="/api/" className="button button--primary button--sm">Open API docs</Link>
               </div>
             </div>
           </div>
           <div className="col col--4 margin-vert--md">
             <div className="card docs-home-card docs-home-card--quickstart">
               <div className="card__body">
-                <Heading as="h3">Operate</Heading>
-                <p className="docs-home-card__audience">For admins and team leads</p>
-                <p>Manage access, billing, and account settings for governed, production-ready usage.</p>
-                <Link to="/account/" className="button button--primary button--sm">Open Account Docs</Link>
+                <Heading as="h3">Build</Heading>
+                <p className="docs-home-card__audience">For application and pipeline authors</p>
+                <p>Use the official client for typed requests, FilterQL helpers, and STIX helpers.</p>
+                <Link to="/data/sdk" className="button button--primary button--sm">SDK documentation</Link>
               </div>
             </div>
           </div>
@@ -89,43 +82,31 @@ function DocsDirectory() {
           <p>Navigate directly to core documentation areas.</p>
         </div>
         <div className="row">
-          <div className="col col--3 margin-vert--md">
+          <div className="col col--4 margin-vert--md">
             <div className="card docs-home-card docs-home-card--directory">
               <div className="card__body">
-                <Heading as="h3">Product guides</Heading>
+                <Heading as="h3">Guides</Heading>
                 <ul>
-                  <li><Link to="/dashboard/">Dashboard overview</Link></li>
-                  <li><Link to="/dashboard/charts">Charts and analytics</Link></li>
-                  <li><Link to="/dashboard/insights">Insights workflows</Link></li>
+                  <li><Link to="/data">Overview</Link></li>
+                  <li><Link to="/data/api">API usage guide</Link></li>
+                  <li><Link to="/data/sdk">TypeScript SDK</Link></li>
                 </ul>
               </div>
             </div>
           </div>
-          <div className="col col--3 margin-vert--md">
+          <div className="col col--4 margin-vert--md">
             <div className="card docs-home-card docs-home-card--directory">
               <div className="card__body">
                 <Heading as="h3">API and reference</Heading>
                 <ul>
-                  <li><Link to="/api/">API section overview</Link></li>
                   <li><Link to="/api/">OpenAPI reference</Link></li>
-                  <li><Link to="/data/api">API usage guide</Link></li>
+                  <li><Link to="/data/api">Authentication and search</Link></li>
+                  <li><Link to="/data/sdk">SDK quick start</Link></li>
                 </ul>
               </div>
             </div>
           </div>
-          <div className="col col--3 margin-vert--md">
-            <div className="card docs-home-card docs-home-card--directory">
-              <div className="card__body">
-                <Heading as="h3">Account and admin</Heading>
-                <ul>
-                  <li><Link to="/account/">Account overview</Link></li>
-                  <li><Link to="/account/useraccount">Profile and settings</Link></li>
-                  <li><Link to="/account/billing">Billing and plans</Link></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div className="col col--3 margin-vert--md">
+          <div className="col col--4 margin-vert--md">
             <div className="card docs-home-card docs-home-card--directory">
               <div className="card__body">
                 <Heading as="h3">External resources</Heading>
@@ -143,39 +124,6 @@ function DocsDirectory() {
   );
 }
 
-function WhatsNew() {
-  return (
-    <section className="docs-home-section docs-home-section--whats-new">
-      <div className="container">
-        <div className="docs-home-section__header">
-          <Heading as="h2">What&apos;s new</Heading>
-          <p>Recent additions and recommended starting points.</p>
-        </div>
-        <div className="row">
-          <div className="col col--6 margin-vert--md">
-            <div className="card docs-home-card docs-home-card--whats-new">
-              <div className="card__body">
-                <Heading as="h3">Start with the API reference</Heading>
-                <p>Begin implementation with endpoint-level details and authentication guidance.</p>
-                <Link to="/api/" className="button button--secondary button--sm">Go to API Reference</Link>
-              </div>
-            </div>
-          </div>
-          <div className="col col--6 margin-vert--md">
-            <div className="card docs-home-card docs-home-card--whats-new">
-              <div className="card__body">
-                <Heading as="h3">Review dashboard workflows</Heading>
-                <p>See current docs for exploration, filtering, charts, and operational usage patterns.</p>
-                <Link to="/dashboard/" className="button button--secondary button--sm">Go to Dashboard Docs</Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
 export default function Home(): React.ReactElement {
   return (
     <Layout>
@@ -183,7 +131,6 @@ export default function Home(): React.ReactElement {
       <main>
         <QuickstartPathways />
         <DocsDirectory />
-        <WhatsNew />
         <AdditionalResources />
       </main>
     </Layout>

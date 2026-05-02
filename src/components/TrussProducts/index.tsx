@@ -8,18 +8,18 @@ export default function TrussProducts(): React.ReactElement {
       <div className="container">
         <div className="card docs-home-card">
           <div className="card__body">
-            <Heading as="h2">Intelligence products and operations</Heading>
+            <Heading as="h2">Products and integrations</Heading>
             <p>
-              Use account and product documentation to manage access, billing, and operational workflows for
-              secure, repeatable delivery across teams.
+              Read the overview for how Truss models security products, then use the SDK for typed access in your own
+              tools and pipelines.
             </p>
             <div className="docs-home-inline-actions">
-              <Link to="/account/" className="button button--primary button--sm">Account overview</Link>
-              <Link to="/account/billing" className="button button--secondary button--sm">Billing docs</Link>
+              <Link to="/data" className="button button--primary button--sm">Documentation overview</Link>
+              <Link to="/data/sdk" className="button button--secondary button--sm">TypeScript SDK</Link>
             </div>
           </div>
         </div>
       </div>
     </section>
   );
-} 
+}

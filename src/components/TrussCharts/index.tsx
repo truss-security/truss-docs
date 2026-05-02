@@ -8,18 +8,18 @@ export default function TrussCharts(): React.ReactElement {
       <div className="container">
         <div className="card docs-home-card">
           <div className="card__body">
-            <Heading as="h2">Analyst-grade exploration</Heading>
+            <Heading as="h2">Search and structured data</Heading>
             <p>
-              Dashboard documentation covers search, filtering, attributes, products, and charts so analysts can
-              move from signals to decision-ready context quickly.
+              The API guide covers FilterQL, pagination, and product fields so you can query and interpret intelligence
+              consistently.
             </p>
             <div className="docs-home-inline-actions">
-              <Link to="/dashboard/" className="button button--primary button--sm">Dashboard overview</Link>
-              <Link to="/dashboard/charts" className="button button--secondary button--sm">Charts docs</Link>
+              <Link to="/data/api" className="button button--primary button--sm">API usage guide</Link>
+              <Link to="/api/" className="button button--secondary button--sm">OpenAPI reference</Link>
             </div>
           </div>
         </div>
       </div>
     </section>
   );
-} 
+}

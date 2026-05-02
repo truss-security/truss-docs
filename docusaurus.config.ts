@@ -94,17 +94,17 @@ const config: Config = {
           title: 'Docs',
           items: [
             {
-              label: 'Dashboard',
-              to: '/dashboard',
+              label: 'Guides',
+              to: '/data',
             },
             {
               label: 'API',
               to: '/api',
             },
             {
-              label: 'Account',
-              to: '/account',
-            }
+              label: 'SDK',
+              to: '/data/sdk',
+            },
           ],
         },
         {
