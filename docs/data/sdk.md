@@ -1,171 +1,163 @@
 ---
 sidebar_position: 3
-title: Truss SDK Guide
+title: Truss SDK
 toc_min_heading_level: 2
 toc_max_heading_level: 3
 ---
 
 <div className="text-center">
-  <h1 className="text-4xl font-bold mb-4">Truss TypeScript SDK</h1>
+  <h1 className="text-3xl font-bold mb-4 max-w-4xl">Truss TypeScript SDK</h1>
 </div>
 
-<div className="text-center mb-12">
-  <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-4">
-    The Truss SDK provides a simple and type-safe way to interact with the Truss API from TypeScript/JavaScript applications.
-    It handles authentication, request formatting, and response parsing, allowing you to focus on using the security data in your application.
+<div className="text-left mb-12">
+  <p className="text-xl text-gray-600 dark:text-gray-300 max-w-4xl mx-auto mb-4">
+    <code>@truss-security/truss-sdk</code> is the official client for the <strong>public</strong> Truss HTTP API. It uses native <code>fetch</code>, typed requests and responses, optional retries, and helpers for FilterQL and STIX.
   </p>
 </div>
 
 ## Installation
 
+Requires **Node.js 18+** (built-in <code>fetch</code>).
+
 ```bash
-npm install @truss-security/sdk
+npm install @truss-security/truss-sdk
 ```
 
-## Quick Start
+## Quick start
 
 ```typescript
-import { TrussSDK } from '@truss-security/sdk';
+import { TrussClient, filter } from '@truss-security/truss-sdk';
 
-const sdk = new TrussSDK({
-  apiKey: 'your-api-key',
-  baseUrl: 'https://api.truss-security.com'
+const truss = new TrussClient({
+  baseUrl: 'https://api.truss-security.com',
+  apiKey: process.env.TRUSS_API_KEY!,
 });
 
-// Basic search example
-const results = await sdk.searchProducts({
-  category: ['malware'],
-  tags: ['ransomware'],
-  days: 7
+const results = await truss.search.products({
+  filter: filter.and(
+    filter.eq('category', 'Malware'),
+    filter.notEq('source', 'Example Source')
+  ),
+  days: 7,
+  limit: 10,
+});
+
+console.log(results.products, results.total, results.hasMore);
+```
+
+You can pass raw FilterQL instead of building a <code>filter</code> AST:
+
+```typescript
+await truss.search.products({
+  filterExpression: "category = 'Phishing' AND source = 'OpenPhish'",
+  startDate: '2025-01-01',
+  endDate: '2025-01-31',
+  page: 1,
+  limit: 10,
 });
 ```
 
-## Examples
+## Public API surface
 
-The SDK comes with several example files demonstrating common usage patterns. You can find these in the `examples/` directory of the SDK repository:
+The client exposes <code>truss.search</code>:
 
-### Basic Search
+- <code>products(params)</code> — <code>POST /product/search</code>; JSON product hits and <code>hasMore</code> pagination.
+- <code>productsAll(params, options?)</code> — same search, flattened into one array; optional <code>maxPages</code> cap.
+- <code>iterProducts(params, options?)</code> — async iterator for ingestion; optional <code>maxPages</code>.
+- <code>product(id)</code> — <code>GET /product/:id</code>; one JSON product (numeric id or <code>truss_prod_id</code> string).
+- <code>productStix(id)</code> — <code>GET /product/:id/stix</code> (numeric id or <code>truss_prod_id</code> string).
+- <code>productsStix(params)</code> — <code>POST /product/search/stix</code>; STIX bundle plus optional pagination headers.
 
-The [`basic-search.ts`](https://github.com/truss/truss-sdk/blob/main/examples/basic-search.ts) example shows how to perform simple searches with the SDK:
+## Filters (FilterQL)
 
-```typescript
-const searchFilter = {
-  category: ['malware'],
-  tags: ['ransomware', 'critical'],
-  days: 7 // Last 30 days
-};
-
-const results = await sdk.searchProducts(searchFilter);
-```
-
-### Date-Based Search
-
-The [`date-search.ts`](https://github.com/truss/truss-sdk/blob/main/examples/date-search.ts) example demonstrates different ways to search by date:
+Use the <code>filter</code> helper to build a typed AST, then let the SDK serialize it to <code>filterExpression</code> on the wire:
 
 ```typescript
-// Search by date range
-const dateRangeFilter = {
-  startdate: '2024-06-02',
-  enddate: '2024-06-03',
-  category: ['malware']
-};
+import { filter } from '@truss-security/truss-sdk';
 
-// Search by days
-const daysFilter = {
-  days: 7, // Last 7 days
-  category: ['web']
-};
+const ast = filter.and(
+  filter.eq('category', 'Malware'),
+  filter.like('title', 'ransomware')
+);
+// Or: filter.expression(ast) if you only need the string
 ```
 
-### Boolean Filters
+Supported attributes include <code>category</code>, <code>source</code>, <code>type</code>, <code>title</code>, <code>author</code>, <code>industry</code>, <code>region</code>, <code>reference</code>, <code>tags</code>, <code>validators</code>, and <code>indicators</code> (see package exports for the full <code>ProductAttribute</code> union).
 
-The [`filter-search.ts`](https://github.com/truss/truss-sdk/blob/main/examples/filter-search.ts) example shows how to use OR and AND filtering:
+## Pagination
+
+Search is **page-based**: responses include <code>page</code>, <code>limit</code>, <code>total</code>, and <code>hasMore</code>. The server caps effective page size (see API reference). Prefer <code>iterProducts</code> or <code>productsAll</code> instead of hand-rolling loops when you need every row.
 
 ```typescript
-// OR filtering within a parameter
-const orFilter = {
-  category: ['ransomware', 'osint'], // Will match either category
-  days: 7
-};
-
-// AND filtering across parameters
-const andFilter = {
-  category: ['ransomware'],
-  source: ['TOR Project'],
-  industry: ['finance'],
-  region: ['europe'],
-  tags: ['C2', 'AlphV']
-};
+for await (const product of truss.search.iterProducts({ days: 7, limit: 10 })) {
+  await indexProduct(product);
+}
 ```
 
-### Pagination
-
-The [`pagination.ts`](https://github.com/truss/truss-sdk/blob/main/examples/pagination.ts) example demonstrates how to handle large result sets:
+## STIX
 
 ```typescript
-let lastKey = undefined;
-const filter = {
-  category: ['web'],
-  tags: ['critical'],
-  days: 7
-};
+const bundle = await truss.search.productStix('01JEMBFNT12JV97ZT3GVBF2X2J');
 
-do {
-  const searchFilter = {
-    ...filter,
-    LastEvaluatedKey: lastKey
-  };
-
-  const results = await sdk.searchProducts(searchFilter);
-  // Process results...
-  
-  lastKey = results.data.lastEvaluatedKey;
-} while (lastKey);
+const stixPage = await truss.search.productsStix({
+  filterExpression: "category = 'Malware'",
+  days: 14,
+  limit: 10,
+});
 ```
 
-## API Reference
+## Configuration and errors
 
-The SDK provides TypeScript types for all request and response objects. The main types you'll work with are:
+```typescript
+const truss = new TrussClient({
+  baseUrl: 'https://api.truss-security.com',
+  apiKey: process.env.TRUSS_API_KEY,
+  timeout: 30_000,
+  retries: 3,
+  retryDelayMs: 250,
+  userAgent: 'my-app/1.0',
+});
 
-- `SearchFilter`: Defines the parameters available for searching
-- `Product`: Represents a security product in the response
-- `SearchResponse`: The complete response from a search request
+import { TrussApiError, TrussTimeoutError } from '@truss-security/truss-sdk';
 
-For detailed API documentation, see the [API Guide](./api.md).
+try {
+  await truss.search.products({ days: 7 });
+} catch (e) {
+  if (e instanceof TrussApiError) console.error(e.status, e.response?.data);
+  else if (e instanceof TrussTimeoutError) console.error('timeout');
+  else throw e;
+}
+```
 
-## Best Practices
+## Environment variables
 
-<div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-8">
-  <div className="bg-blue-50 p-6 rounded-lg shadow-md border border-green-100">
-    <h3 className="text-xl font-bold mb-4 text-blue-800">Error Handling</h3>
-    <ul className="list-disc pl-6 space-y-2">
-      <li>Always wrap SDK calls in try/catch blocks</li>
-      <li>Check response status codes</li>
-      <li>Handle rate limiting gracefully</li>
-      <li>Log errors appropriately</li>
-    </ul>
-  </div>
+Examples and the CLI accept:
 
-  <div className="bg-blue-50 p-6 rounded-lg shadow-md border border-green-100">
-    <h3 className="text-xl font-bold mb-4 text-blue-800">Performance Tips</h3>
-    <ul className="list-disc pl-6 space-y-2">
-      <li>Use pagination for large result sets</li>
-      <li>Cache results when appropriate</li>
-      <li>Limit search ranges when possible</li>
-      <li>Reuse the SDK instance</li>
-    </ul>
-  </div>
-</div>
+- <code>TRUSS_API_KEY</code> — required for calls
+- <code>TRUSS_API_URL</code> — optional base URL override
 
-## Environment Variables
+## Examples in the SDK repo
 
-The SDK looks for the following environment variables:
+From a clone of <a href="https://github.com/truss-security/truss-sdk" target="_blank" rel="noopener noreferrer">truss-security/truss-sdk</a>:
 
-- `TRUSS_API_KEY`: Your Truss API key
-- `TRUSS_API_URL`: The Truss API URL (defaults to https://api.truss-security.com)
+```bash
+cp env.example .env   # set TRUSS_API_KEY
+npm install
+npm run example              # interactive picker
+npm run example:basic
+npm run example:typed-filter
+npm run example:iterate
+npm run example:stix
+```
 
-You can also provide these values directly when initializing the SDK.
+Or without cloning:
 
-## Contributing
+```bash
+npx -p @truss-security/truss-sdk@latest truss examples --list
+```
 
-The SDK is open source and we welcome contributions! Please see our [Contributing Guide](https://github.com/truss/truss-sdk/blob/main/CONTRIBUTING.md) for details. 
+## More documentation
+
+- [API guide](./api.md) — HTTP, FilterQL, dates, pagination
+- [Interactive OpenAPI](/api) — request/response schemas
+- SDK README and <code>examples/</code> in the repository

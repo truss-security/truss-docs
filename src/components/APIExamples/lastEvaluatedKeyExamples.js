@@ -1,451 +1,279 @@
-export const initialQueryExample = {
-    curl: `curl -X 'POST' \\
-  "https://api.truss-security.com/product/search" \\
-  -H "x-api-key: YOUR_API_KEY" \\
+export const filteredQueryExample = {
+  curl: `curl -sS -X POST "https://api.truss-security.com/product/search" \\
+  -H "x-api-key: YOUR_KEY" \\
   -H "Content-Type: application/json" \\
-  -d '{
-    "startdate": 1733616000000,
-    "enddate": 1733961599999,
-    "source": [
-        "OpenPhish"
-    ]
-  }' | jq`,
+  -d @- <<'EOF' | jq .
+{
+  "startDate": "2024-12-01",
+  "endDate": "2024-12-31",
+  "filterExpression": "source = 'OpenPhish'",
+  "page": 1,
+  "limit": 10
+}
+EOF`,
 
-    javascript: `import axios from 'axios';
+  javascript: `const YOUR_API_KEY = 'YOUR_API_KEY';
 
-const YOUR_API_KEY = 'YOUR_API_KEY';
-
-async function searchProducts() {
-  try {
-    const response = await axios({
-      method: 'POST',
-      url: 'https://api.truss-security.com/product/search',
-      headers: { 
-        'x-api-key': YOUR_API_KEY,
-        'Content-Type': 'application/json'
-      },
-      data: {
-        startdate: 1733616000000,
-        enddate: 1733961599999,
-        source: ["OpenPhish"]
-      }
-    });
-    return response.data;
-  } catch (error) {
-    console.error('Error:', error);
-    throw error;
-  }
+async function filteredSearch() {
+  const res = await fetch('https://api.truss-security.com/product/search', {
+    method: 'POST',
+    headers: {
+      'x-api-key': YOUR_API_KEY,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      startDate: '2024-12-01',
+      endDate: '2024-12-31',
+      filterExpression: "source = 'OpenPhish'",
+      page: 1,
+      limit: 10,
+    }),
+  });
+  if (!res.ok) throw new Error(await res.text());
+  return res.json();
 }`,
 
-    python: `import requests
-import json
+  python: `import requests
 
 API_KEY = 'YOUR_API_KEY'
 
-def search_products():
+def filtered_search():
     url = 'https://api.truss-security.com/product/search'
     headers = {
         'x-api-key': API_KEY,
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
     }
     data = {
-        'startdate': 1733616000000,
-        'enddate': 1733961599999,
-        'source': ['OpenPhish']
+        'startDate': '2024-12-01',
+        'endDate': '2024-12-31',
+        'filterExpression': "source = 'OpenPhish'",
+        'page': 1,
+        'limit': 10,
     }
-    
-    try:
-        response = requests.post(url, headers=headers, json=data)
-        response.raise_for_status()
-        return response.json()
-    except requests.exceptions.RequestException as e:
-        print(f"Error: {e}")
-        raise`,
+    r = requests.post(url, headers=headers, json=data)
+    r.raise_for_status()
+    return r.json()`,
 
-    ruby: `require 'net/http'
+  ruby: `require 'net/http'
 require 'uri'
 require 'json'
 
 API_KEY = 'YOUR_API_KEY'
 
-def search_products
+def filtered_search
   uri = URI('https://api.truss-security.com/product/search')
   http = Net::HTTP.new(uri.host, uri.port)
   http.use_ssl = true
-  
   request = Net::HTTP::Post.new(uri)
   request['x-api-key'] = API_KEY
   request['Content-Type'] = 'application/json'
   request.body = {
-    startdate: 1733616000000,
-    enddate: 1733961599999,
-    source: ['OpenPhish']
+    startDate: '2024-12-01',
+    endDate: '2024-12-31',
+    filterExpression: "source = 'OpenPhish'",
+    page: 1,
+    limit: 10
   }.to_json
-  
-  begin
-    response = http.request(request)
-    JSON.parse(response.body)
-  rescue StandardError => e
-    puts "Error: #{e.message}"
-    raise
-  end
+  response = http.request(request)
+  JSON.parse(response.body)
 end`,
 
-    go: `package main
+  go: `package main
 
 import (
     "bytes"
     "encoding/json"
-    "fmt"
-    "io/ioutil"
+    "io"
     "net/http"
 )
 
 const apiKey = "YOUR_API_KEY"
 
-type SearchRequest struct {
-    StartDate int64    \`json:"startdate"\`
-    EndDate   int64    \`json:"enddate"\`
-    Source    []string \`json:"source"\`
-}
-
-func searchProducts() (map[string]interface{}, error) {
+func filteredSearch() (map[string]interface{}, error) {
     url := "https://api.truss-security.com/product/search"
-    data := SearchRequest{
-        StartDate: 1733616000000,
-        EndDate:   1733961599999,
-        Source:    []string{"OpenPhish"},
+    body := map[string]interface{}{
+        "startDate":        "2024-12-01",
+        "endDate":          "2024-12-31",
+        "filterExpression": "source = 'OpenPhish'",
+        "page":             1,
+        "limit":            10,
     }
-    
-    jsonData, err := json.Marshal(data)
-    if err != nil {
-        return nil, fmt.Errorf("error marshaling JSON: %v", err)
-    }
-    
-    req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonData))
-    if err != nil {
-        return nil, fmt.Errorf("error creating request: %v", err)
-    }
-    
+    jsonData, _ := json.Marshal(body)
+    req, _ := http.NewRequest("POST", url, bytes.NewReader(jsonData))
     req.Header.Set("x-api-key", apiKey)
     req.Header.Set("Content-Type", "application/json")
-    
-    client := &http.Client{}
-    resp, err := client.Do(req)
+    resp, err := http.DefaultClient.Do(req)
     if err != nil {
-        return nil, fmt.Errorf("error making request: %v", err)
+        return nil, err
     }
     defer resp.Body.Close()
-    
-    body, err := ioutil.ReadAll(resp.Body)
-    if err != nil {
-        return nil, fmt.Errorf("error reading response: %v", err)
-    }
-    
-    var result map[string]interface{}
-    if err := json.Unmarshal(body, &result); err != nil {
-        return nil, fmt.Errorf("error parsing response: %v", err)
-    }
-    
-    return result, nil
+    b, _ := io.ReadAll(resp.Body)
+    var out map[string]interface{}
+    json.Unmarshal(b, &out)
+    return out, nil
 }`,
 
-    rust: `use reqwest::Client;
+  rust: `use reqwest::Client;
 use serde_json::{json, Value};
 use anyhow::Result;
 
 const API_KEY: &str = "YOUR_API_KEY";
 
-async fn search_products() -> Result<Value> {
+async fn filtered_search() -> Result<Value> {
     let client = Client::new();
-    
     let response = client
         .post("https://api.truss-security.com/product/search")
         .header("x-api-key", API_KEY)
         .header("Content-Type", "application/json")
         .json(&json!({
-            "startdate": 1733616000000,
-            "enddate": 1733961599999,
-            "source": ["OpenPhish"]
+            "startDate": "2024-12-01",
+            "endDate": "2024-12-31",
+            "filterExpression": "source = 'OpenPhish'",
+            "page": 1,
+            "limit": 10
         }))
         .send()
         .await?;
-    
-    let data = response.json::<Value>().await?;
-    Ok(data)
-}`
+    Ok(response.json().await?)
+}`,
 };
 
-export const lastEvaluatedKeyExample = {
-    curl: `curl -X 'POST' \\
-  "https://api.truss-security.com/product/search" \\
-  -H "x-api-key: YOUR_API_KEY" \\
+export const nextPageExample = {
+  curl: `curl -sS -X POST "https://api.truss-security.com/product/search" \\
+  -H "x-api-key: YOUR_KEY" \\
   -H "Content-Type: application/json" \\
-  -d '{
-    "startdate": 1733616000000,
-    "enddate": 1733961599999,
-    "source": [
-        "OpenPhish"
-    ],
-    "LastEvaluatedKey": {
-      "SK": "VER#0",
-      "GSI3PK": "OpenPhish",
-      "PK": "PROD#01JEMBFNT12JV97ZT3GVBF2X2J",
-      "GSI3SK": 1733702440770
-    }
-  }' | jq`,
+  -d @- <<'EOF' | jq .
+{
+  "startDate": "2024-12-01",
+  "endDate": "2024-12-31",
+  "filterExpression": "source = 'OpenPhish'",
+  "page": 2,
+  "limit": 10
+}
+EOF`,
 
-    javascript: `import axios from 'axios';
+  javascript: `const YOUR_API_KEY = 'YOUR_API_KEY';
 
-const YOUR_API_KEY = 'YOUR_API_KEY';
-
-async function fetchAllResults() {
-  const baseQuery = {
-    startdate: 1733616000000,
-    enddate: 1733961599999,
-    source: ["OpenPhish"]
-  };
-
-  try {
-    // Initial query
-    let response = await axios({
-      method: 'POST',
-      url: 'https://api.truss-security.com/product/search',
-      headers: { 
-        'x-api-key': YOUR_API_KEY,
-        'Content-Type': 'application/json'
-      },
-      data: baseQuery
-    });
-
-    let results = response.data;
-    
-    // If LastEvaluatedKey exists, fetch next page
-    if (results.LastEvaluatedKey) {
-      const nextQuery = {
-        ...baseQuery,
-        LastEvaluatedKey: results.LastEvaluatedKey
-      };
-
-      response = await axios({
-        method: 'POST',
-        url: 'https://api.truss-security.com/product/search',
-        headers: { 
-          'x-api-key': YOUR_API_KEY,
-          'Content-Type': 'application/json'
-        },
-        data: nextQuery
-      });
-    }
-
-    return response.data;
-  } catch (error) {
-    console.error('Error:', error);
-    throw error;
-  }
+async function sameSearchNextPage() {
+  const res = await fetch('https://api.truss-security.com/product/search', {
+    method: 'POST',
+    headers: {
+      'x-api-key': YOUR_API_KEY,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      startDate: '2024-12-01',
+      endDate: '2024-12-31',
+      filterExpression: "source = 'OpenPhish'",
+      page: 2,
+      limit: 10,
+    }),
+  });
+  if (!res.ok) throw new Error(await res.text());
+  return res.json();
 }`,
 
-    python: `import requests
-import json
+  python: `import requests
 
 API_KEY = 'YOUR_API_KEY'
 
-def fetch_all_results():
+def same_search_next_page():
     url = 'https://api.truss-security.com/product/search'
     headers = {
         'x-api-key': API_KEY,
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
     }
-    base_query = {
-        'startdate': 1733616000000,
-        'enddate': 1733961599999,
-        'source': ['OpenPhish']
+    data = {
+        'startDate': '2024-12-01',
+        'endDate': '2024-12-31',
+        'filterExpression': "source = 'OpenPhish'",
+        'page': 2,
+        'limit': 10,
     }
-    
-    try:
-        # Initial query
-        response = requests.post(url, headers=headers, json=base_query)
-        response.raise_for_status()
-        results = response.json()
-        
-        # If LastEvaluatedKey exists, fetch next page
-        if 'LastEvaluatedKey' in results:
-            next_query = base_query.copy()
-            next_query['LastEvaluatedKey'] = results['LastEvaluatedKey']
-            
-            response = requests.post(url, headers=headers, json=next_query)
-            response.raise_for_status()
-            
-        return response.json()
-    except requests.exceptions.RequestException as e:
-        print(f"Error: {e}")
-        raise`,
+    r = requests.post(url, headers=headers, json=data)
+    r.raise_for_status()
+    return r.json()`,
 
-    ruby: `require 'net/http'
+  ruby: `require 'net/http'
 require 'uri'
 require 'json'
 
 API_KEY = 'YOUR_API_KEY'
 
-def fetch_all_results
+def same_search_next_page
   uri = URI('https://api.truss-security.com/product/search')
   http = Net::HTTP.new(uri.host, uri.port)
   http.use_ssl = true
-  
-  base_query = {
-    startdate: 1733616000000,
-    enddate: 1733961599999,
-    source: ['OpenPhish']
-  }
-  
-  begin
-    # Initial query
-    request = Net::HTTP::Post.new(uri)
-    request['x-api-key'] = API_KEY
-    request['Content-Type'] = 'application/json'
-    request.body = base_query.to_json
-    
-    response = http.request(request)
-    results = JSON.parse(response.body)
-    
-    # If LastEvaluatedKey exists, fetch next page
-    if results['LastEvaluatedKey']
-      next_query = base_query.merge({
-        'LastEvaluatedKey' => results['LastEvaluatedKey']
-      })
-      
-      request.body = next_query.to_json
-      response = http.request(request)
-    end
-    
-    JSON.parse(response.body)
-  rescue StandardError => e
-    puts "Error: #{e.message}"
-    raise
-  end
+  request = Net::HTTP::Post.new(uri)
+  request['x-api-key'] = API_KEY
+  request['Content-Type'] = 'application/json'
+  request.body = {
+    startDate: '2024-12-01',
+    endDate: '2024-12-31',
+    filterExpression: "source = 'OpenPhish'",
+    page: 2,
+    limit: 10
+  }.to_json
+  response = http.request(request)
+  JSON.parse(response.body)
 end`,
 
-    go: `package main
+  go: `package main
 
 import (
     "bytes"
     "encoding/json"
-    "fmt"
-    "io/ioutil"
+    "io"
     "net/http"
 )
 
 const apiKey = "YOUR_API_KEY"
 
-type QueryRequest struct {
-    StartDate        int64                    \`json:"startdate"\`
-    EndDate          int64                    \`json:"enddate"\`
-    Source           []string                 \`json:"source"\`
-    LastEvaluatedKey map[string]interface{}   \`json:"LastEvaluatedKey,omitempty"\`
-}
-
-func fetchAllResults() (map[string]interface{}, error) {
+func nextPage() (map[string]interface{}, error) {
     url := "https://api.truss-security.com/product/search"
-    baseQuery := QueryRequest{
-        StartDate: 1733616000000,
-        EndDate:   1733961599999,
-        Source:    []string{"OpenPhish"},
+    body := map[string]interface{}{
+        "startDate":        "2024-12-01",
+        "endDate":          "2024-12-31",
+        "filterExpression": "source = 'OpenPhish'",
+        "page":             2,
+        "limit":            10,
     }
-    
-    // Initial query
-    jsonData, err := json.Marshal(baseQuery)
-    if err != nil {
-        return nil, fmt.Errorf("error marshaling JSON: %v", err)
-    }
-    
-    req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonData))
-    if err != nil {
-        return nil, fmt.Errorf("error creating request: %v", err)
-    }
-    
+    jsonData, _ := json.Marshal(body)
+    req, _ := http.NewRequest("POST", url, bytes.NewReader(jsonData))
     req.Header.Set("x-api-key", apiKey)
     req.Header.Set("Content-Type", "application/json")
-    
-    client := &http.Client{}
-    resp, err := client.Do(req)
+    resp, err := http.DefaultClient.Do(req)
     if err != nil {
-        return nil, fmt.Errorf("error making request: %v", err)
+        return nil, err
     }
     defer resp.Body.Close()
-    
-    body, err := ioutil.ReadAll(resp.Body)
-    if err != nil {
-        return nil, fmt.Errorf("error reading response: %v", err)
-    }
-    
-    var result map[string]interface{}
-    if err := json.Unmarshal(body, &result); err != nil {
-        return nil, fmt.Errorf("error parsing response: %v", err)
-    }
-    
-    // If LastEvaluatedKey exists, fetch next page
-    if lastKey, exists := result["LastEvaluatedKey"].(map[string]interface{}); exists {
-        baseQuery.LastEvaluatedKey = lastKey
-        
-        jsonData, _ = json.Marshal(baseQuery)
-        req, _ = http.NewRequest("POST", url, bytes.NewBuffer(jsonData))
-        req.Header.Set("x-api-key", apiKey)
-        req.Header.Set("Content-Type", "application/json")
-        
-        resp, err = client.Do(req)
-        if err != nil {
-            return nil, fmt.Errorf("error making request: %v", err)
-        }
-        defer resp.Body.Close()
-        
-        body, _ = ioutil.ReadAll(resp.Body)
-        json.Unmarshal(body, &result)
-    }
-    
-    return result, nil
+    b, _ := io.ReadAll(resp.Body)
+    var out map[string]interface{}
+    json.Unmarshal(b, &out)
+    return out, nil
 }`,
 
-    rust: `use reqwest::Client;
+  rust: `use reqwest::Client;
 use serde_json::{json, Value};
 use anyhow::Result;
 
 const API_KEY: &str = "YOUR_API_KEY";
 
-async fn fetch_all_results() -> Result<Value> {
+async fn next_page() -> Result<Value> {
     let client = Client::new();
-    let base_query = json!({
-        "startdate": 1733616000000,
-        "enddate": 1733961599999,
-        "source": ["OpenPhish"]
-    });
-    
-    // Initial query
     let response = client
         .post("https://api.truss-security.com/product/search")
         .header("x-api-key", API_KEY)
         .header("Content-Type", "application/json")
-        .json(&base_query)
+        .json(&json!({
+            "startDate": "2024-12-01",
+            "endDate": "2024-12-31",
+            "filterExpression": "source = 'OpenPhish'",
+            "page": 2,
+            "limit": 10
+        }))
         .send()
         .await?;
-    
-    let mut result = response.json::<Value>().await?;
-    
-    // If LastEvaluatedKey exists, fetch next page
-    if let Some(last_key) = result["LastEvaluatedKey"].as_object() {
-        let mut next_query = base_query.as_object().unwrap().clone();
-        next_query.insert("LastEvaluatedKey".to_string(), json!(last_key));
-        
-        let response = client
-            .post("https://api.truss-security.com/product/search")
-            .header("x-api-key", API_KEY)
-            .header("Content-Type", "application/json")
-            .json(&next_query)
-            .send()
-            .await?;
-            
-        result = response.json::<Value>().await?;
-    }
-    
-    Ok(result)
-}`
-}; 
+    Ok(response.json().await?)
+}`,
+};
