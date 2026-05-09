@@ -121,7 +121,7 @@
                 "recentDays": {
                   "summary": "Last N days",
                   "value": {
-                    "filterExpression": "source = 'OpenPhish'",
+                    "filterExpression": "category = 'Malware'",
                     "days": 30,
                     "limit": 10,
                     "page": 1

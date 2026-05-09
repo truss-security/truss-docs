@@ -73,6 +73,128 @@
   border: 1px solid var(--ifm-border-color);
 }
 
+/*
+ * Light mode: Swagger’s SyntaxHighlighter defaults to the `agate` theme (dark UI).
+ * It applies inline colors such as `hljs-string: #a2fca2` meant for a #333 background,
+ * so JSON like "string" / ISO dates looks like faint mint on Infima’s light code surface.
+ * `!important` overrides those inline span styles. (Dark mode keeps agate as-is.)
+ */
+html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight .hljs-attr {
+  color: #0f172a !important;
+  font-weight: 600 !important;
+}
+
+html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight .hljs-string {
+  color: #0f5132 !important;
+}
+
+html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight .hljs-number {
+  color: #9f1239 !important;
+}
+
+html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight .hljs-literal {
+  color: #9a3412 !important;
+}
+
+html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight .hljs-keyword,
+html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight .hljs-selector-tag {
+  color: #9a3412 !important;
+}
+
+html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight .hljs-title,
+html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight .hljs-section,
+html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight .hljs-type,
+html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight .hljs-quote,
+html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight .hljs-built_in,
+html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight .hljs-builtin-name,
+html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight .hljs-attribute {
+  color: #b45309 !important;
+}
+
+html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight .hljs-variable,
+html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight .hljs-template-variable,
+html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight .hljs-selector-id,
+html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight .hljs-selector-class {
+  color: #0369a1 !important;
+}
+
+html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight .hljs-tag {
+  color: #0369a1 !important;
+}
+
+html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight .hljs-regexp,
+html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight .hljs-link {
+  color: #6d28d9 !important;
+}
+
+html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight .hljs-comment,
+html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight .hljs-code {
+  color: #525252 !important;
+}
+
+html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight .hljs-name {
+  color: var(--ifm-font-color-base) !important;
+  font-weight: 600 !important;
+}
+
+html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight .hljs-meta,
+html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight .hljs-bullet,
+html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight .hljs-symbol {
+  color: #b91c1c !important;
+}
+
+html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight .hljs-addition {
+  background-color: #bbf7d0 !important;
+  color: #14532d !important;
+}
+
+html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight .hljs-deletion {
+  color: #991b1b !important;
+  background-color: #fecaca !important;
+}
+
+/*
+ * Light mode: Swagger’s Tachyons greens `.light-green` / `.washed-green` are pale
+ * mint meant for dark panels — on white they read as faint “light green” values.
+ * Dark theme keeps stock Swagger / our existing `[data-theme='dark']` rules.
+ */
+html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .light-green {
+  color: #0f6e4d !important;
+}
+
+html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .washed-green {
+  color: #127a56 !important;
+}
+
+html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .green {
+  color: #0d6849 !important;
+}
+
+html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .hover-light-green:hover,
+html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .hover-light-green:focus {
+  color: #0f6e4d !important;
+}
+
+html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .hover-washed-green:hover,
+html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .hover-washed-green:focus {
+  color: #127a56 !important;
+}
+
+/* Invalid / truncated `#55a` in upstream CSS — use a readable green for schema hints */
+html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .json-schema-2020-12__attribute--primary,
+html:not([data-theme='dark'])
+  .swagger-ui-host
+  .swagger-ui
+  .json-schema-2020-12-keyword--patternProperties
+  .json-schema-2020-12__title:first-of-type:before {
+  color: #1a6b42 !important;
+}
+
+/* “Could not accept …” / media-type helper: keyword `green` is fine; this matches Truss tokens better */
+html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .response-control-media-type__accept-message {
+  color: #0d6849 !important;
+}
+
 /* Dark mode: lift contrast on panels Swagger paints white / near-black text */
 [data-theme='dark'] .swagger-ui-host .swagger-ui .opblock {
   background: var(--ifm-background-surface-color);
@@ -197,8 +319,8 @@
  * too dim; we use a readable mix for “muted” labels).
  */
 [data-theme='dark'] .swagger-ui-host {
-  /* Lighter than raw Infima “secondary” for small grey labels in Swagger */
-  --swagger-muted: color-mix(in srgb, var(--ifm-font-color-base) 78%, transparent);
+  /* Muted helper text — keep ≥88% mix so placeholders like “[...]” stay readable */
+  --swagger-muted: color-mix(in srgb, var(--ifm-font-color-base) 88%, transparent);
 }
 
 [data-theme='dark'] .swagger-ui-host .swagger-ui .gray,
@@ -210,14 +332,9 @@
   color: var(--swagger-muted) !important;
 }
 
-[data-theme='dark'] .swagger-ui-host .swagger-ui .model .property,
-[data-theme='dark'] .swagger-ui-host .swagger-ui .model .property.primitive,
 [data-theme='dark'] .swagger-ui-host .swagger-ui .model .external-docs,
 [data-theme='dark'] .swagger-ui-host .swagger-ui table.model tr.description,
 [data-theme='dark'] .swagger-ui-host .swagger-ui table.model tr.extension,
-[data-theme='dark'] .swagger-ui-host .swagger-ui section.models h4,
-[data-theme='dark'] .swagger-ui-host .swagger-ui section.models h5,
-[data-theme='dark'] .swagger-ui-host .swagger-ui .model-title,
 [data-theme='dark'] .swagger-ui-host .swagger-ui .prop-format,
 [data-theme='dark'] .swagger-ui-host .swagger-ui .errors-wrapper .errors small,
 [data-theme='dark'] .swagger-ui-host .swagger-ui .response-col_status .response-undocumented,
@@ -274,5 +391,72 @@
 [data-theme='dark'] .swagger-ui-host .swagger-ui .responses-inner h5,
 [data-theme='dark'] .swagger-ui-host .swagger-ui .tab li,
 [data-theme='dark'] .swagger-ui-host .swagger-ui .scheme-container .schemes label {
+  color: var(--ifm-font-color-base) !important;
+}
+
+/*
+ * Icons (lock, authorize, expand chevrons): Swagger only adjusts fills under
+ * `html.dark-mode`; mirror those rules for Docusaurus `[data-theme="dark"]`.
+ */
+[data-theme='dark'] .swagger-ui-host .swagger-ui .authorization__btn svg,
+[data-theme='dark'] .swagger-ui-host .swagger-ui .expand-operation svg,
+[data-theme='dark'] .swagger-ui-host .swagger-ui .opblock-control-arrow svg {
+  fill: #b7bcbf !important;
+  opacity: 1 !important;
+}
+
+[data-theme='dark'] .swagger-ui-host .swagger-ui .expand-methods svg {
+  fill: #b7bcbf !important;
+}
+
+[data-theme='dark'] .swagger-ui-host .swagger-ui .expand-methods:hover svg {
+  fill: #e4e6e6 !important;
+}
+
+[data-theme='dark'] .swagger-ui-host .swagger-ui section.models .models-control svg {
+  fill: #b7bcbf !important;
+}
+
+[data-theme='dark'] .swagger-ui-host .swagger-ui .json-schema-2020-12 button svg {
+  fill: var(--ifm-font-color-base) !important;
+}
+
+[data-theme='dark'] .swagger-ui-host .swagger-ui .dialog-ux .modal-ux-header .close-modal svg {
+  fill: var(--ifm-font-color-base) !important;
+}
+
+[data-theme='dark'] .swagger-ui-host .swagger-ui .scheme-container .btn.authorize svg {
+  fill: #3ece90 !important;
+}
+
+/* Collapse chevron on schema rows is a data-URI SVG with default (dark) fill */
+[data-theme='dark'] .swagger-ui-host .swagger-ui .model-toggle:after {
+  background: url("data:image/svg+xml;charset=utf-8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\"><path fill=\"%23e4e6e6\" d=\"M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z\"/></svg>")
+    50% no-repeat !important;
+  background-size: 100% !important;
+}
+
+/* Model tree: default `.model { color: #3b4151 }` stays in effect in dark UI — fix root + braces / “[...]” */
+[data-theme='dark'] .swagger-ui-host .swagger-ui .model {
+  color: var(--ifm-font-color-base) !important;
+}
+
+[data-theme='dark'] .swagger-ui-host .swagger-ui .model .brace-open,
+[data-theme='dark'] .swagger-ui-host .swagger-ui .model .brace-close,
+[data-theme='dark'] .swagger-ui-host .swagger-ui .model .description,
+[data-theme='dark'] .swagger-ui-host .swagger-ui .model .property,
+[data-theme='dark'] .swagger-ui-host .swagger-ui .model .property.primitive,
+[data-theme='dark'] .swagger-ui-host .swagger-ui .model .property-row {
+  color: var(--ifm-font-color-base) !important;
+}
+
+[data-theme='dark'] .swagger-ui-host .swagger-ui section.models h4,
+[data-theme='dark'] .swagger-ui-host .swagger-ui section.models h5,
+[data-theme='dark'] .swagger-ui-host .swagger-ui .model-title {
+  color: var(--ifm-font-color-base) !important;
+}
+
+[data-theme='dark'] .swagger-ui-host .swagger-ui .model-box .model,
+[data-theme='dark'] .swagger-ui-host .swagger-ui .model-box .model-title {
   color: var(--ifm-font-color-base) !important;
 }

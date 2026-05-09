@@ -4,9 +4,9 @@ export const filteredQueryExample = {
   -H "Content-Type: application/json" \\
   -d @- <<'EOF' | jq .
 {
-  "startDate": "2024-12-01",
-  "endDate": "2024-12-31",
-  "filterExpression": "source = 'OpenPhish'",
+  "startDate": "2026-01-01",
+  "endDate": "2026-01-31",
+  "filterExpression": "category = 'Malware'",
   "page": 1,
   "limit": 10
 }
@@ -22,9 +22,9 @@ async function filteredSearch() {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      startDate: '2024-12-01',
-      endDate: '2024-12-31',
-      filterExpression: "source = 'OpenPhish'",
+      startDate: '2026-01-01',
+      endDate: '2026-01-31',
+      filterExpression: "category = 'Malware'",
       page: 1,
       limit: 10,
     }),
@@ -44,9 +44,9 @@ def filtered_search():
         'Content-Type': 'application/json',
     }
     data = {
-        'startDate': '2024-12-01',
-        'endDate': '2024-12-31',
-        'filterExpression': "source = 'OpenPhish'",
+        'startDate': '2026-01-01',
+        'endDate': '2026-01-31',
+        'filterExpression': "category = 'Malware'",
         'page': 1,
         'limit': 10,
     }
@@ -68,9 +68,9 @@ def filtered_search
   request['x-api-key'] = API_KEY
   request['Content-Type'] = 'application/json'
   request.body = {
-    startDate: '2024-12-01',
-    endDate: '2024-12-31',
-    filterExpression: "source = 'OpenPhish'",
+    startDate: '2026-01-01',
+    endDate: '2026-01-31',
+    filterExpression: "category = 'Malware'",
     page: 1,
     limit: 10
   }.to_json
@@ -92,9 +92,9 @@ const apiKey = "YOUR_API_KEY"
 func filteredSearch() (map[string]interface{}, error) {
     url := "https://api.truss-security.com/product/search"
     body := map[string]interface{}{
-        "startDate":        "2024-12-01",
-        "endDate":          "2024-12-31",
-        "filterExpression": "source = 'OpenPhish'",
+        "startDate":        "2026-01-01",
+        "endDate":          "2026-01-31",
+        "filterExpression": "category = 'Malware'",
         "page":             1,
         "limit":            10,
     }
@@ -126,9 +126,9 @@ async fn filtered_search() -> Result<Value> {
         .header("x-api-key", API_KEY)
         .header("Content-Type", "application/json")
         .json(&json!({
-            "startDate": "2024-12-01",
-            "endDate": "2024-12-31",
-            "filterExpression": "source = 'OpenPhish'",
+            "startDate": "2026-01-01",
+            "endDate": "2026-01-31",
+            "filterExpression": "category = 'Malware'",
             "page": 1,
             "limit": 10
         }))
@@ -144,9 +144,9 @@ export const nextPageExample = {
   -H "Content-Type: application/json" \\
   -d @- <<'EOF' | jq .
 {
-  "startDate": "2024-12-01",
-  "endDate": "2024-12-31",
-  "filterExpression": "source = 'OpenPhish'",
+  "startDate": "2026-01-01",
+  "endDate": "2026-01-31",
+  "filterExpression": "category = 'Malware'",
   "page": 2,
   "limit": 10
 }
@@ -162,9 +162,9 @@ async function sameSearchNextPage() {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      startDate: '2024-12-01',
-      endDate: '2024-12-31',
-      filterExpression: "source = 'OpenPhish'",
+      startDate: '2026-01-01',
+      endDate: '2026-01-31',
+      filterExpression: "category = 'Malware'",
       page: 2,
       limit: 10,
     }),
@@ -184,9 +184,9 @@ def same_search_next_page():
         'Content-Type': 'application/json',
     }
     data = {
-        'startDate': '2024-12-01',
-        'endDate': '2024-12-31',
-        'filterExpression': "source = 'OpenPhish'",
+        'startDate': '2026-01-01',
+        'endDate': '2026-01-31',
+        'filterExpression': "category = 'Malware'",
         'page': 2,
         'limit': 10,
     }
@@ -208,9 +208,9 @@ def same_search_next_page
   request['x-api-key'] = API_KEY
   request['Content-Type'] = 'application/json'
   request.body = {
-    startDate: '2024-12-01',
-    endDate: '2024-12-31',
-    filterExpression: "source = 'OpenPhish'",
+    startDate: '2026-01-01',
+    endDate: '2026-01-31',
+    filterExpression: "category = 'Malware'",
     page: 2,
     limit: 10
   }.to_json
@@ -232,9 +232,9 @@ const apiKey = "YOUR_API_KEY"
 func nextPage() (map[string]interface{}, error) {
     url := "https://api.truss-security.com/product/search"
     body := map[string]interface{}{
-        "startDate":        "2024-12-01",
-        "endDate":          "2024-12-31",
-        "filterExpression": "source = 'OpenPhish'",
+        "startDate":        "2026-01-01",
+        "endDate":          "2026-01-31",
+        "filterExpression": "category = 'Malware'",
         "page":             2,
         "limit":            10,
     }
@@ -266,9 +266,9 @@ async fn next_page() -> Result<Value> {
         .header("x-api-key", API_KEY)
         .header("Content-Type", "application/json")
         .json(&json!({
-            "startDate": "2024-12-01",
-            "endDate": "2024-12-31",
-            "filterExpression": "source = 'OpenPhish'",
+            "startDate": "2026-01-01",
+            "endDate": "2026-01-31",
+            "filterExpression": "category = 'Malware'",
             "page": 2,
             "limit": 10
         }))

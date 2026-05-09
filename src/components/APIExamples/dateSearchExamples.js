@@ -4,8 +4,8 @@ export const dateSearchExample = {
   -H "Content-Type: application/json" \\
   -d @- <<'EOF' | jq .
 {
-  "startDate": "2024-06-02",
-  "endDate": "2024-06-03",
+  "startDate": "2026-01-01",
+  "endDate": "2026-01-31",
   "limit": 10
 }
 EOF`,
@@ -24,8 +24,8 @@ async function searchByDate() {
         'Content-Type': 'application/json'
       },
       data: {
-        startDate: "2024-06-02",
-        endDate: "2024-06-03",
+        startDate: "2026-01-01",
+        endDate: "2026-01-31",
         limit: 10
       }
     });
@@ -48,8 +48,8 @@ def search_by_date():
         'Content-Type': 'application/json'
     }
     data = {
-        'startDate': '2024-06-02',
-        'endDate': '2024-06-03',
+        'startDate': '2026-01-01',
+        'endDate': '2026-01-31',
         'limit': 10
     }
     
@@ -76,8 +76,8 @@ def search_by_date
   request['x-api-key'] = API_KEY
   request['Content-Type'] = 'application/json'
   request.body = {
-    startDate: '2024-06-02',
-    endDate: '2024-06-03',
+    startDate: '2026-01-01',
+    endDate: '2026-01-31',
     limit: 10
   }.to_json
   
@@ -111,8 +111,8 @@ type DateSearchRequest struct {
 func searchByDate() (map[string]interface{}, error) {
     url := "https://api.truss-security.com/product/search"
     data := DateSearchRequest{
-        StartDate: "2024-06-02",
-        EndDate:   "2024-06-03",
+        StartDate: "2026-01-01",
+        EndDate:   "2026-01-31",
         Limit:     10,
     }
     
@@ -163,8 +163,8 @@ async fn search_by_date() -> Result<Value> {
         .header("x-api-key", API_KEY)
         .header("Content-Type", "application/json")
         .json(&json!({
-            "startDate": "2024-06-02",
-            "endDate": "2024-06-03",
+            "startDate": "2026-01-01",
+            "endDate": "2026-01-31",
             "limit": 10
         }))
         .send()

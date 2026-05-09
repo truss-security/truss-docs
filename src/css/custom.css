@@ -4,6 +4,15 @@
  * work well with React.
  */
 
+/* Tailwind: theme + utilities only (no preflight — Infima owns base resets). */
+@import "tailwindcss/theme";
+/* Docusaurus toggles `html[data-theme="dark"]`; default Tailwind `dark:` uses prefers-color-scheme only. */
+@custom-variant dark (&:where(html[data-theme="dark"], html[data-theme="dark"] *));
+/* v4 scans sources from here (relative to this file); tailwind.config.js `content` is not used for @import splits. */
+@source "../**/*.{js,jsx,ts,tsx}";
+@source "../../docs/**/*.{md,mdx}";
+@import "tailwindcss/utilities";
+
 /* You can override the default Infima variables here. */
 :root {
     --ifm-color-primary: #1877F2;
@@ -62,6 +71,10 @@ body {
     -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--truss-color-border);
     box-shadow: 0 1px 0 rgba(15, 23, 42, 0.06);
+}
+
+[data-theme='dark'] .navbar {
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
 .navbar::before {
@@ -159,6 +172,11 @@ body {
     border: none !important;
     padding: 0 !important;
     vertical-align: baseline;
+    color: var(--ifm-color-primary-darker);
+}
+
+[data-theme='dark'] .markdown code {
+    color: var(--ifm-color-primary-lighter);
 }
 
 .markdown pre {
@@ -174,6 +192,15 @@ body {
     text-align: center;
     background: linear-gradient(180deg, #F7FBFF 0%, #EEF4FA 55%, #F4F7FB 100%);
     border-bottom: 1px solid var(--truss-color-border);
+}
+
+[data-theme='dark'] .docs-home-hero {
+    background: linear-gradient(
+        180deg,
+        color-mix(in srgb, var(--ifm-background-color) 88%, var(--ifm-color-primary) 12%) 0%,
+        var(--ifm-background-color) 52%,
+        color-mix(in srgb, var(--ifm-background-color) 92%, #000 8%) 100%
+    );
 }
 
 .docs-home-hero__logo {
@@ -328,6 +355,10 @@ body {
 .docs-home-card .button--secondary:hover {
     background: color-mix(in srgb, var(--ifm-color-primary) 16%, transparent);
     color: var(--ifm-color-primary-darkest);
+}
+
+[data-theme='dark'] .docs-home-card .button--secondary:hover {
+    color: var(--ifm-color-primary-lightest);
 }
 
 .docs-home-card .button--primary {
