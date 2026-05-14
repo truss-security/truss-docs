@@ -51,7 +51,7 @@ function QuickstartPathways() {
             <div className="card docs-home-card docs-home-card--quickstart">
               <div className="card__body">
                 <Heading as="h3">Integrate</Heading>
-                <p className="docs-home-card__audience">For developers and platform engineers</p>
+                <p className="docs-home-card__audience">For developers and engineers</p>
                 <p>Connect Truss data with REST and SDK patterns for repeatable tool integrations.</p>
                 <Link to="/api/" className="button button--primary button--sm">Open API docs</Link>
               </div>
