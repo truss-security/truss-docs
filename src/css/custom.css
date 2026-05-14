@@ -205,7 +205,7 @@ body {
 
 .docs-home-hero__logo {
     width: auto;
-    height: 5rem;
+    height: 7rem;
     margin: 0 auto 1.25rem;
 }
 
@@ -269,6 +269,8 @@ body {
 }
 
 .docs-home-card {
+    position: relative;
+    overflow: hidden;
     border: 1px solid var(--truss-color-border);
     background: var(--truss-color-surface);
     border-radius: 14px;
@@ -277,10 +279,36 @@ body {
     height: 100%;
 }
 
+.docs-home-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--truss-header-accent);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
 .docs-home-card:hover {
     transform: translateY(-2px);
     box-shadow: var(--truss-shadow-card-hover);
     border-color: color-mix(in srgb, var(--ifm-color-primary) 28%, var(--truss-color-border));
+}
+
+.docs-home-card:hover::before {
+    opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .docs-home-card {
+        transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .docs-home-card:hover {
+        transform: none;
+    }
 }
 
 .docs-home-card .card__body h3 {
@@ -365,29 +393,6 @@ body {
     box-shadow: 0 10px 18px -12px rgba(0, 119, 204, 0.7);
 }
 
-.docs-home-section--quickstart .docs-home-section__header h2,
-.docs-home-section--directory .docs-home-section__header h2,
-.docs-home-section--whats-new .docs-home-section__header h2,
-.docs-home-section--ecosystem .docs-home-section__header h2 {
-    display: inline-block;
-    position: relative;
-    padding-bottom: 0.35rem;
-}
-
-.docs-home-section--quickstart .docs-home-section__header h2::after,
-.docs-home-section--directory .docs-home-section__header h2::after,
-.docs-home-section--whats-new .docs-home-section__header h2::after,
-.docs-home-section--ecosystem .docs-home-section__header h2::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 64px;
-    height: 3px;
-    border-radius: 999px;
-    background: var(--truss-header-accent);
-}
-
 .docs-home-card--quickstart .card__body,
 .docs-home-card--whats-new .card__body {
     padding-top: 1.2rem;
@@ -427,6 +432,6 @@ body {
     }
 
     .docs-home-hero__logo {
-        height: 4rem;
+        height: 7rem;
     }
 }
