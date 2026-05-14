@@ -74,83 +74,70 @@
 }
 
 /*
- * Light mode: Swagger’s SyntaxHighlighter defaults to the `agate` theme (dark UI).
- * It applies inline colors such as `hljs-string: #a2fca2` meant for a #333 background,
- * so JSON like "string" / ISO dates looks like faint mint on Infima’s light code surface.
- * `!important` overrides those inline span styles. (Dark mode keeps agate as-is.)
+ * Light mode: Swagger renders code samples via `react-syntax-highlighter`
+ * configured with the `agate` hljs theme. With `useInlineStyles=true` (default),
+ * the library STRIPS class names like `hljs-string` from the spans and instead
+ * injects inline `style="color: <agate hex>"`. CSS rules selecting on
+ * `.hljs-string` therefore never match — the class isn't there.
  */
-html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight .hljs-attr {
-  color: #0f172a !important;
-  font-weight: 600 !important;
-}
-
-html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight .hljs-string {
+html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight span[style*="rgb(162, 252, 162)"],
+html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight span[style*="#a2fca2"] {
   color: #0f5132 !important;
 }
 
-html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight .hljs-number {
+html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight span[style*="rgb(211, 99, 99)"],
+html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight span[style*="#d36363"] {
   color: #9f1239 !important;
 }
 
-html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight .hljs-literal {
+html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight span[style*="rgb(252, 194, 140)"],
+html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight span[style*="#fcc28c"] {
   color: #9a3412 !important;
 }
 
-html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight .hljs-keyword,
-html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight .hljs-selector-tag {
-  color: #9a3412 !important;
-}
-
-html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight .hljs-title,
-html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight .hljs-section,
-html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight .hljs-type,
-html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight .hljs-quote,
-html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight .hljs-built_in,
-html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight .hljs-builtin-name,
-html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight .hljs-attribute {
+html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight span[style*="#ffa"],
+html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight span[style*="rgb(255, 255, 170)"] {
   color: #b45309 !important;
 }
 
-html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight .hljs-variable,
-html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight .hljs-template-variable,
-html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight .hljs-selector-id,
-html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight .hljs-selector-class {
+html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight span[style*="rgb(173, 229, 252)"],
+html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight span[style*="#ade5fc"] {
   color: #0369a1 !important;
 }
 
-html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight .hljs-tag {
+html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight span[style*="rgb(98, 200, 243)"],
+html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight span[style*="#62c8f3"] {
   color: #0369a1 !important;
 }
 
-html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight .hljs-regexp,
-html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight .hljs-link {
+html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight span[style*="rgb(198, 180, 240)"],
+html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight span[style*="#c6b4f0"] {
   color: #6d28d9 !important;
 }
 
-html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight .hljs-comment,
-html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight .hljs-code {
-  color: #525252 !important;
-}
-
-html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight .hljs-name {
-  color: var(--ifm-font-color-base) !important;
-  font-weight: 600 !important;
-}
-
-html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight .hljs-meta,
-html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight .hljs-bullet,
-html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight .hljs-symbol {
+html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight span[style*="rgb(252, 155, 155)"],
+html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight span[style*="#fc9b9b"] {
   color: #b91c1c !important;
 }
 
-html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight .hljs-addition {
-  background-color: #bbf7d0 !important;
-  color: #14532d !important;
+html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight span[style*="#888"],
+html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight span[style*="rgb(136, 136, 136)"] {
+  color: #525252 !important;
 }
 
-html:not([data-theme='dark']) .swagger-ui-host .swagger-ui .microlight .hljs-deletion {
-  color: #991b1b !important;
-  background-color: #fecaca !important;
+/*
+ * Defensive: paint any descendant of the example code panel whose inline color
+ * contains a near-pure-light token (≥ 200 in any channel that screams "meant
+ * for a dark background") to a darker shade. This is a backstop so future
+ * upstream tweaks don't reintroduce mint/yellow/sky tokens unstyled.
+ */
+html:not([data-theme='dark']) .swagger-ui-host .swagger-ui pre.microlight span[style*="color:#a"],
+html:not([data-theme='dark']) .swagger-ui-host .swagger-ui pre.microlight span[style*="color: #a"],
+html:not([data-theme='dark']) .swagger-ui-host .swagger-ui pre.microlight span[style*="color:#e"],
+html:not([data-theme='dark']) .swagger-ui-host .swagger-ui pre.microlight span[style*="color: #e"],
+html:not([data-theme='dark']) .swagger-ui-host .swagger-ui pre.microlight span[style*="color:#f"],
+html:not([data-theme='dark']) .swagger-ui-host .swagger-ui pre.microlight span[style*="color: #f"] {
+  filter: brightness(0.55) saturate(1.6);
 }
 
 /*
