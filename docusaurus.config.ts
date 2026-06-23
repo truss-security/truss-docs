@@ -105,6 +105,10 @@ const config: Config = {
               label: 'SDK',
               to: '/data/sdk',
             },
+            {
+              label: 'MCP',
+              to: '/data/mcp',
+            },
           ],
         },
         {

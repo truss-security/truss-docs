@@ -37,6 +37,10 @@ toc_max_heading_level: 3
   Use the <a href="/data/sdk" className="text-blue-600 dark:text-blue-400 underline">TypeScript SDK</a> (<code>@truss-security/truss-sdk</code>) for typed clients, FilterQL helpers, retries, and STIX helpers—ideal for apps, pipelines, and automation.
 </p>
 
+<p className="text-lg mb-6">
+  Use the <a href="/data/mcp" className="text-blue-600 dark:text-blue-400 underline">MCP endpoint</a> when AI tools need structured Truss threat-intelligence tools with the same API key as REST.
+</p>
+
 <div className="relative my-12">
   <div className="absolute inset-0 flex items-center" aria-hidden="true">
     <div className="w-full border-t border-gray-300 dark:border-gray-600" />
@@ -90,6 +94,7 @@ toc_max_heading_level: 3
     <ul className="list-disc pl-6 space-y-2">
       <li>Read the <a href="/data/api" className="underline">API guide</a> and try the <a href="/api" className="underline">OpenAPI explorer</a></li>
       <li>Install <code>@truss-security/truss-sdk</code> for TypeScript (see <a href="/data/sdk" className="underline">SDK</a>)</li>
+      <li>Connect AI tools through <a href="/data/mcp" className="underline">Truss MCP</a> for structured threat-intelligence lookups</li>
       <li>Start with a narrow date range or small <code>limit</code>, then widen</li>
     </ul>
   </div>
