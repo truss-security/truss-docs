@@ -38,7 +38,7 @@ toc_max_heading_level: 3
 </p>
 
 <p className="text-lg mb-6">
-  Use the <a href="/data/mcp" className="text-blue-600 dark:text-blue-400 underline">MCP endpoint</a> when AI tools need structured Truss threat-intelligence tools with the same API key as REST.
+  Use the <a href="/data/mcp" className="text-blue-600 dark:text-blue-400 underline">MCP endpoint</a> when AI agents need structured Truss threat-intelligence tools. Prefer <strong>OAuth</strong> for interactive hosts such as Cursor, or use an API key with bridges that do not support remote OAuth yet.
 </p>
 
 <div className="relative my-12">
