@@ -92,6 +92,7 @@ Use **FilterQL** in <code>filterExpression</code> to filter on attributes such a
 - Compare with <code>=</code>, <code>!=</code>, and <code>LIKE</code> where supported.
 - **OR within one attribute:** e.g. two categories—<code>category = 'Ransomware' OR category = 'OSINT'</code>.
 - **AND across attributes:** e.g. <code>category = 'Ransomware' AND source = 'TOR Project'</code>.
+- **Size limits:** <code>filterExpression</code> is capped at 4,096 characters, nesting depth 64, and 128 AST nodes (about 64 comparison clauses). Oversized filters return HTTP 400.
 
 <CodeTabs example={FilterExample} />
 

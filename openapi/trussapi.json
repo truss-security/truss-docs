@@ -170,7 +170,7 @@
             }
           },
           "400": {
-            "description": "Invalid body, unknown keys, or `limit` > 300",
+            "description": "Invalid body, unknown keys, oversized FilterQL, or `limit` > 300",
             "content": {
               "application/json": {
                 "schema": { "$ref": "#/components/schemas/ErrorMessage" }
@@ -309,7 +309,8 @@
         "properties": {
           "filterExpression": {
             "type": "string",
-            "description": "FilterQL expression, e.g. `category = 'Malware' AND source != 'Test'`. Omit or use an empty string for no attribute filter (still subject to date filters if provided)."
+            "maxLength": 4096,
+            "description": "FilterQL expression, e.g. `category = 'Malware' AND source != 'Test'`. Omit or use an empty string for no attribute filter (still subject to date filters if provided). Maximum 4,096 characters, nesting depth 64, and 128 AST nodes."
           },
           "startDate": {
             "description": "Restrict to products with `timestamp` on or after this instant. String (ISO or human-readable) or Unix epoch **milliseconds** number.",
@@ -352,7 +353,11 @@
         "additionalProperties": false,
         "description": "Same allowed keys as `POST /product/search` (`SearchProductsStixRequest` in the SDK). STIX search additionally rejects `limit` **> 300**.",
         "properties": {
-          "filterExpression": { "type": "string" },
+          "filterExpression": {
+            "type": "string",
+            "maxLength": 4096,
+            "description": "Same FilterQL limits as `POST /product/search` (4,096 characters, depth 64, 128 AST nodes)."
+          },
           "startDate": { "oneOf": [{ "type": "string" }, { "type": "number" }] },
           "endDate": { "oneOf": [{ "type": "string" }, { "type": "number" }] },
           "days": { "type": "integer", "minimum": 0 },
