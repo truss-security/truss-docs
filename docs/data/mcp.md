@@ -154,6 +154,7 @@ Many clients add protocol headers automatically. If yours does not, also set:
 | <code>get_product</code> | Fetch one product as JSON after search returns an <code>id</code> or <code>truss_prod_id</code>. |
 | <code>get_product_stix</code> | Fetch one product as a STIX 2.1 bundle. |
 | <code>search_stix</code> | Search products and return a STIX 2.1 bundle for interoperable security tooling. |
+| <code>get_discord_delivery_setup</code> | Return a Zapier, Make, n8n, Tines, or Docker recipe to schedule Truss search results into Discord. Pass <code>scheduler</code>. Docker returns files for <code>ghcr.io/truss-security/truss-agent</code>. Never pass webhook URLs. Does not post to Discord. |
 
 Search tools default to the last 7 days and small result sets. You can override with fields such as <code>days</code>, <code>startDate</code>, <code>endDate</code>, <code>page</code>, and <code>limit</code>.
 
@@ -164,6 +165,7 @@ Search tools default to the last 7 days and small result sets. You can override 
 - Use <code>search_threats</code> for analyst-style discovery and summaries.
 - Call <code>get_product</code> after a search when you need full JSON detail.
 - Use STIX tools only when your workflow expects STIX 2.1 objects.
+- For “post this to Discord on a schedule,” narrow the search, then call <code>get_discord_delivery_setup</code>. Use <code>scheduler</code> <code>zapier</code>, <code>make</code>, <code>n8n</code>, or <code>tines</code> when they already use that tool. Use <code>docker</code> when they do not, or when they want the feed in a container. Store the Discord webhook in that scheduler or in the Docker <code>.env</code>, not in Truss.
 - Keep <code>limit</code> small in agent workflows so responses fit comfortably in model context.
 
 ## Troubleshooting
